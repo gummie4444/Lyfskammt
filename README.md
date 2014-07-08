@@ -18,6 +18,8 @@ To run the website write:
 Check the site out at:
 `http://localhost:8080` 
 
+To debug js code write:
+`gulp jshint` 
 
 ##TODO##
 
