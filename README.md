@@ -10,8 +10,6 @@ Clone the repo:
 Run this to install dependencies:
 `npm install`
 
-And this to install front end dependencies:
-`bower install`
 
 Fire up the website on port 3000:
 `gulp`
