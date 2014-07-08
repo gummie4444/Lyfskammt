@@ -4,6 +4,7 @@ Lyfskammt
 ###To start:###
 
 Make sure you have `node`and `npm`installed:
+
 Clone the repo:
 `git clone https://github.com/gummie4444/Lyfskammt.git`
 
