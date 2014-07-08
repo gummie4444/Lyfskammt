@@ -11,14 +11,15 @@ Run this to install dependencies:
 `npm install`
 
 
-Fire up the website on port 3000:
-`gulp`
-
 To run the website write:
 `node server.js`
+
+Check the site out at:
+`http://localhost:8080` 
 
 
 ##TODO##
 
+Get gulp working+
 
 Everything
