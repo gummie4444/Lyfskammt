@@ -1,6 +1,3 @@
-
-
-
 {
   "name": "LyfSkammt",
   "description": "Lyfsjammtari fyrir parkinssonsjúklinga",
@@ -31,7 +28,7 @@
     "gulp-load-plugins": "~0.5.1",
     "gulp-jshint": "~1.6.2",
     "jshint-stylish": "~0.2.0",
-    "gulp-size": "~0.3.1",
+    "gulp-size": "~0.3.1"
     
   }
 }
