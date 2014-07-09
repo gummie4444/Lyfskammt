@@ -1,1 +1,1 @@
-angular.module('lyfskammtapp', ['thisController', 'mainService']);
+angular.module('lyfskammtapp', ['thisController', 'mainService', 'Chart']);

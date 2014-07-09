@@ -14,8 +14,12 @@
 
 	<!-- SPELLS -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+	<script src="js/plugins/Chart.js-master/Chart.js"></script>
+	<script src="js/plugins/angular-chartjs-directive-master/chartjs-directive.js"></script>
+	<script src="js/plugins/angular-chartjs-directive-master/lib/Chart.min.js"></script>
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script src="js/controllers/charts.js"></script> <!-- load our charts application -->
 	<script src="js/services/todos.js"></script> <!-- load our todo service -->
 	<script src="js/core.js"></script> <!-- load our main application -->
 
@@ -29,9 +33,10 @@
 	<h1>her kemur header</h1>
 
 	</div>
-	<div class = "graf">
-
+	<div style="text-align: center" class = "graf" ng-controller="myChart">
 	<h1>her kemur graf</h1>
+			<chart value="myChart"></chart><p>Lyf:</p>
+			<select ng-change="update()" ng-model="chosen_lyf" ng-options="med.name for med in lyf"></select><br>
 	</div>
 	<div class = "lyfvalinn">
 
