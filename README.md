@@ -15,6 +15,9 @@ Run this to install dependencies:
 To run the website write:
 `node server.js`
 
+To run the website with on save change: (Maby you will have to  npm install -g nodemon)
+`nodemon server.js`
+
 Check the site out at:
 `http://localhost:8080` 
 
