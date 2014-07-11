@@ -67,7 +67,7 @@ html,body{
 	background:#ecf0f1;
 	width: 100%;
 	height: 45%;
-	height: 45%;
+	
 	overflow:hidden;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -144,17 +144,17 @@ html,body{
 
 }
 
-.sliderExample{
+.sliderContainer{
 	width:100%;
-	height:50%;
-	-moz-box-sizing: border-box;
+		-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	text-align: center;
+
 }
-.timelabel{
-	font-size: 3em;
-}
+
+
+
 
 
 .buttons{

@@ -30,7 +30,7 @@
 	<!-- JS -->
 	
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script><!-- load jqury -->
-	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
 
 	<!-- plugins -->
@@ -67,7 +67,7 @@
 				<h1>her kemur header</h1>
 			</div>
 			<div class = "header-settings">
-				<h1> +</h1>
+				<a href = "#"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
 			</div>
 		</div>
 
@@ -78,6 +78,12 @@
 
 
 		</div>
+<<<<<<< HEAD
+=======
+
+
+		
+>>>>>>> 0fed395a5c21076aaf39aa08f2d0c918ff12e6b3
 		
 		<div class = "lyfvalinn" >
 
@@ -95,7 +101,7 @@
 				<div class = "leftlyf"  >
 					<p>{{drug.name}} - {{drug.amount}} + {{drug.time}} </p>
 				</div>
-				<div class = "rightlyf" id = "id_">
+				<div class = "rightlyf" id = "id_{{drug.name}}">
 					<button type = "button" ng-click="drugs.splice($index, 1)"> - </button>
 				</div>
 			</div>
@@ -106,25 +112,27 @@
 		<div class = "timepicker" >
 
 			
-
-
+		
+		<div class = "sliderContainer">
 			<div class="sliderExample"  ui-slider = "prufa.options" ng-model = "currTime">
 
-
 			</div>
+		
 			
 			<button type="button" ng-click = "date() ">+</button>
 			{{bla}}
 
 			<h1 class = "timeLabel">{{prufa.options.value}}</h1>
 		</div>
+		</div>
+
 
 		<div class = "buttons">
 			<div class = "buttonprufa">
 				<button type="button" class = "plusbutton">+</button>
 			</div>	
 		</div>
-
+		
 	</div>
 
 
