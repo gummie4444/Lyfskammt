@@ -9,53 +9,131 @@
 
 	<title>LyfSkammt</title>
 
+	<!-- CSS-->
 
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	
 
-	<!-- SPELLS -->
+	<!-- css plugins -->
+	
+	<!-- DIALOG -->
+	<link rel="stylesheet" type="text/css" href="css/ngDialog-theme-default.min.css">
+	<link rel="stylesheet" type="text/css" href="css/ngDialog-theme-plain.min.css">
+	<link rel="stylesheet" type="text/css" href="css/ngDialog.min.css">
+
+	<!-- JQURY -->
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+
+
+	<!-- JS -->
+	
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script><!-- load jqury -->
+	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
-	<script src="js/plugins/Chart.js-master/Chart.js"></script>
-	<script src="js/plugins/angular-chartjs-directive-master/chartjs-directive.js"></script>
-	<script src="js/plugins/angular-chartjs-directive-master/lib/Chart.min.js"></script>
+
+	<!-- plugins -->
+	
+	<script src="js/plugins/ngDialog/ngDialog.min.js"></script>
+	<script src="js/plugins/highcharts/highcharts.js"></script>
+	<script src="js/plugins/highcharts-ng-master/highcharts-ng.js"></script>
+	<script src="js/plugins/slider/slider.js"></script>
+	<script src="js/plugins/date.format.js"></script>
+
+
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/controllers/charts.js"></script> <!-- load our charts application -->
+	
+	<script src="js/services/lyf.js"></script> <!-- load our lyf service -->
 	<script src="js/services/todos.js"></script> <!-- load our todo service -->
+	
+	
 	<script src="js/core.js"></script> <!-- load our main application -->
+
+
+
 
 
 </head>
 <!-- SET THE CONTROLLER -->
-<body ng-controller="mainController">
+<body >
 
-<div class = "container">
-	<div class = "header">
-	<h1>her kemur header</h1>
+	<div class = "container" ng-controller="myChart" >
+		<div class = "header">
+
+			<div class = "header-text">
+				<h1>her kemur header</h1>
+			</div>
+			<div class = "header-settings">
+				<h1> +</h1>
+			</div>
+		</div>
+
+
+		<div class = "graf"  >
+			
+			<highchart id="chart1" config="chartConfig" ></highchart>
+
+
+		</div>
+
+		<div class = "lyf">
+
+			<select ng-model="chosen_lyf1" ng-options="med.name for med in lyf_all"></select><br>
+			<select ng-model="chosen_lyf2" ng-options="med.name for med in lyf_all"></select><br>
+			<select ng-model="chosen_lyf3" ng-options="med.name for med in lyf_all"></select><br>
+			<select ng-model="chosen_lyf4" ng-options="med.name for med in lyf_all"></select><br>
+		</div>
+		
+		<div class = "lyfvalinn" >
+
+			<div class = "lyf">
+				<div class = "leftlyf">
+					<p>Bæta við lyfi</p>
+				</div>
+				<div class = "rightlyf">
+					<button type = "button" ng-click= clickToOpen()> + </button>
+				</div>
+			</div>
+
+			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-onclick = "drug.selected = true">
+
+				<div class = "leftlyf"  >
+					<p>{{drug.name}} - {{drug.amount}} + {{drug.time}} </p>
+				</div>
+				<div class = "rightlyf" id = "id_">
+					<button type = "button" ng-click="drugs.splice($index, 1)"> - </button>
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class = "timepicker" >
+
+			
+
+
+			<div class="sliderExample"  ui-slider = "prufa.options" ng-model = "currTime">
+
+
+			</div>
+			
+			<button type="button" ng-click = "date()">+</button>
+			{{bla}}
+
+			<h1 class = "timeLabel">{{prufa.options.value}}</h1>
+		</div>
+
+		<div class = "buttons">
+			<div class = "buttonprufa">
+				<button type="button" class = "plusbutton">+</button>
+			</div>	
+		</div>
 
 	</div>
-	<div style="text-align: center" class = "graf" ng-controller="myChart">
-	<h1>her kemur graf</h1>
-			<chart value="myChart"></chart><p>Lyf:</p>
-			<select ng-change="update()" ng-model="chosen_lyf" ng-options="med.name for med in lyf"></select><br>
-	</div>
-	<div class = "lyfvalinn">
-
-	<h1>her kemur lyf1 +</h1>
-	<h1>her kemur lyf2 +</h1>
-
-	</div>
-
-	<div class = "timepicker">
-
-	<h1>her kemur timepicker</h1>
-	</div>
-
-	<div class = "buttons">
-
-	<h1>her koma takkar</h1>
-	</div>
-
-</div>
 
 
 
