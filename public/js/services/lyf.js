@@ -77,6 +77,9 @@ angular.module('lyfService', [])
             getAll: function () {
                 return lyf;
             },
+			getLyf: function (lyf_id) {
+				return lyf[lyf_id].data;
+			},
 			createEmpty: function () {
                 var array = []
 				for (i=0; i<48; i++) {

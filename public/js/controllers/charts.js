@@ -10,7 +10,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
             console.log(time);
             $scope.bla = time;
         };
-
+	
+	$scope.fetch = function(lyf_id) {
+		return Lyf.getLyf(lyf_id);
+	}
   
 
         function convert (ev,ui){
@@ -41,7 +44,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	
 				
 		];
-    $scope.myDrug = $scope.drugs[2]; // red
+  
 
     $scope.clickToOpen = function () {
     	$scope.drugData = {};
@@ -112,16 +115,26 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		// $scope.chartConfig.series[3].data = $scope.chosen_lyf4.data;
 	// }
 	
-	$scope.$watchCollection('[chosen_lyf1, chosen_lyf2, chosen_lyf3, chosen_lyf4]', function(newValues) {
+	// $scope.$watchCollection('[chosen_lyf1, chosen_lyf2, chosen_lyf3, chosen_lyf4]', function(newValues) {
+		// $scope.chartConfig.series[4].data = Lyf.createEmpty();
+		// for (i=0; i<4; i++) {
+			// $scope.chartConfig.series[i].data = newValues[i].data
+			// for (j=0; j<48; j++) {
+				// if (typeof newValues[i].data[j] !== 'undefined')
+				// $scope.chartConfig.series[4].data[j][1] += newValues[i].data[j][1]
+			// }
+		// }
+	// });
+	
+	$scope.$watch('drugs', function(newValues) {
 		$scope.chartConfig.series[4].data = Lyf.createEmpty();
-		for (i=0; i<4; i++) {
-			// $scope.chartConfig.series[i].name = newValues[i].name
-			$scope.chartConfig.series[i].data = newValues[i].data
+		// console.log(newValues)
+		for (i in newValues) {
+				$scope.chartConfig.series[i].data = newValues[i].data
 			for (j=0; j<48; j++) {
-				// console.log(typeof $scope.chartConfig.series[4].data[j][1])
 				if (typeof newValues[i].data[j] !== 'undefined')
 				$scope.chartConfig.series[4].data[j][1] += newValues[i].data[j][1]
 			}
 		}
-	});
+	}, true)
 });
