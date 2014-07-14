@@ -5,7 +5,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 	
 	$scope.fetch = function(lyf_id) {
-		$scope.drugs.push( {name: Lyf.getLyf(lyf_id).name, amount: Lyf.getLyf(lyf_id).amount, data: Lyf.getLyf(lyf_id).data, id: $scope.index, time: 5, color: Lyf.getLyf(lyf_id).color});
+		$scope.drugs.push( {name: Lyf.getLyf(lyf_id).name, amount: Lyf.getLyf(lyf_id).amount, data: Lyf.getLyf(lyf_id).data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: Lyf.getLyf(lyf_id).color});
 		$scope.chartConfig.series.push(Lyf.getLyf(lyf_id))
 	}
   
@@ -81,4 +81,55 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 			}
 		}
 	}, true)
+
+	//Watch the time-slider
+
+	$scope.$watch('a.b', function (newValue, oldValue) {
+        
+        //do something
+        console.log(newValue);
+        var d = new Date();
+        if(typeof newValue !== 'undefined'){
+        
+        
+        
+
+
+         var res = newValue.split(":");
+      
+
+         
+
+        $scope.graphTime = Date.UTC(d.getFullYear(),d.getMonth(),d.getDay(),res[0],res[1]);
+        $scope.stringTime = newValue;
+
+
+        
+    }
+    else {
+    	$scope.graphTime = Date.now();
+    	$scope.stringTime = $scope.prenta(d.getMinutes(), d.getHours())
+    }
+
+       
+
+    });
+
+    $scope.prenta = function(minutes,hours){
+	if(hours.toString().length == 1){
+		hours = '0' + hours;
+	}
+	if(minutes.toString().length== 1){
+		 minutes = '0' + minutes;
+		}
+
+	return hours + ":" + minutes;
+};
+
+    //FUNCTION TO SET WHAT DRUG THE USER IS USING
+
+    $scope.isSelected= null;
+    $scope.setSelected = function (Selected) {
+    	$scope.idSelected = Selected;
+    };
 });
