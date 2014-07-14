@@ -3,65 +3,35 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 .controller('myChart', function ($scope, Lyf,ngDialog,$log) {
   
 
-	 $scope.date = function (){
-            var now =0;
-            var now = new Date();
-            var time = dateFormat(now, "HH:mm");
-            console.log(time);
-            $scope.bla = time;
-        };
 	
 	$scope.fetch = function(lyf_id) {
-		return Lyf.getLyf(lyf_id);
+		$scope.drugs.push( {name: Lyf.getLyf(lyf_id).name, amount: Lyf.getLyf(lyf_id).amount, data: Lyf.getLyf(lyf_id).data, id: $scope.index, time: 5, color: Lyf.getLyf(lyf_id).color});
+		$scope.chartConfig.series.push(Lyf.getLyf(lyf_id))
 	}
   
+	$scope.removeDrug = function(drugnumber) {
+		$scope.drugs.splice(drugnumber,1);
+		var series = $scope.chartConfig.series;
+		series.splice(drugnumber+1,1);
+	}
 
-        function convert (ev,ui){
-
-            var hours = Math.floor(ui.value / 60);
-                var minutes = ui.value - (hours * 60);
-                
-
-                if(hours.toString().length == 1) hours = '0' + hours;
-                if(minutes.toString().length== 1) minutes = '0' + minutes;
-                value = hours + ":"+ minutes;
-                $scope.prufa.options.value = value;
-
-        }
-
-        $scope.prufa = {
-
-            options:{
-                min: 0,
-                max: 1440,
-                step: 10,
-                value:500,  
-                slide:convert
-            }
-        };
 
 	$scope.drugs= [
 	
 				
 		];
   
+  	$scope.index = 0;
 
     $scope.clickToOpen = function () {
-    	$scope.drugData = {};
+    	$scope.index++; 
+
         ngDialog.open({ template: 'template.html',
         				scope:$scope
 
         				 });  
     };
 
-
-
-	$scope.lyf_all = Lyf.getAll();
-
-	$scope.chosen_lyf1 = $scope.lyf_all[0];
-	$scope.chosen_lyf2 = $scope.lyf_all[0];
-	$scope.chosen_lyf3 = $scope.lyf_all[0];
-	$scope.chosen_lyf4 = $scope.lyf_all[0];
 	
 
 	$scope.chartConfig = {
@@ -75,28 +45,20 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 			}
 			
 		},
-		series: [{
-			data: Lyf.createEmpty()
-		},
-		{
-			data: Lyf.createEmpty()
-		},
-		{
-			data: Lyf.createEmpty()
-		},
-		{
-			data: Lyf.createEmpty()
-		},
+		series: [
 		{
 			data: Lyf.createEmpty(),
+			color: "black",
 			zIndex: 1,
-			lineWidth: 10
-		}],
+			lineWidth: 12
+		}
+		],
 		title: {
 			text: 'Lyf'
 		},
 		xAxis: {
-			min : Date.now(), 
+			min : Date.now()-21600000,
+			max : Date.now()+64800000, 
 			type: 'datetime'
 			
 		},
@@ -108,32 +70,14 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		loading: false
 	}
 
-	// $scope.update = function() {
-		// $scope.chartConfig.series[0].data = $scope.chosen_lyf1.data;
-		// $scope.chartConfig.series[1].data = $scope.chosen_lyf2.data;
-		// $scope.chartConfig.series[2].data = $scope.chosen_lyf3.data;
-		// $scope.chartConfig.series[3].data = $scope.chosen_lyf4.data;
-	// }
-	
-	// $scope.$watchCollection('[chosen_lyf1, chosen_lyf2, chosen_lyf3, chosen_lyf4]', function(newValues) {
-		// $scope.chartConfig.series[4].data = Lyf.createEmpty();
-		// for (i=0; i<4; i++) {
-			// $scope.chartConfig.series[i].data = newValues[i].data
-			// for (j=0; j<48; j++) {
-				// if (typeof newValues[i].data[j] !== 'undefined')
-				// $scope.chartConfig.series[4].data[j][1] += newValues[i].data[j][1]
-			// }
-		// }
-	// });
+
+
 	
 	$scope.$watch('drugs', function(newValues) {
-		$scope.chartConfig.series[4].data = Lyf.createEmpty();
-		// console.log(newValues)
+		$scope.chartConfig.series[0].data = Lyf.createEmpty(); // always reset the "total" curve to recalculate + draw
 		for (i in newValues) {
-				$scope.chartConfig.series[i].data = newValues[i].data
 			for (j=0; j<48; j++) {
-				if (typeof newValues[i].data[j] !== 'undefined')
-				$scope.chartConfig.series[4].data[j][1] += newValues[i].data[j][1]
+				$scope.chartConfig.series[0].data[j][1] += newValues[i].data[j][1] // add upp the y component of every graph to draw the "total" curve
 			}
 		}
 	}, true)

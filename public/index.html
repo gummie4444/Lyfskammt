@@ -97,7 +97,7 @@
 					<p>{{drug.name}} - {{drug.amount}} + {{drug.time}} </p>
 				</div>
 				<div class = "rightlyf" id = "id_{{drug.name}}">
-					<button type = "button" ng-click="drugs.splice($index, 1)"> - </button>
+					<button type = "button" ng-click="removeDrug($index)"> - </button>
 				</div>
 			</div>
 

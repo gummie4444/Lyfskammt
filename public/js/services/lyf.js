@@ -55,20 +55,29 @@ angular.module('lyfService', [])
 	
 	
 		var lyf = [ 
-		{ name : "Veldu lyf",
-		  data : []
-		  },
-		{ name : "Lyf 1", 
-		  data: create_lyf1_placeholder()
+		{ 
+			name : "Lyf 1", 
+			amount: "2 mg",
+			data: create_lyf1_placeholder(),
+			color: "orange"
 		},  
-		{ name : "Lyf 2", 
-		  data: create_lyf2_placeholder()
+		{ 
+			name : "Lyf 2", 
+			amount: "4 mg",
+			data: create_lyf2_placeholder(),
+			color: "green"
 		},  
-		{ name : "Lyf 3", 
-		  data: create_lyf3_placeholder()
+		{ 
+			name : "Lyf 3", 
+			amount: "2 mg",
+			data: create_lyf3_placeholder(),
+			color: "red"
 		},
-		{ name : "Lyf 4", 
-		  data: create_lyf4_placeholder()
+		{ 
+			name : "Lyf 4", 
+			amount: "3 mg",
+			data: create_lyf4_placeholder(),
+			color: "blue"
 		}];	
 		
 		// var selected_lyf = lyf[2]
@@ -78,7 +87,7 @@ angular.module('lyfService', [])
                 return lyf;
             },
 			getLyf: function (lyf_id) {
-				return lyf[lyf_id].data;
+				return lyf[lyf_id-1];
 			},
 			createEmpty: function () {
                 var array = []
@@ -88,9 +97,6 @@ angular.module('lyfService', [])
 				}
 				return array;
             }
-			// getCurrent: function () {
-				// return selected_lyf;
-            // }
         };
 	});
 
