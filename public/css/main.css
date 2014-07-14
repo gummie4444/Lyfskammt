@@ -75,6 +75,29 @@ html,body{
 
 }
 
+.grafbutton{
+	position: absolute;
+	top:11%;
+	z-index: 999;
+	height:5%;
+	width:5%;
+	cursor: pointer;
+
+}
+.grafbutton:hover{
+	-moz-box-shadow: 0 0 10px #ccc;
+	 -webkit-box-shadow: 0 0 10px #ccc;
+	 box-shadow: 0 0 10px #ccc;
+
+}
+
+#haegri{
+	left:93%;}
+
+#vinstri{
+	left:2%;
+}
+
 .lyfvalinn{
 	
 	width:50%;
@@ -86,21 +109,24 @@ html,body{
 }
 
 .lyf{
-	background:blue;
+	background:#27ae60;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	width:100%;
 	height:20%;
+	border:1px solid #2ecc71;
+	font-weight: strong;
 	
 }
 .lyf2{
-	background:red;
+	background:#c0392b;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	width:100%;
 	height:20%;
+	border:1px solid #e74c3c;
 	
 }
 
@@ -122,8 +148,8 @@ html,body{
 
 
 .selected{
-	background:red;
-	opacity: 0.3;
+	background:#e74c3c;
+	opacity: 0.8;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
