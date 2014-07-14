@@ -40,6 +40,7 @@
 	<script src="js/plugins/highcharts-ng-master/highcharts-ng.js"></script>
 	<script src="js/plugins/slider/slider.js"></script>
 	<script src="js/plugins/date.format.js"></script>
+	<script src="js/timepicker_addon.js"></script>
 
 
 
@@ -53,7 +54,53 @@
 	<script src="js/core.js"></script> <!-- load our main application -->
 
 
+<script>
 
+
+
+$( document ).ready(function() {
+
+	var d = new Date();
+
+	 $('#prufadot').val(prenta( d.getMinutes(),d.getHours()));
+
+
+
+
+function prenta(minutes,hours){
+	if(hours.toString().length == 1){
+		hours = '0' + hours;
+	}
+	if(minutes.toString().length== 1){
+		 minutes = '0' + minutes;
+		}
+
+	return hours + ":" + minutes;
+};
+
+
+$('#prufadot').timepicker({
+
+	currentText: "Núna",
+	closeText: "Loka",
+	timeOnlyTitle: "Veldu tíma",
+	timeText: "Tími",
+	hourText: "Klukkutími",
+	minuteText: "Mín"
+
+
+});
+
+
+
+
+
+});
+
+
+
+
+</script>
 
 
 </head>
@@ -64,7 +111,7 @@
 		<div class = "header">
 
 			<div class = "header-text">
-				<h1>her kemur header</h1>
+				<h1>Header</h1>
 			</div>
 			<div class = "header-settings">
 				<a href = "#"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
@@ -76,49 +123,40 @@
 			
 			<highchart id="chart1" config="chartConfig" ></highchart>
 
-
 		</div>
 
 		
 		<div class = "lyfvalinn" >
 
-			<div class = "lyf">
-				<div class = "leftlyf">
-					<p>Bæta við lyfi</p>
-				</div>
-				<div class = "rightlyf">
-					<button type = "button" ng-click= clickToOpen()> + </button>
-				</div>
-			</div>
+		<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-click ="setSelected(drug.id)" ng-class = "{selected : drug.id == idSelected}" >
 
-			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-onclick = "drug.selected = true">
+			
+
+
 
 				<div class = "leftlyf"  >
-					<p>{{drug.name}} - {{drug.amount}} + {{drug.time}} </p>
+					<p>{{drug.name}} - {{drug.amount}} - {{drug.time}} </p>
 				</div>
 				<div class = "rightlyf" id = "id_{{drug.name}}">
 					<button type = "button" ng-click="drugs.splice($index, 1)"> - </button>
 				</div>
 			</div>
 
+			<div class = "lyf">
+
+				<div class = "leftlyf">
+					<p>Bæta við lyfi  </p> 
+				</div>
+				<div class = "rightlyf">
+					<button type = "button" ng-click= clickToOpen()> + </button>
+				</div>
+		</div>
+
 		</div>
 
 
 		<div class = "timepicker" >
-
-			
-		
-		<div class = "sliderContainer">
-			<div class="sliderExample"  ui-slider = "prufa.options" ng-model = "currTime">
-
-			</div>
-		
-			
-			<button type="button" ng-click = "date() ">+</button>
-			{{bla}}
-
-			<h1 class = "timeLabel">{{prufa.options.value}}</h1>
-		</div>
+			<input type = "text" class = "sliderInput" id = "prufadot"  ng-model= "a.b"></input>
 		</div>
 
 
