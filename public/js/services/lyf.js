@@ -12,10 +12,10 @@ angular.module('lyfService', [])
 	var create_lyf1_placeholder = function() {
 		var array = []
 		for (i=0; i<48; i++) {
-			var current_date = Date.now()+1800000*i;
+			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-24),2)) + 576)/72) >= 0)
-			array.push([current_date,(-(Math.pow((i-24),2)) + 576)/72])
-			else array.push([current_date,-0.05])
+			array.push([x_interval,(-(Math.pow((i-24),2)) + 576)/72])
+			else array.push([x_interval,-0.05])
 		}
 		return array;
 	}
@@ -23,10 +23,10 @@ angular.module('lyfService', [])
 	var create_lyf2_placeholder = function() {
 		var array = []
 		for (i=0; i<48; i++) {
-			var current_date = Date.now()+1800000*i;
+			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-40),2)) + 400)/72) >= 0)
-			array.push([current_date,(-(Math.pow((i-40),2)) + 400)/72])
-			else array.push([current_date,-0.05])
+			array.push([x_interval,(-(Math.pow((i-40),2)) + 400)/72])
+			else array.push([x_interval,-0.05])
 		}
 		return array;
 	}
@@ -34,10 +34,10 @@ angular.module('lyfService', [])
 	var create_lyf3_placeholder = function() {
 		var array = []
 		for (i=0; i<48; i++) {
-			var current_date = Date.now()+1800000*i;
+			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-16),2)) + 360)/72) >= 0)
-			array.push([current_date,(-(Math.pow((i-16),2)) + 360)/72])
-			else array.push([current_date,-0.05])
+			array.push([x_interval,(-(Math.pow((i-16),2)) + 360)/72])
+			else array.push([x_interval,-0.05])
 		}
 		return array;
 	}
@@ -45,10 +45,10 @@ angular.module('lyfService', [])
 	var create_lyf4_placeholder = function() {
 		var array = []
 		for (i=0; i<48; i++) {
-			var current_date = Date.now()+1800000*i;
+			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-20),2)) + 600)/72) >= 0)
-			array.push([current_date,(-(Math.pow((i-20),2)) + 600)/72])
-			else array.push([current_date,-0.05])
+			array.push([x_interval,(-(Math.pow((i-20),2)) + 600)/72])
+			else array.push([x_interval,-0.05])
 		}
 		return array;
 	}
@@ -92,8 +92,8 @@ angular.module('lyfService', [])
 			createEmpty: function () {
                 var array = []
 				for (i=0; i<48; i++) {
-					var current_date = Date.now()+1800000*i;
-					array.push([current_date, 0])
+					var x_interval = 1800000*i;
+					array.push([x_interval, 0])
 				}
 				return array;
             }

@@ -5,8 +5,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 	
 	$scope.fetch = function(lyf_id) {
-		$scope.drugs.push( {name: Lyf.getLyf(lyf_id).name, amount: Lyf.getLyf(lyf_id).amount, data: Lyf.getLyf(lyf_id).data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: Lyf.getLyf(lyf_id).color});
-		$scope.chartConfig.series.push(Lyf.getLyf(lyf_id))
+		var current_lyf = Lyf.getLyf(lyf_id);
+		for (i in current_lyf.data) {
+			current_lyf.data[i][0] += $scope.graphTime;
+		}
+		console.log(Date($scope.graphTime))
+		$scope.drugs.push( {name: current_lyf.name, amount: current_lyf.amount, data: current_lyf.data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: current_lyf.color});
+		$scope.chartConfig.series.push(current_lyf)
 	}
   
 	$scope.removeDrug = function(drugnumber) {
@@ -14,6 +19,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		var series = $scope.chartConfig.series;
 		series.splice(drugnumber+1,1);
 	}
+
+	$scope.graphTime = Date.now();
 
 
 	$scope.drugs= [
@@ -80,6 +87,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 				$scope.chartConfig.series[0].data[j][1] += newValues[i].data[j][1] // add upp the y component of every graph to draw the "total" curve
 			}
 		}
+		console.log($scope.drugs)
 	}, true)
 
 	//Watch the time-slider
@@ -87,7 +95,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	$scope.$watch('a.b', function (newValue, oldValue) {
         
         //do something
-        console.log(newValue);
         var d = new Date();
         if(typeof newValue !== 'undefined'){
         
@@ -100,8 +107,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
          
 
-        $scope.graphTime = Date.UTC(d.getFullYear(),d.getMonth(),d.getDay(),res[0],res[1]);
+        $scope.graphTime = Date.UTC(d.getFullYear(),d.getMonth(),d.getDate(),res[0],res[1]);
         $scope.stringTime = newValue;
+        var test = new Date($scope.graphTime)
 
 
         
