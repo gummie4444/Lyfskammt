@@ -1,0 +1,28 @@
+---------------  14.-16. júlí: ---------------------------
+
+- charts.js: 		lyfin færast nú eftir klukkunni jafnóðum
+ 	    	        grafið leggur nú saman y-gildin frá öllum lyfjum jafnóðum
+            	        bætti við listener ($scope.$on) eftir breytingum á stærð browser fyrir responsive hæð á grafið
+
+- chart-resize.js: 	bjó til directive sem lætur vita ($scope.$broadcast) þegar browser minnkar/stækkar
+
+- core.js: 		bætti við 'chart-resize' í dependancies
+
+- index.html: 		jquery css safnið núna local
+
+---------------  17. júlí: --------------------------
+
+- index.html: 		mixaði útlit og gerði örvarnar clickable
+              		bætti við degi vikunnar í display á lyfi
+
+- main.css: 		mixaði útlit
+
+- charts.js: 		lét grafið byrja í 00:00 og enda í 24:00
+	     		hægt að fletta á milli daga
+	     		hægt að búa til gröf á þeim degi sem maður er að skoða
+
+---------------  18. júlí: ----------------------------
+
+- charts.js: 		bætti við lóðréttri línu sem sýnir núverandi tíma
+			bætti við láréttri "velllíðunarlínu"
+	     		grafið sem er selectað er núna punktalína	

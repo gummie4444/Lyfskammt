@@ -23,7 +23,7 @@
 
 	<!-- JQURY -->
 
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="css/jquery-ui.css">
 
 
 
@@ -44,6 +44,7 @@
 	
 	<script src="js/plugins/ngDialog/ngDialog.min.js"></script>
 	<script src="js/plugins/highcharts/highcharts.js"></script>
+	<!-- <script src="js/plugins/highcharts/highstock.js"></script> --> <!-- swap highchart.js with this for scrollbar -->
 	<script src="js/plugins/highcharts-ng-master/highcharts-ng.js"></script>
 	<script src="js/plugins/slider/slider.js"></script>
 	<script src="js/plugins/date.format.js"></script>
@@ -53,6 +54,8 @@
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/controllers/charts.js"></script> <!-- load our charts application -->
+
+	<script src="js/directives/chart-resize.js"></script>
 	
 	<script src="js/services/lyf.js"></script> <!-- load our lyf service -->
 	<script src="js/services/todos.js"></script> <!-- load our todo service -->
@@ -74,34 +77,29 @@ $( document ).ready(function() {
 
 
 
-function prenta(minutes,hours){
-	if(hours.toString().length == 1){
-		hours = '0' + hours;
-	}
-	if(minutes.toString().length== 1){
-		 minutes = '0' + minutes;
+	function prenta(minutes,hours){
+		if(hours.toString().length == 1){
+			hours = '0' + hours;
 		}
+		if(minutes.toString().length== 1){
+			 minutes = '0' + minutes;
+			}
 
-	return hours + ":" + minutes;
-};
-
-
-$('#prufadot').timepicker({
-
-	currentText: "Núna",
-	closeText: "Loka",
-	timeOnlyTitle: "Veldu tíma",
-	timeText: "Tími",
-	hourText: "Klukkutími",
-	minuteText: "Mín"
+		return hours + ":" + minutes;
+	};
 
 
-});
+	$('#prufadot').timepicker({
+
+		currentText: "Núna",
+		closeText: "Loka",
+		timeOnlyTitle: "Veldu tíma",
+		timeText: "Tími",
+		hourText: "Klukkutími",
+		minuteText: "Mín"
 
 
-
-
-
+	});
 });
 
 
@@ -118,7 +116,7 @@ $('#prufadot').timepicker({
 		<div class = "header">
 
 			<div class = "header-text">
-				<h1>Header</h1>
+				<h1>LyfjaMixSkammtarinn</h1>
 			</div>
 			<div class = "header-settings">
 				<a href = "#"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
@@ -126,25 +124,25 @@ $('#prufadot').timepicker({
 		</div>
 
 
-		<div class = "graf"  >
-		<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton"></img>
-		<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton"></img>
-			
-			<highchart id="chart1" config="chartConfig" ></highchart>
+		<div class = "graf" id="drug-chart" resize>
+		<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
+		<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
+
+				<highchart id="chart1" config="chartConfig" ></highchart>
 
 		</div>
 
 		
 		<div class = "lyfvalinn" >
 
-		<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-click ="setSelected(drug.id)" ng-class = "{selected : drug.id == idSelected}" >
+		<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-click ="setSelected(drug.id)" ng-class = "{selected : drug.id == isSelected}" ng-style="{'background-color' : drug.color}" >
 
 			
 
 
 
 				<div class = "leftlyf"  >
-					<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} </p>
+					<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}} </p>
 				</div>
 				<div class = "rightlyf" id = "id_{{drug.name}}">
 					<button type = "button" ng-click="removeDrug($index)"> - </button>
@@ -153,11 +151,11 @@ $('#prufadot').timepicker({
 
 			<div class = "lyf">
 
-				<div class = "leftlyf">
+				<!-- <div class = "leftlyf">
 					<p>Bæta við lyfi  </p> 
-				</div>
-				<div class = "rightlyf">
-					<button type = "button" ng-click= clickToOpen()> + </button>
+				</div> -->
+				<div class = "addDrug">
+					<button id="addDrugButton" type = "button" ng-click= clickToOpen()> Bæta við lyfi </button>
 				</div>
 		</div>
 
@@ -165,7 +163,7 @@ $('#prufadot').timepicker({
 
 
 		<div class = "timepicker" >
-			<input type = "text" class = "sliderInput" id = "prufadot"  ng-model= "a.b"></input>
+			<input type = "text" class = "sliderInput" id = "prufadot"  ng-model= "clock_time"></input>
 		</div>
 
 

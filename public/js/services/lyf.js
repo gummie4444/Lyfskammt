@@ -11,44 +11,44 @@ angular.module('lyfService', [])
 	
 	var create_lyf1_placeholder = function() {
 		var array = []
-		for (i=0; i<48; i++) {
+		for (i=0; i<=48; i++) {
 			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-24),2)) + 576)/72) >= 0)
 			array.push([x_interval,(-(Math.pow((i-24),2)) + 576)/72])
-			else array.push([x_interval,-0.05])
+			else array.push([x_interval,null])
 		}
 		return array;
 	}
 	
 	var create_lyf2_placeholder = function() {
 		var array = []
-		for (i=0; i<48; i++) {
+		for (i=0; i<=48; i++) {
 			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-40),2)) + 400)/72) >= 0)
 			array.push([x_interval,(-(Math.pow((i-40),2)) + 400)/72])
-			else array.push([x_interval,-0.05])
+			else array.push([x_interval,null])
 		}
 		return array;
 	}
 	
 	var create_lyf3_placeholder = function() {
 		var array = []
-		for (i=0; i<48; i++) {
+		for (i=0; i<=48; i++) {
 			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-16),2)) + 360)/72) >= 0)
 			array.push([x_interval,(-(Math.pow((i-16),2)) + 360)/72])
-			else array.push([x_interval,-0.05])
+			else array.push([x_interval,null])
 		}
 		return array;
 	}
 	
 	var create_lyf4_placeholder = function() {
 		var array = []
-		for (i=0; i<48; i++) {
+		for (i=0; i<=48; i++) {
 			var x_interval = 1800000*i;
 			if (((-(Math.pow((i-20),2)) + 600)/72) >= 0)
 			array.push([x_interval,(-(Math.pow((i-20),2)) + 600)/72])
-			else array.push([x_interval,-0.05])
+			else array.push([x_interval,null])
 		}
 		return array;
 	}
@@ -59,28 +59,26 @@ angular.module('lyfService', [])
 			name : "Lyf 1", 
 			amount: "2 mg",
 			data: create_lyf1_placeholder(),
-			color: "orange"
+			color: "#D4D726" // yellow
 		},  
 		{ 
 			name : "Lyf 2", 
 			amount: "4 mg",
 			data: create_lyf2_placeholder(),
-			color: "green"
+			color: "#67AA46" // green
 		},  
 		{ 
 			name : "Lyf 3", 
 			amount: "2 mg",
 			data: create_lyf3_placeholder(),
-			color: "red"
+			color: "#BE2020" // red
 		},
 		{ 
 			name : "Lyf 4", 
 			amount: "3 mg",
 			data: create_lyf4_placeholder(),
-			color: "blue"
+			color: "#5CA2B0" // blue
 		}];	
-		
-		// var selected_lyf = lyf[2]
 		
 		return {
             getAll: function () {
@@ -91,9 +89,9 @@ angular.module('lyfService', [])
 			},
 			createEmpty: function () {
                 var array = []
-				for (i=0; i<48; i++) {
+				for (i=0; i<=48; i++) {
 					var x_interval = 1800000*i;
-					array.push([x_interval, 0])
+					array.push([x_interval, null])
 				}
 				return array;
             }
