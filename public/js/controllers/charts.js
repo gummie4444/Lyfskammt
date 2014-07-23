@@ -12,7 +12,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 
 
-	$scope.drugs= {};
+	$scope.drugs= [];
 
 
 	//Load the drugs from database
@@ -20,10 +20,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	Lyf.get()
 			.success(function(data) {
 				$scope.drugs = data;
-
+				for (var i in $scope.drugs)
+					$scope.chartConfig.series.push($scope.drugs[i]);
 			});
 
 
+				
 	$scope.index = 0;
 	$scope.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
     $scope.isSelected= null;
@@ -38,26 +40,25 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 	// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API
-		$scope.createTodo = function() {
-			
+	$scope.createTodo = function() {
 
-			// validate the formData to make sure that something is there
-			// if form is empty, nothing will happen
-			if ($scope.drugs.length != 0) {
+		// validate the formData to make sure that something is there
+		// if form is empty, nothing will happen
+		if ($scope.drugs.length != 0) {
+			for (var i in $scope.drugs) {
+			// call the create function from our service (returns a promise object)
+			Lyf.create($scope.drugs[i])
 
-				// call the create function from our service (returns a promise object)
-				Lyf.create($scope.drugs)
-
-					// if successful creation, call our get function to get all the new todos
-					.success(function(data) {
-						
-						
-						$scope.drugs = data; // assign our new list of todos
-						console.log(data.text +  "her");
-
-					});
+				// if successful creation, call our get function to get all the new todos
+				.success(function(data) {
+					
+					
+					$scope.drugs = data; // assign our new list of todos
+				});
 			}
-		};
+		}
+		console.log($scope.drugs)
+	};
 
 
 	$scope.fetch = function(lyf_id) {
@@ -68,16 +69,28 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		$scope.drugs.push( {name: current_lyf.name, amount: current_lyf.amount, data: current_lyf.data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: current_lyf.color, day: dateFormat($scope.graphTime, "dddd")});
 		$scope.chartConfig.series.push( {name: current_lyf.name, amount: current_lyf.amount, data: current_lyf.data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: current_lyf.color, day: dateFormat($scope.graphTime, "dddd")});
 		$scope.isSelected = null;
+		console.log($scope.drugs)
 
 		
 	}
   
-	$scope.removeDrug = function(drugnumber) {
-		$scope.drugs.splice(drugnumber,1);
-		var series = $scope.chartConfig.series;
-		series.splice(drugnumber+1,1); // index in series is higher by 1 drug because of the sum graph
+	$scope.removeDrug = function(drug_id) {
+		// VARÚÐ: SKÍTAMIX
+		for (var i in $scope.chartConfig.series) {
+			// if ($scope.drugs[i].id === drug_id) {
+			// 	$scope.drugs.splice(i,1)
+			// }
+			if ($scope.chartConfig.series[i].id === drug_id) {
+				var series = $scope.chartConfig.series;
+				series.splice(i,1); // index in series is higher by 1 drug because of the sum graph
+			}
+		}
 
-		//TODO DELETA UR DATABASE
+		for (var i in $scope.drugs) {
+			if ($scope.drugs[i].id === drug_id) {
+				$scope.drugs.splice(i,1)
+			}
+		}
 	}
 
 	$scope.createEmptySumGraph = function () {
@@ -179,12 +192,14 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
     	else {
     		$scope.isSelected = Selected;
     	}
+    	console.log(Selected)
+    	console.log($scope.chartConfig.series)
     };
 
 
 
     $scope.clickToOpen = function () {
-    	$scope.index++; 
+    	$scope.index = Date.now()*Math.random()
 
         ngDialog.open({ template: 'template.html',
         				scope:$scope

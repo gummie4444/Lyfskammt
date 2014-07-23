@@ -4,6 +4,13 @@
 
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('Todo', {
-	text : Object
+module.exports = mongoose.model('Drug', {
+	day: String,
+	color: String,
+	graphTime: String,
+	stringTime: String,
+	id: String,
+	data: Array,
+	amount: String,
+	name: String
 });

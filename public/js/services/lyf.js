@@ -83,11 +83,11 @@ angular.module('lyfService', [])
 		return {
 
 			get:function(){
-				return $http.get('/api/todos');
+				return $http.get('/api/drugs');
 			},
 
 			create:function(nowDrug){
-				return $http.post('/api/todos',nowDrug );
+				return $http.post('/api/drugs',nowDrug );
 			},
 
             getAll: function () {

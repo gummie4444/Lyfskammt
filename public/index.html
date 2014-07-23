@@ -145,7 +145,7 @@ $( document ).ready(function() {
 					<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}} - {{drug.text.day}} </p>
 				</div>
 				<div class = "rightlyf" id = "id_{{drug.name}}">
-					<button type = "button" ng-click="removeDrug(index)"> - </button>
+					<button type = "button" ng-click="removeDrug(drug.id)"> - </button>
 				</div>
 			</div>
 
