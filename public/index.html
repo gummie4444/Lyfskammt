@@ -142,10 +142,10 @@ $( document ).ready(function() {
 
 
 				<div class = "leftlyf"  >
-					<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}} </p>
+					<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}} - {{drug.text.day}} </p>
 				</div>
 				<div class = "rightlyf" id = "id_{{drug.name}}">
-					<button type = "button" ng-click="removeDrug($index)"> - </button>
+					<button type = "button" ng-click="removeDrug(index)"> - </button>
 				</div>
 			</div>
 
@@ -169,7 +169,8 @@ $( document ).ready(function() {
 
 		<div class = "buttons">
 			<div class = "buttonprufa">
-				<button type="button" class = "plusbutton">+</button>
+			
+				<button type="button" class = "plusbutton" ng-click="createTodo()">+</button>
 			</div>	
 		</div>
 		

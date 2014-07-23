@@ -7,7 +7,7 @@ angular.module('lyfService', [])
 	//-------- TODO
 	//Change this to get the data from the database
 
-	.service('Lyf', function() {
+	.service('Lyf', function($http) {
 	
 	var create_lyf1_placeholder = function() {
 		var array = []
@@ -81,6 +81,15 @@ angular.module('lyfService', [])
 		}];	
 		
 		return {
+
+			get:function(){
+				return $http.get('/api/todos');
+			},
+
+			create:function(nowDrug){
+				return $http.post('/api/todos',nowDrug );
+			},
+
             getAll: function () {
                 return lyf;
             },

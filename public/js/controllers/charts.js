@@ -1,21 +1,64 @@
 angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
-.controller('myChart', function ($scope, Lyf,ngDialog,$log, $window) {
+.controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http) {
 
 	// ========= //
 	// VARIABLES //
 	// ========= //
 
 	$scope.graphTime = Date.now();
-	$scope.drugs= [];
+
+	//TODO -----na i upphafs drugfylki
+
+
+
+	$scope.drugs= {};
+
+
+	//Load the drugs from database
+
+	Lyf.get()
+			.success(function(data) {
+				$scope.drugs = data;
+
+			});
+
+
 	$scope.index = 0;
 	$scope.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
     $scope.isSelected= null;
     $scope.clock_time;
 
+  
+
 	// ========= //
 	// FUNCTIONS //
 	// ========= //
+
+
+	// CREATE ==================================================================
+		// when submitting the add form, send the text to the node API
+		$scope.createTodo = function() {
+			
+
+			// validate the formData to make sure that something is there
+			// if form is empty, nothing will happen
+			if ($scope.drugs.length != 0) {
+
+				// call the create function from our service (returns a promise object)
+				Lyf.create($scope.drugs)
+
+					// if successful creation, call our get function to get all the new todos
+					.success(function(data) {
+						
+						
+						$scope.drugs = data; // assign our new list of todos
+						console.log(data.text +  "her");
+
+					});
+			}
+		};
+
 
 	$scope.fetch = function(lyf_id) {
 		var current_lyf = JSON.parse(JSON.stringify(Lyf.getLyf(lyf_id))); // skítamix til að búa til afrit af hlut án þess að upphaflega breytan breytist líka
@@ -25,12 +68,16 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		$scope.drugs.push( {name: current_lyf.name, amount: current_lyf.amount, data: current_lyf.data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: current_lyf.color, day: dateFormat($scope.graphTime, "dddd")});
 		$scope.chartConfig.series.push( {name: current_lyf.name, amount: current_lyf.amount, data: current_lyf.data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: current_lyf.color, day: dateFormat($scope.graphTime, "dddd")});
 		$scope.isSelected = null;
+
+		
 	}
   
 	$scope.removeDrug = function(drugnumber) {
 		$scope.drugs.splice(drugnumber,1);
 		var series = $scope.chartConfig.series;
 		series.splice(drugnumber+1,1); // index in series is higher by 1 drug because of the sum graph
+
+		//TODO DELETA UR DATABASE
 	}
 
 	$scope.createEmptySumGraph = function () {

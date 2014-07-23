@@ -1,1 +1,1 @@
-angular.module('lyfskammtapp', ['thisController', 'mainService','lyfService', 'Chart', 'chart-resize']);
+angular.module('lyfskammtapp', [ 'lyfService', 'Chart', 'chart-resize']);
