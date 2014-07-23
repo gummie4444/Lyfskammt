@@ -72,7 +72,9 @@ $( document ).ready(function() {
 
 	var d = new Date();
 
-	 $('#prufadot').val(prenta( d.getMinutes(),d.getHours()));
+	
+
+	 var currentTime = d.getMinutes()+d.getHours()*60;
 
 
 
@@ -89,17 +91,33 @@ $( document ).ready(function() {
 	};
 
 
-	$('#prufadot').timepicker({
+$( "#MainSlider" ).slider({ min: 10 });
 
-		currentText: "Núna",
-		closeText: "Loka",
-		timeOnlyTitle: "Veldu tíma",
-		timeText: "Tími",
-		hourText: "Klukkutími",
-		minuteText: "Mín"
+ $( "#MainSlider" ).slider({
+      range: "max",
+      min: 0,
+      max: 1440,
+      value: currentTime,
+      slide: function( event, ui ) {
+
+      	var hours = Math.floor(ui.value / 60);
+            var minutes = ui.value - (hours * 60);
+
+            if(hours.toString().length == 1) hours = '0' + hours;
+            if(minutes.toString().length == 1) minutes = '0' + minutes;
+
+            var input = $("#prufadot");
+    	
+    
+        input.val( hours+':'+minutes );
+        input.trigger('input');
+
+      }
+    });
+    $( "#prufadot" ).val( prenta( d.getMinutes(),d.getHours()) );
 
 
-	});
+	
 });
 
 
@@ -162,8 +180,17 @@ $( document ).ready(function() {
 		</div>
 
 
-		<div class = "timepicker" >
-			<input type = "text" class = "sliderInput" id = "prufadot"  ng-model= "clock_time"></input>
+		<div class = "timepicker"  >
+
+			<input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
+
+			<div id = "MainSlider">
+				
+			
+			</div>
+
+
+			
 		</div>
 
 
