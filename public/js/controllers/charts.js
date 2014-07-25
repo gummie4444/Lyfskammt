@@ -34,7 +34,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 				
 	$scope.index = 0;
-	$scope.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+	$scope.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
     $scope.isSelected= null;
     $scope.clock_time;
 	$scope.before;
