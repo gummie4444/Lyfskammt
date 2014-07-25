@@ -5,8 +5,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	// ========= //
 	// VARIABLES //
 	// ========= //
-
-	$scope.graphTime = Date.now();
+	$scope.graphTime = moment().valueOf();
 
 	//TODO -----na i upphafs drugfylki
 
@@ -22,23 +21,28 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 				$scope.drugs = data;
 				for (var i in $scope.drugs) {
 					$scope.chartConfig.series.push($scope.drugs[i]);
-					if (String($scope.drugs[i].date) !== String($scope.date)) {
+					if (!moment($scope.drugs[i].date).isSame($scope.date)) { // GAMALT: if (String($scope.drugs[i].date) !== String($scope.date)) {
 						$scope.drugs[i].show = false;
 					}
 					else {
 						$scope.drugs[i].show = true;
 					}
 				}
+				console.log($scope.drugs)
 			});
 
 
 				
 	$scope.index = 0;
-	$scope.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()})
     $scope.isSelected= null;
     $scope.clock_time;
 	$scope.before;
 	$scope.after;
+
+	
+
+	
 
 
   
@@ -96,12 +100,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 			visible: true,
 			checked: true, 
 			show: true, 
-			date: String($scope.date), 
+			date: $scope.date.format(), 
 			id: $scope.index, stringTime: 
 			$scope.stringTime, graphTime: 
 			$scope.graphTime, 
 			color: current_lyf.color, 
-			day: dateFormat($scope.graphTime, "dddd")
+			day: moment($scope.graphTime).lang("is").format("ddd")
 		}
 		$scope.drugs.push(current_lyf_updated);
 		$scope.chartConfig.series.push(current_lyf_updated);
@@ -194,13 +198,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		// 	},
 		
 		title: {
-			text: dateFormat($scope.date, "dddd, mmmm dS")
+			text: moment($scope.date).lang("is").format("dddd Do MMMM")
 		},
 		xAxis: {
 			plotLines: [{
 				color: '#FFB508',
                 width: 1,
-                value: Date.now(),
+                value: moment().valueOf(),
             }],
 			min : $scope.date.valueOf()+21600000,
 			max : $scope.date.valueOf()+86400000, 
@@ -236,7 +240,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 
     $scope.clickToOpen = function () {
-    	$scope.index = Date.now()*Math.random()
+    	$scope.index = moment().valueOf()*Math.random()
 
         ngDialog.open({ template: 'template.html',
         				scope:$scope
@@ -247,12 +251,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	$scope.moveDay = function (direction) {
 		$scope.isSelected = null;
 		if (direction === "left") {
-			$scope.date = new Date($scope.date.getFullYear(), $scope.date.getMonth(), $scope.date.getDate()-1);
+			$scope.date.subtract('d', 1);
 		}
 		else {
-			$scope.date = new Date($scope.date.getFullYear(), $scope.date.getMonth(), $scope.date.getDate()+1);
+			$scope.date.add('d', 1);
 		};
-		$scope.chartConfig.title.text = dateFormat($scope.date, "dddd, mmmm dS"); // update the date at top
+		$scope.chartConfig.title.text = moment($scope.date).lang("is").format("dddd Do MMMM"); // update the date at top
 		$scope.chartConfig.xAxis.min = $scope.date.valueOf()+21600000; // update the leftmost x-value
 		$scope.chartConfig.xAxis.max = $scope.date.valueOf()+86400000; // update the rightmost x-value
 
@@ -260,13 +264,11 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 		var time_split = $scope.stringTime.split(":");
 
-		$scope.graphTime = Date.UTC($scope.date.getFullYear(),$scope.date.getMonth(),$scope.date.getDate(),time_split[0],time_split[1]);
+		$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: time_split[0], m: time_split[1]}).valueOf()
 
 		for (var i in $scope.drugs) {
-			if (String($scope.drugs[i].date) !== String($scope.date)) {
+			if (!moment($scope.drugs[i].date).isSame($scope.date)) { // GAMALT: if (String($scope.drugs[i].date) !== String($scope.date)) {
 				$scope.drugs[i].show = false;
-
-
 			}
 			else {
 				$scope.drugs[i].show = true;
@@ -274,12 +276,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		}
 	};
 
-	$scope.swipeGraph = function(desc) {
-		if (desc === 'left') 
-			$scope.moveDay('left')
-		else 
-			$scope.moveDay('right')
-	};
+	// $scope.swipeGraph = function(desc) {
+	// 	if (desc === 'left') 
+	// 		$scope.moveDay('left')
+	// 	else 
+	// 		$scope.moveDay('right')
+	// };
 
 	$scope.clickCheckbox = function (id, checked) {
 
@@ -326,17 +328,17 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	//Watch the time-slider
 	$scope.$watch('clock_time', function (newValue, oldValue) {
         //do something
-        var d = new Date();
+        var d = moment();
         if(typeof newValue !== 'undefined'){
         	var res = newValue.split(":");
-	      
-	        $scope.graphTime = Date.UTC($scope.date.getFullYear(),$scope.date.getMonth(),$scope.date.getDate(),res[0],res[1]);
+	      	
+	      	$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: res[0], m: res[1]}).valueOf()
+	        // $scope.graphTime = Date.UTC($scope.date.getFullYear(),$scope.date.getMonth(),$scope.date.getDate(),res[0],res[1]);
 	        $scope.stringTime = newValue;
-	        var test = new Date($scope.graphTime)  
    		 }
 	    else {
-	    	$scope.graphTime = Date.now();
-	    	$scope.stringTime = $scope.prenta(d.getMinutes(), d.getHours());
+	    	$scope.graphTime = moment().valueOf();
+	    	$scope.stringTime = $scope.prenta(d.minutes(), d.hours());
 	    }
     });
 
@@ -346,10 +348,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
     			for (j in $scope.chartConfig.series[i].data) { // loop through its every data point
     				$scope.chartConfig.series[i].data[j][0] += ($scope.graphTime - $scope.chartConfig.series[i].graphTime);	// update its x component with the offset between its graphTime and desired time
     			}
-    			var d = new Date($scope.graphTime);
+    			var d = moment($scope.graphTime);
     			$scope.chartConfig.series[i].graphTime = $scope.graphTime; // update the graph's graphTime
-    			$scope.chartConfig.series[i].stringTime = $scope.prenta(d.getMinutes(), d.getHours()) // update the graph's stringTime
-    			$scope.chartConfig.series[i].day = dateFormat($scope.graphTime, "dddd")
+    			$scope.chartConfig.series[i].stringTime = $scope.prenta(d.minutes(), d.hours()) // update the graph's stringTime
+    			$scope.chartConfig.series[i].day = moment($scope.graphTime).format("dddd")
     			$scope.drugs[i-1] = $scope.chartConfig.series[i] // copy the graph to the drugs array
     		}
     	}
