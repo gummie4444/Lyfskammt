@@ -1,1 +1,1 @@
-angular.module('lyfskammtapp', [ 'lyfService', 'Chart', 'chart-resize']);
+angular.module('lyfskammtapp', [ 'lyfService', 'Chart', 'chart-resize', 'ngTouch']);

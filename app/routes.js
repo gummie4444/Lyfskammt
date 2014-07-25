@@ -37,6 +37,10 @@ module.exports = function(app) {
 			color: req.body.color,
 			graphTime: req.body.graphTime,
 			stringTime: req.body.stringTime,
+			checked: req.body.checked,
+			visible: req.body.visible,
+			show: req.body.show,
+			date: req.body.date,
 			id: req.body.id,
 			data: req.body.data,
 			amount: req.body.amount,
@@ -49,55 +53,29 @@ module.exports = function(app) {
 				
 
 			// get and return all the todos after you create another
-			Todo.find(function(err, todos) {
-				if (err)
-					res.send(err);
-				res.json(todos);
+			// Todo.find(function(err, todos) {
+			// 	if (err)
+			// 		res.send(err);
+			// 	res.json(todos);
 				
-			});
+			// });
 		});
-
-		// create a todo, information comes from AJAX request from Angular
-		// Todo.create({
-		// 	day: req.body.day,
-		// 	color: req.body.color,
-		// 	graphTime: req.body.graphTime,
-		// 	stringTime: req.body.stringTime,
-		// 	id: req.body.id,
-		// 	data: req.body.data,
-		// 	amount: req.body.amount,
-		// 	name: req.body.name
-			
-		// }, function(err, todo) {
-		// 	if (err)
-		// 		res.send(err);
-				
-
-		// 	// get and return all the todos after you create another
-		// 	Todo.find(function(err, todos) {
-		// 		if (err)
-		// 			res.send(err);
-		// 		res.json(todos);
-				
-		// 	});
-		// });
-
 	});
 
 	// delete a todo
 	app.delete('/api/drugs/:todo_id', function(req, res) {
 		Todo.remove({
-			_id : req.params.todo_id
+			id : req.params.todo_id
 		}, function(err, todo) {
 			if (err)
 				res.send(err);
 
 			// get and return all the todos after you create another
-			Todo.find(function(err, todos) {
-				if (err)
-					res.send(err);
-				res.json(todos);
-			});
+			// Todo.find(function(err, todos) {
+			// 	if (err)
+			// 		res.send(err);
+			// 	res.json(todos);
+			// });
 		});
 	});
 

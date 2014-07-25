@@ -77,7 +77,6 @@ html,body{
 	background:#ecf0f1;
 	width: 100%;
 	height: 45%;
-	cursor: pointer;
 	overflow:hidden;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -150,7 +149,6 @@ html,body{
 	height:20%;
 	/*border:1px solid #e74c3c;*/
 	font-weight: bold;
-	cursor: pointer;
 	
 }
 
@@ -183,19 +181,47 @@ html,body{
 
 }
 
+.unchecked {
+	opacity: 0.5;
+	background-color: gray !important;
+	font-style: italic;
+}
+
+.hide {
+	display:none;
+}
+
 
 .leftlyf{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	width:85%;
+	width:75%;
 	height:100%;
 	text-align: center;
 	font-size: 1em;
 	border: 2.5px solid black;
+	cursor: pointer;
 
 }
-.rightlyf{
+
+.checkbox{
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float:left;
+	width:10%;
+	height:100%;
+	/*text-align: center;*/
+	border: 2.5px solid black;
+
+}
+
+.checkbox input {
+	margin-left: 35%;
+	margin-top: 25%;
+}
+
+.remove{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
@@ -205,9 +231,11 @@ html,body{
 
 }
 
-.rightlyf button{
+.remove button{
 	width:100%;
 	height: 100%;
+	font-size: 1em;
+	font-weight: bold;
 }
 
 .addDrug {
@@ -218,8 +246,7 @@ html,body{
 #addDrugButton {
 	height: 100%;
 	width: 100%;
-	font-weight: bold;
-	text-transform: uppercase;
+	font-size: 1.5em;
 }
 
 /*

@@ -12,7 +12,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 
 
-	$scope.drugs= [];
+	$scope.drugs= {};
 
 
 	//Load the drugs from database
@@ -20,8 +20,15 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	Lyf.get()
 			.success(function(data) {
 				$scope.drugs = data;
-				for (var i in $scope.drugs)
+				for (var i in $scope.drugs) {
 					$scope.chartConfig.series.push($scope.drugs[i]);
+					if (String($scope.drugs[i].date) !== String($scope.date)) {
+						$scope.drugs[i].show = false;
+					}
+					else {
+						$scope.drugs[i].show = true;
+					}
+				}
 			});
 
 
@@ -30,6 +37,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	$scope.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
     $scope.isSelected= null;
     $scope.clock_time;
+	$scope.before;
+	$scope.after;
+
 
   
 
@@ -40,25 +50,38 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 	// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API
-	$scope.createTodo = function() {
+	$scope.createTodo = function(drug) {
 
 		// validate the formData to make sure that something is there
 		// if form is empty, nothing will happen
-		if ($scope.drugs.length != 0) {
-			for (var i in $scope.drugs) {
-			// call the create function from our service (returns a promise object)
-			Lyf.create($scope.drugs[i])
+		// if ($scope.drugs.length != 0) {
+		// 	for (var i in $scope.drugs) {
+		// 	// call the create function from our service (returns a promise object)
+		// 	Lyf.create($scope.drugs[i])
 
+		// 		// if successful creation, call our get function to get all the new todos
+		// 		.success(function(data) {
+					
+					
+		// 			$scope.drugs.push(data); // assign our new list of todos
+		// 		});
+		// 	}
+		// }
+		Lyf.create(drug)
 				// if successful creation, call our get function to get all the new todos
 				.success(function(data) {
-					
-					
-					$scope.drugs = data; // assign our new list of todos
+					$scope.drugs.push(data); // assign our new list of todos
 				});
-			}
-		}
-		console.log($scope.drugs)
 	};
+
+	$scope.deleteTodo = function(id) {
+			Lyf.delete(id)
+				// if successful creation, call our get function to get all the new todos
+				.success(function(data) {
+					$scope.loading = false;
+					$scope.todos = data; // assign our new list of todos
+				});
+		};
 
 
 	$scope.fetch = function(lyf_id) {
@@ -66,12 +89,25 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		for (i in current_lyf.data) {
 			current_lyf.data[i][0] += $scope.graphTime;
 		}
-		$scope.drugs.push( {name: current_lyf.name, amount: current_lyf.amount, data: current_lyf.data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: current_lyf.color, day: dateFormat($scope.graphTime, "dddd")});
-		$scope.chartConfig.series.push( {name: current_lyf.name, amount: current_lyf.amount, data: current_lyf.data, id: $scope.index, stringTime: $scope.stringTime, graphTime: $scope.graphTime, color: current_lyf.color, day: dateFormat($scope.graphTime, "dddd")});
-		$scope.isSelected = null;
-		console.log($scope.drugs)
+		var current_lyf_updated = {
+			name: current_lyf.name, 
+			amount: current_lyf.amount, 
+			data: current_lyf.data, 
+			visible: true,
+			checked: true, 
+			show: true, 
+			date: String($scope.date), 
+			id: $scope.index, stringTime: 
+			$scope.stringTime, graphTime: 
+			$scope.graphTime, 
+			color: current_lyf.color, 
+			day: dateFormat($scope.graphTime, "dddd")
+		}
+		$scope.drugs.push(current_lyf_updated);
+		$scope.chartConfig.series.push(current_lyf_updated);
 
-		
+		$scope.isSelected = null;	
+		$scope.createTodo(current_lyf_updated);
 	}
   
 	$scope.removeDrug = function(drug_id) {
@@ -91,12 +127,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 				$scope.drugs.splice(i,1)
 			}
 		}
+		$scope.deleteTodo(drug_id)
 	}
 
 	$scope.createEmptySumGraph = function () {
     	var sumGraph = JSON.parse(JSON.stringify(Lyf.createEmpty())); // cloning an empty drug
     	for (i in sumGraph) {
-			sumGraph[i][0] += ($scope.date.valueOf()+1);
+			sumGraph[i][0] += ($scope.date.valueOf()+21600000+1);
 		}
 		return sumGraph;	
     }
@@ -105,11 +142,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
     	$scope.chartConfig.series[0].data = $scope.createEmptySumGraph(); // always reset the sum graph to recalculate + draw
     	if ($scope.drugs.length > 1) { // only draw the sumGraph if there's more than one drug stored
 			for (i in drugs) { // iterate through every drug
-				for (j in drugs[i].data) { // iterate through every data point per drug
-					for (k in $scope.chartConfig.series[0].data) // iterate through every data point in the "sum" curve
-						if (Math.abs(drugs[i].data[j][0] - $scope.chartConfig.series[0].data[k][0]) <= 900000) {// round every point on the drug graph to the nearest point on the sum curve (900000ms === 15 minutes)
-							$scope.chartConfig.series[0].data[k][1] += drugs[i].data[j][1] // update the sum graph with values from the drug graphs
-						}
+				if (drugs[i].visible === true) {
+					for (j in drugs[i].data) { // iterate through every data point per drug
+						for (k in $scope.chartConfig.series[0].data) // iterate through every data point in the "sum" curve
+							if (Math.abs(drugs[i].data[j][0] - $scope.chartConfig.series[0].data[k][0]) <= 900000) {// round every point on the drug graph to the nearest point on the sum curve (900000ms === 15 minutes)
+								$scope.chartConfig.series[0].data[k][1] += drugs[i].data[j][1] // update the sum graph with values from the drug graphs
+							}
+					}
 				}
 			}
 		}
@@ -118,7 +157,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	$scope.chartConfig = {
 		options: {
 			chart: {
-				zoomType: 'x',
+				animation: false
 			},
 			legend: {
 				enabled: false
@@ -163,7 +202,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
                 width: 1,
                 value: Date.now(),
             }],
-			min : $scope.date.valueOf(),
+			min : $scope.date.valueOf()+21600000,
 			max : $scope.date.valueOf()+86400000, 
 			type: 'datetime'
 		},
@@ -192,8 +231,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
     	else {
     		$scope.isSelected = Selected;
     	}
-    	console.log(Selected)
-    	console.log($scope.chartConfig.series)
     };
 
 
@@ -216,20 +253,68 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 			$scope.date = new Date($scope.date.getFullYear(), $scope.date.getMonth(), $scope.date.getDate()+1);
 		};
 		$scope.chartConfig.title.text = dateFormat($scope.date, "dddd, mmmm dS"); // update the date at top
-		$scope.chartConfig.xAxis.min = $scope.date.valueOf(); // update the leftmost x-value
+		$scope.chartConfig.xAxis.min = $scope.date.valueOf()+21600000; // update the leftmost x-value
 		$scope.chartConfig.xAxis.max = $scope.date.valueOf()+86400000; // update the rightmost x-value
 
-		$scope.updateSumGraph($scope.drugs); // show the updated sum graph
+		$scope.updateSumGraph($scope.chartConfig.series); // show the updated sum graph
 
 		var time_split = $scope.stringTime.split(":");
 
 		$scope.graphTime = Date.UTC($scope.date.getFullYear(),$scope.date.getMonth(),$scope.date.getDate(),time_split[0],time_split[1]);
+
+		for (var i in $scope.drugs) {
+			if (String($scope.drugs[i].date) !== String($scope.date)) {
+				$scope.drugs[i].show = false;
+
+
+			}
+			else {
+				$scope.drugs[i].show = true;
+			}
+		}
 	};
 
+	$scope.swipeGraph = function(desc) {
+		if (desc === 'left') 
+			$scope.moveDay('left')
+		else 
+			$scope.moveDay('right')
+	};
+
+	$scope.clickCheckbox = function (id, checked) {
+
+		for (var i in $scope.chartConfig.series) {
+			if ($scope.chartConfig.series[i].id === id) {
+				if (checked === true) {
+					$scope.chartConfig.series[i].visible = true;
+				}
+				else {
+					$scope.chartConfig.series[i].visible = false;
+				}
+			}
+		}
+		// if (checked === true) {
+		// 	for (var i in $scope.drugs) {
+		// 		if ($scope.drugs[i].id === id) {
+		// 			$scope.chartConfig.series.push($scope.drugs[i])
+		// 		}
+		// 	}
+		// }
+		// else {
+		// 	for (var i in $scope.chartConfig.series) {
+		// 		if ($scope.chartConfig.series[i].id === id) {
+		// 				$scope.chartConfig.series.splice(i,1);
+
+		// 		}
+		// 	}
+		// }
+		// console.log("drugs: ",$scope.drugs)
+		// console.log("chart: ",$scope.chartConfig.series)
+	}
 
 	// WATCH/UPDATE FUNCTIONS //
 	
-	$scope.$watch('drugs', function(newValues) {
+	$scope.$watch('chartConfig.series', function(newValues) {
 			$scope.updateSumGraph(newValues)
 			$scope.chartConfig.yAxis.plotLines = [{
 									color: '#78C983',

@@ -33,6 +33,7 @@
 	<script src="js/main/jquery-1.9.1.min.js"></script><!-- load jqury -->
 	<script src="js/main/jquery-ui-git.js"></script>
 	<script src="js/main/angular.min.js"></script><!-- load angular -->
+	<script src="js/main/angular-touch.js"></script>
 	
 	<!--
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -136,7 +137,7 @@ $( "#MainSlider" ).slider({ min: 10 });
 		<div class = "header">
 
 			<div class = "header-text">
-				<h1>LyfjaMixSkammtarinn</h1>
+				<h1>DrugMix</h1>
 			</div>
 			<div class = "header-settings">
 				<a href = "#"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
@@ -145,68 +146,48 @@ $( "#MainSlider" ).slider({ min: 10 });
 
 
 		<div class = "graf" id="drug-chart" resize>
-		<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
-		<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
-
-				<highchart id="chart1" config="chartConfig" ></highchart>
-
+			<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
+			<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
+			<highchart id="chart1" config="chartConfig" ng-swipe-left-disable-mouse="swipeGraph('left')" ng-swipe-right-disable-mouse="swipeGraph('right')" ></highchart>
 		</div>
 
 		
 		<div class = "lyfvalinn" >
 
-		<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-click ="setSelected(drug.id)" ng-class = "{selected : drug.id == isSelected}" ng-style="{'background-color' : drug.color}" >
-
-			
-
-
-
-				<div class = "leftlyf"  >
-					<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}} - {{drug.text.day}} </p>
-				</div>
-				<div class = "rightlyf" id = "id_{{drug.name}}">
-					<button type = "button" ng-click="removeDrug(drug.id)"> - </button>
-				</div>
+			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false}">
+					<div class = "checkbox">
+						<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
+					</div>
+					<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
+						<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}}</p>
+					</div>
+					<div class = "remove" id = "id_{{drug.name}}">
+						<button type = "button" ng-click="removeDrug(drug.id)"> X </button>
+					</div>
 			</div>
 
 			<div class = "lyf">
-
-				<!-- <div class = "leftlyf">
-					<p>Bæta við lyfi  </p> 
-				</div> -->
 				<div class = "addDrug">
-					<button id="addDrugButton" type = "button" ng-click= clickToOpen()> Bæta við lyfi </button>
+					<button id="addDrugButton" type = "button" ng-click= clickToOpen()> + </button>
 				</div>
-		</div>
+
+			</div>
 
 		</div>
 
 
 		<div class = "timepicker"  >
-
 			<input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
-
 			<div id = "MainSlider">
-				
-			
 			</div>
-
-
-			
 		</div>
 
 
 		<div class = "buttons">
 			<div class = "buttonprufa">
-			
 				<button type="button" class = "plusbutton" ng-click="createTodo()">+</button>
 			</div>	
 		</div>
-		
 	</div>
-
-
-
-
 </body>
 </html>

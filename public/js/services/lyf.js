@@ -17,6 +17,18 @@ angular.module('lyfService', [])
 			array.push([x_interval,(-(Math.pow((i-24),2)) + 576)/72])
 			else array.push([x_interval,null])
 		}
+		// array.push([0*1800000,0])
+		// array.push([1*1800000,10])
+		// array.push([2*1800000,11])
+		// array.push([3*1800000,12])
+		// array.push([4*1800000,10])
+		// array.push([5*1800000,9])
+		// array.push([6*1800000,7])
+		// array.push([7*1800000,5])
+		// array.push([8*1800000,4])
+		// array.push([9*1800000,3])
+		// array.push([10*1800000,2])
+		// array.push([11*1800000,0])
 		return array;
 	}
 	
@@ -90,6 +102,10 @@ angular.module('lyfService', [])
 				return $http.post('/api/drugs',nowDrug );
 			},
 
+			delete : function(id) {
+				return $http.delete('/api/drugs/' + id);
+			},
+
             getAll: function () {
                 return lyf;
             },
@@ -98,7 +114,7 @@ angular.module('lyfService', [])
 			},
 			createEmpty: function () {
                 var array = []
-				for (i=0; i<=48; i++) {
+				for (i=0; i<=36; i++) {
 					var x_interval = 1800000*i;
 					array.push([x_interval, null])
 				}
