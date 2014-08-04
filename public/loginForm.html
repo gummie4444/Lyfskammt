@@ -1,0 +1,27 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html>
+
+
+<!-- SET THE CONTROLLER -->
+<body >
+
+	
+
+		<div class = "Logoheader">
+		<h1> Skráðu þig inn</h1>
+			<form name "userLogin" ng-submit = "submitLoginForm()" >
+				Notandi: <input type = "text" ng-model = "login.username" required/><br/>
+				Lykilorð: <input type = "password" ng-model = "login.password" required/> <br/>
+
+				<button type = "submit"> Áfram </button>
+				</form>
+
+				{{isValidate}}
+
+
+		</div>
+	
+</body>
+</html>

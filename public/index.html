@@ -42,7 +42,7 @@
 	-->
 
 	<!-- plugins -->
-	
+	<script src="js/plugins/angular-route.js"></script>
 	<script src="js/plugins/ngDialog/ngDialog.min.js"></script>
 	<script src="js/plugins/moment-with-langs.js"></script>
 	<script src="js/plugins/highcharts/highcharts.js"></script>
@@ -58,138 +58,51 @@
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/controllers/charts.js"></script> <!-- load our charts application -->
 
+	<script src="js/controllers/login.js"></script> <!-- load our charts application -->
+
 	<script src="js/directives/chart-resize.js"></script>
 	
 	<script src="js/services/lyf.js"></script> <!-- load our lyf service -->
 	<script src="js/services/todos.js"></script> <!-- load our todo service -->
+
+	<script src="js/services/user.js"></script> <!-- load our todo service -->
+
+
+
 	
 	
 	<script src="js/core.js"></script> <!-- load our main application -->
 
 
-<script>
 
-
-
-$( document ).ready(function() {
-
-	var d = new Date();
-
-	
-
-	 var currentTime = d.getMinutes()+d.getHours()*60;
-
-
-
-
-	function prenta(minutes,hours){
-		if(hours.toString().length == 1){
-			hours = '0' + hours;
-		}
-		if(minutes.toString().length== 1){
-			 minutes = '0' + minutes;
-			}
-
-		return hours + ":" + minutes;
-	};
-
-
-$( "#MainSlider" ).slider({ min: 10 });
-
- $( "#MainSlider" ).slider({
-      range: "max",
-      min: 0,
-      max: 1440,
-      step:5,
-
-      value: currentTime,
-      slide: function( event, ui ) {
-
-      	var hours = Math.floor(ui.value / 60);
-            var minutes = ui.value - (hours * 60);
-
-            if(hours.toString().length == 1) hours = '0' + hours;
-            if(minutes.toString().length == 1) minutes = '0' + minutes;
-
-            var input = $("#prufadot");
-    	
-    
-        input.val( hours+':'+minutes );
-        input.trigger('input');
-
-      }
-    });
-    $( "#prufadot" ).val( prenta( d.getMinutes(),d.getHours()) );
-
-
-	
-});
-
-
-
-
-</script>
 
 
 </head>
 <!-- SET THE CONTROLLER -->
 <body >
 
-	<div class = "container" ng-controller="myChart" >
-		<div class = "header">
+<div  class ="container" ng-view = "">
+	
+	<div class = "Logoheader">
 
-			<div class = "header-text">
-				<h1>DrugMix</h1>
-			</div>
-			<div class = "header-settings">
-				<a href = "#"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
-			</div>
-		</div>
-
-
-		<div class = "graf" id="drug-chart" resize>
-			<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
-			<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
-			<highchart id="chart1" config="chartConfig" ng-swipe-left-disable-mouse="swipeGraph('left')" ng-swipe-right-disable-mouse="swipeGraph('right')" ></highchart>
-		</div>
-
-		
-		<div class = "lyfvalinn" >
-
-			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false}">
-					<div class = "checkbox">
-						<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
-					</div>
-					<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-						<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}}</p>
-					</div>
-					<div class = "remove" id = "id_{{drug.name}}">
-						<button type = "button" ng-click="removeDrug(drug.id)"> X </button>
-					</div>
-			</div>
-
-			<div class = "lyf">
-				<div class = "addDrug">
-					<button id="addDrugButton" type = "button" ng-click= clickToOpen()> + </button>
-				</div>
-
-			</div>
+		<img src= "img/Logoprufa.jpg"></img>
 
 		</div>
 
+		<div class = "contentContain">
 
-		<div class = "timepicker"  >
-			<input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
-			<div id = "MainSlider">
-			</div>
+			<a href="/#/login"><button class = "buttons2" id = "login" > Login </button></a>
+
+			<a href="/#/signup"><button class = "buttons2" id = "signup" > Signup </button></a>
+
 		</div>
 
+		<div class = "info2" > 
 
-		<div class = "buttons">
-			<div class = "buttonprufa">
-				<button type="button" class = "plusbutton" ng-click="createTodo()">+</button>
-			</div>	
 		</div>
-	</div>
+</div>
+
+
+	
 </body>
 </html>

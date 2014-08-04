@@ -5,12 +5,58 @@
 
 
 var Todo = require('./models/todo');
+var User = require ('./models/user');
 
 
 
 module.exports = function(app) {
 
-	// api ---------------------------------------------------------------------
+
+	//API FOR USERS
+
+
+	// create todo and send back all todos after creation
+
+
+	app.post('/api/users',function(req,res){
+
+		var username = req.body.username ;
+   		var password = req.body.password ;
+
+
+		User.findOne({username: username}, function(err,users){
+
+			if(err){
+				console.log(err + "VIlla1");
+				return res.send(401);
+			}
+			
+			if(users == undefined){
+				console.log(err + "VIlla2");
+				return res.send(401);
+			}
+
+			
+
+			users.comparePassword(password, function(isMatch){
+				if (!isMatch){
+					console.log("Attempt failed to login with: " + users.username);
+					return res.send(401);
+				}
+				else{
+					console.log("Loggadi mig inn med: " + users.username );
+					return res.json( isMatch);
+				}
+			});
+
+			
+		})
+
+
+	});
+
+
+		// api ---------------------------------------------------------------------
 	// get all todos
 	app.get('/api/drugs', function(req, res) {
 
