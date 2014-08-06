@@ -5,6 +5,10 @@ var mongoose = require('mongoose'); 					// mongoose for mongodb
 var port  	 = process.env.PORT || 8080; 				// set the port
 var database = require('./config/database'); 			// load the database config
 
+var jwt = require('express-jwt');
+var tokenManager = require('./config/token_manager');
+var secret = require('./config/secret');
+
 
 // configuration ===============================================================
 mongoose.connect(database.url); 	// connect to mongoDB database on modulus.io
@@ -18,6 +22,8 @@ app.configure(function() {
 
 // routes ======================================================================
 require('./app/routes.js')(app);
+
+
 
 // listen (start app with node server.js) ======================================
 app.listen(port);

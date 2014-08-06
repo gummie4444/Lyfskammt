@@ -11,7 +11,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	//TODO -----na i upphafs drugfylki
 
 
-
+	$scope.$emit('bla',true);
 	$scope.drugs= {};
 
 

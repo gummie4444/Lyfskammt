@@ -5,12 +5,135 @@
 
 
 var Todo = require('./models/todo');
+var User = require ('./models/user');
+
+
+var jwt = require('jsonwebtoken');
+var secret = require('../config/secret');
+var redisClient = require('../config/redis_database').redisClient;
+var tokenManager = require('../config/token_manager');
 
 
 
 module.exports = function(app) {
 
-	// api ---------------------------------------------------------------------
+
+	//API FOR USERS
+
+
+	// create todo and send back all todos after creation
+
+	//HANDLE LOGINS
+	app.post('/api/users',function(req,res){
+
+		var username = req.body.username ;
+   		var password = req.body.password ;
+
+
+		User.findOne({username: username}, function(err,users){
+
+			if(err){
+				console.log(err + "VIlla1");
+				return res.send(401);
+			}
+			
+			if(users == undefined){
+				console.log(err + "VIlla2");
+				return res.send(401);
+			}
+
+			
+
+			users.comparePassword(password, function(isMatch){
+				if (!isMatch){
+					console.log("Attempt failed to login with: " + users.username);
+					return res.send(401);
+				}
+				
+				console.log("Loggadi mig inn med: " + users.username );
+
+				//Create a token for the current user
+				var token = jwt.sign({id: users._id}, secret.secretToken, { expiresInMinutes: tokenManager.TOKEN_EXPIRATION });
+				console.log(token + "token");
+				return res.json({token:token});
+				
+			});
+
+			
+		})
+
+
+	});
+
+	//HANDLE LOGOUTS skoða
+	/*
+	app.get('/api/users/logOut',function(req,res){
+		console.log(req.headers);
+
+		if (req.user) {
+		tokenManager.expireToken(req.headers);
+
+		delete req.user;	
+		return res.send(200);
+		}
+		else {
+			return res.send(401);
+		}
+
+	});
+	*/
+
+	//HANDLE REGISTER
+
+	app.post('/api/users/register',function(req,res){
+
+		console.log(req.body);
+		var name = req.body.name;
+		var username = req.body.username;
+		var password = req.body.password;
+		var kt = req.body.kt;
+		var email = req.body.email;
+
+		//Check if the user is in the database
+		User.findOne({username: username}, function(err,users){
+			console.log(users);
+
+			//if not add him
+			if (err){
+				res.send(err);
+			}
+			else if (users == undefined){
+					console.log("Notendanafn er laust");
+					User.create({
+						username:username,
+						password:password,
+						name:name,
+						kt:kt,
+						email:email
+
+					}, function(err,msg){
+						if(err){
+							res.send(err);
+							}
+						res.send(200);
+					});
+				
+
+				}
+
+
+			//else return that the username is already in the database
+			else{
+				console.log("Username er frátekið");
+				res.send(401);
+
+			}
+
+			});
+	});
+
+
+		// api ---------------------------------------------------------------------
 	// get all todos
 	app.get('/api/drugs', function(req, res) {
 
@@ -79,8 +202,12 @@ module.exports = function(app) {
 		});
 	});
 
+	
+
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {
 		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
+
+	
 };
