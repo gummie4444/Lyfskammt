@@ -1,10 +1,11 @@
-angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
+angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mobiscroll-dir'])
 
 .controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http) {
 
 	// ========= //
 	// VARIABLES //
 	// ========= //
+	$scope.loading = true;
 	$scope.graphTime = moment().valueOf();
 
 	//TODO -----na i upphafs drugfylki
@@ -18,17 +19,19 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 	Lyf.get()
 			.success(function(data) {
+				$scope.loading = false;
+				$scope.chartConfig.loading = false;
 				$scope.drugs = data;
 				for (var i in $scope.drugs) {
 					$scope.chartConfig.series.push($scope.drugs[i]);
-					if (!moment($scope.drugs[i].date).isSame($scope.date)) { // GAMALT: if (String($scope.drugs[i].date) !== String($scope.date)) {
+					if (!moment($scope.drugs[i].date).isSame($scope.date)) {
 						$scope.drugs[i].show = false;
 					}
 					else {
 						$scope.drugs[i].show = true;
 					}
 				}
-				console.log($scope.drugs)
+				$scope.updateSumGraph($scope.chartConfig.series)
 			});
 
 
@@ -36,9 +39,57 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	$scope.index = 0;
 	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()})
     $scope.isSelected= null;
-    $scope.clock_time;
-	$scope.before;
-	$scope.after;
+    $scope.clock_time = moment().format('HH'+':'+'mm');
+    $scope.clock_display;
+
+    // config for timepicker (scroller)
+    $scope.mobiscrollConfig = {
+    			theme: 'ios7',
+                display: 'inline',
+                mode: 'scroller',
+                type: 'time',
+                minWidth: angular.element(document.getElementById('timepicker')).width()/7,
+                height: angular.element(document.getElementById('timepicker')).height()/5.65,
+                timeFormat: 'HH:ii',
+                timeWheels:'HHii',
+                layout: 'liquid',
+                headerText: false,
+        }
+
+
+    // config for timepicker (slider)
+    $scope.slider = {
+		options: {
+			min: 0,
+			max: 1435,
+			step:5,
+			value: moment().minutes()+moment().hours()*60,
+			stop: function (event, ui) {
+				for (i in $scope.chartConfig.series) {
+    				if ($scope.isSelected === $scope.chartConfig.series[i].id) { // find the drug with matching id
+    					$scope.createTodo($scope.chartConfig.series[i]);
+    				}
+    			}
+			},
+			slide: function (event, ui) { 
+				var hours = Math.floor(ui.value / 60);
+				var minutes = ui.value - (hours * 60);
+
+				if(hours.toString().length == 1) hours = '0' + hours;
+				if(minutes.toString().length == 1) minutes = '0' + minutes;
+
+				var input = $("#prufadot");
+
+				// console.log("updategraph")
+				$scope.updateSumGraph($scope.chartConfig.series)
+    	
+    
+		        input.val( hours+':'+minutes );
+		        input.trigger('input');
+			}
+		}
+    }
+
 
 	
 
@@ -55,22 +106,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API
 	$scope.createTodo = function(drug) {
-
-		// validate the formData to make sure that something is there
-		// if form is empty, nothing will happen
-		// if ($scope.drugs.length != 0) {
-		// 	for (var i in $scope.drugs) {
-		// 	// call the create function from our service (returns a promise object)
-		// 	Lyf.create($scope.drugs[i])
-
-		// 		// if successful creation, call our get function to get all the new todos
-		// 		.success(function(data) {
-					
-					
-		// 			$scope.drugs.push(data); // assign our new list of todos
-		// 		});
-		// 	}
-		// }
 		Lyf.create(drug)
 				// if successful creation, call our get function to get all the new todos
 				.success(function(data) {
@@ -85,6 +120,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 					$scope.loading = false;
 					$scope.todos = data; // assign our new list of todos
 				});
+			$scope.updateSumGraph($scope.chartConfig.series)
 		};
 
 
@@ -112,14 +148,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 
 		$scope.isSelected = null;	
 		$scope.createTodo(current_lyf_updated);
+
+		$scope.updateSumGraph($scope.chartConfig.series)
 	}
   
 	$scope.removeDrug = function(drug_id) {
 		// VARÚÐ: SKÍTAMIX
 		for (var i in $scope.chartConfig.series) {
-			// if ($scope.drugs[i].id === drug_id) {
-			// 	$scope.drugs.splice(i,1)
-			// }
 			if ($scope.chartConfig.series[i].id === drug_id) {
 				var series = $scope.chartConfig.series;
 				series.splice(i,1); // index in series is higher by 1 drug because of the sum graph
@@ -156,12 +191,17 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 				}
 			}
 		}
+		$scope.chartConfig.yAxis.plotLines = [{
+									color: '#78C983',
+					                width: 1,
+					                value: $scope.drugs.length*3,
+					            }]
 	}
 
 	$scope.chartConfig = {
 		options: {
 			chart: {
-				animation: false
+				animation: false,
 			},
 			legend: {
 				enabled: false
@@ -182,7 +222,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
         		enabled: true
         	},
 
+
 		},
+		loading: true,
 		series: [
 		{
 			data: $scope.createEmptySumGraph(),
@@ -235,6 +277,24 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
     	else {
     		$scope.isSelected = Selected;
     	}
+
+    	if (Selected === null) {
+    		for (i in $scope.chartConfig.series) {
+				$scope.chartConfig.series[i].dashStyle = false;
+			}
+    	}
+		else {
+			for (i in $scope.chartConfig.series) {
+				if ($scope.isSelected === $scope.chartConfig.series[i].id) {
+					$scope.chartConfig.series[i].dashStyle = 'shortdash';
+					$scope.clock_time = $scope.chartConfig.series[i].stringTime;
+
+				}
+				else {
+					$scope.chartConfig.series[i].dashStyle = false
+				}
+			}
+    	}
     };
 
 
@@ -267,7 +327,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: time_split[0], m: time_split[1]}).valueOf()
 
 		for (var i in $scope.drugs) {
-			if (!moment($scope.drugs[i].date).isSame($scope.date)) { // GAMALT: if (String($scope.drugs[i].date) !== String($scope.date)) {
+			if (!moment($scope.drugs[i].date).isSame($scope.date)) {
 				$scope.drugs[i].show = false;
 			}
 			else {
@@ -276,15 +336,14 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		}
 	};
 
-	// $scope.swipeGraph = function(desc) {
-	// 	if (desc === 'left') 
-	// 		$scope.moveDay('left')
-	// 	else 
-	// 		$scope.moveDay('right')
-	// };
+	$scope.swipeGraph = function(desc) {
+		if (desc === 'left') 
+			$scope.moveDay('left')
+		else 
+			$scope.moveDay('right')
+	};
 
 	$scope.clickCheckbox = function (id, checked) {
-
 		for (var i in $scope.chartConfig.series) {
 			if ($scope.chartConfig.series[i].id === id) {
 				if (checked === true) {
@@ -295,35 +354,20 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 				}
 			}
 		}
-		// if (checked === true) {
-		// 	for (var i in $scope.drugs) {
-		// 		if ($scope.drugs[i].id === id) {
-		// 			$scope.chartConfig.series.push($scope.drugs[i])
-		// 		}
-		// 	}
-		// }
-		// else {
-		// 	for (var i in $scope.chartConfig.series) {
-		// 		if ($scope.chartConfig.series[i].id === id) {
-		// 				$scope.chartConfig.series.splice(i,1);
+		$scope.updateSumGraph($scope.chartConfig.series);
+	}
 
-		// 		}
-		// 	}
-		// }
-		// console.log("drugs: ",$scope.drugs)
-		// console.log("chart: ",$scope.chartConfig.series)
+	// function to call an update for the sumgraph from the timepicker (scroller)
+	$scope.updateFromScroll = function() {
+		// console.log("updatefromscroll")
+		$scope.updateSumGraph($scope.chartConfig.series);
 	}
 
 	// WATCH/UPDATE FUNCTIONS //
 	
-	$scope.$watch('chartConfig.series', function(newValues) {
-			$scope.updateSumGraph(newValues)
-			$scope.chartConfig.yAxis.plotLines = [{
-									color: '#78C983',
-					                width: 1,
-					                value: $scope.drugs.length*3,
-					            }]
-	}, true);
+	// $scope.$watch('chartConfig.series', function(newValues) {
+	// 		$scope.updateSumGraph(newValues)
+	// }, true);
 
 	//Watch the time-slider
 	$scope.$watch('clock_time', function (newValue, oldValue) {
@@ -333,7 +377,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
         	var res = newValue.split(":");
 	      	
 	      	$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: res[0], m: res[1]}).valueOf()
-	        // $scope.graphTime = Date.UTC($scope.date.getFullYear(),$scope.date.getMonth(),$scope.date.getDate(),res[0],res[1]);
 	        $scope.stringTime = newValue;
    		 }
 	    else {
@@ -342,39 +385,42 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 	    }
     });
 
+
     $scope.$watch('graphTime', function(newValue) {
+
     	for (i in $scope.chartConfig.series) {
     		if ($scope.isSelected === $scope.chartConfig.series[i].id) { // find the drug with matching id
     			for (j in $scope.chartConfig.series[i].data) { // loop through its every data point
+    				// TODO: if (timepicker === scroller) update database
     				$scope.chartConfig.series[i].data[j][0] += ($scope.graphTime - $scope.chartConfig.series[i].graphTime);	// update its x component with the offset between its graphTime and desired time
     			}
     			var d = moment($scope.graphTime);
     			$scope.chartConfig.series[i].graphTime = $scope.graphTime; // update the graph's graphTime
     			$scope.chartConfig.series[i].stringTime = $scope.prenta(d.minutes(), d.hours()) // update the graph's stringTime
-    			$scope.chartConfig.series[i].day = moment($scope.graphTime).format("dddd")
     			$scope.drugs[i-1] = $scope.chartConfig.series[i] // copy the graph to the drugs array
     		}
     	}
+    	$scope.updateSumGraph($scope.chartConfig.series);
     });
 
-    $scope.$watch('isSelected', function(newValue) {
-    	if (newValue === null) {
-    		for (i in $scope.chartConfig.series) {
-				$scope.chartConfig.series[i].dashStyle = false;
-			}
-    	}
-		else {
-			for (i in $scope.chartConfig.series) {
-				if ($scope.isSelected === $scope.chartConfig.series[i].id) {
-					$scope.chartConfig.series[i].dashStyle = 'shortdash';
+    // $scope.$watch('isSelected', function(newValue) {
+  //   	if (newValue === null) {
+  //   		for (i in $scope.chartConfig.series) {
+		// 		$scope.chartConfig.series[i].dashStyle = false;
+		// 	}
+  //   	}
+		// else {
+		// 	for (i in $scope.chartConfig.series) {
+		// 		if ($scope.isSelected === $scope.chartConfig.series[i].id) {
+		// 			$scope.chartConfig.series[i].dashStyle = 'shortdash';
 
-				}
-				else {
-					$scope.chartConfig.series[i].dashStyle = false
-				}
-			}
-    	}
-    });
+		// 		}
+		// 		else {
+		// 			$scope.chartConfig.series[i].dashStyle = false
+		// 		}
+		// 	}
+  //   	}
+    // });
 
     $scope.prenta = function(minutes,hours){
 		if (hours.toString().length == 1){
@@ -385,6 +431,11 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider'])
 		}
 		return hours + ":" + minutes;
 	};
+
+	$scope.clicky = function() {
+		console.log($scope.mobiscrollConfig.height)
+		$scope.mobiscrollConfig.height -= 5;
+	}
 
     $scope.$on('heightChange', function(value) {
     	var container = document.getElementById("drug-chart");

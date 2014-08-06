@@ -12,6 +12,7 @@
 	<!-- CSS-->
 
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
 	
 
 	<!-- css plugins -->
@@ -25,14 +26,20 @@
 
 	<link rel="stylesheet" href="css/jquery-ui.css">
 
+	<!-- BOOTSTRAP -->
+
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"><!-- load bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
 
 	<!-- JS -->
 
 
-	<script src="js/main/jquery-1.9.1.min.js"></script><!-- load jqury -->
+	<script src="js/main/jquery-1.11.0.min.js"></script>
+	<!-- // <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script> -->
 	<script src="js/main/jquery-ui-git.js"></script>
 	<script src="js/main/angular.min.js"></script><!-- load angular -->
+	<script src="js/main/angular-animate.min.js"></script>
 	<script src="js/main/angular-touch.js"></script>
 	
 	<!--
@@ -50,15 +57,53 @@
 	<script src="js/plugins/highcharts-ng-master/highcharts-ng.js"></script>
 	<script src="js/plugins/slider/slider.js"></script>
 	<script src="js/plugins/date.format.js"></script>
+	<script src="js/plugins/ui-slider-master/src/slider.js"></script>
 	<script src="js/timepicker_addon.js"></script>
 
+	<!-- MOBISCROLL -->
 
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.core.js"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.js" type="text/javascript"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.scroller.js" type="text/javascript"></script>
+
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.datetime.js" type="text/javascript"></script>
+
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.android.js" type="text/javascript"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.android-holo.js" type="text/javascript"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.ios.js" type="text/javascript"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.ios7.js" type="text/javascript"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.jqm.js" type="text/javascript"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.sense-ui.js" type="text/javascript"></script>
+    <script src="js/plugins/mobiscroll-master/js/mobiscroll.widget.wp.js" type="text/javascript"></script>
+
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.icons.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.android.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.android-holo.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.ios.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.ios7.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.jqm.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.sense-ui.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.widget.wp.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.android.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.android-holo.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.ios.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.ios7.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.jqm.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.sense-ui.css" rel="stylesheet" type="text/css" />
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.scroller.wp.css" rel="stylesheet" type="text/css" />
+
+    <link href="js/plugins/mobiscroll-master/css/mobiscroll.animation.css" rel="stylesheet" type="text/css" />
+
+    <!-- ===== -->
 
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/controllers/charts.js"></script> <!-- load our charts application -->
 
 	<script src="js/directives/chart-resize.js"></script>
+	<script src="js/directives/mobiscroll-dir.js"></script>
 	
 	<script src="js/services/lyf.js"></script> <!-- load our lyf service -->
 	<script src="js/services/todos.js"></script> <!-- load our todo service -->
@@ -70,60 +115,22 @@
 <script>
 
 
-
-$( document ).ready(function() {
-
-	var d = new Date();
-
-	
-
-	 var currentTime = d.getMinutes()+d.getHours()*60;
-
-
-
-
-	function prenta(minutes,hours){
-		if(hours.toString().length == 1){
-			hours = '0' + hours;
-		}
-		if(minutes.toString().length== 1){
-			 minutes = '0' + minutes;
-			}
-
-		return hours + ":" + minutes;
-	};
-
-
-$( "#MainSlider" ).slider({ min: 10 });
-
- $( "#MainSlider" ).slider({
-      range: "max",
-      min: 0,
-      max: 1440,
-      step:5,
-
-      value: currentTime,
-      slide: function( event, ui ) {
-
-      	var hours = Math.floor(ui.value / 60);
-            var minutes = ui.value - (hours * 60);
-
-            if(hours.toString().length == 1) hours = '0' + hours;
-            if(minutes.toString().length == 1) minutes = '0' + minutes;
-
-            var input = $("#prufadot");
-    	
-    
-        input.val( hours+':'+minutes );
-        input.trigger('input');
-
-      }
-    });
-    $( "#prufadot" ).val( prenta( d.getMinutes(),d.getHours()) );
-
-
-	
-});
+// $(function(){
+//     $('#mobile_picker').mobiscroll().time({
+//         theme: 'android-holo light',
+//         display: 'inline',
+//         mode: 'scroller',
+//         buttons: [],
+//         // width: 200,
+//         // height: 42,
+//         timeFormat: 'HH:ii',
+//         timeWheels:'HHii',
+//         headerText: false,
+//         // onChange: function() {
+//         // 	$scope.$emit('updateGraph');
+//         // }
+//     });    
+// });
 
 
 
@@ -150,22 +157,28 @@ $( "#MainSlider" ).slider({ min: 10 });
 		<div class = "graf" id="drug-chart" resize>
 			<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
 			<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
-			<highchart id="chart1" config="chartConfig" ng-swipe-left-disable-mouse="swipeGraph('left')" ng-swipe-right-disable-mouse="swipeGraph('right')" ></highchart>
+			<highchart  id="chart1" config="chartConfig" ng-swipe-left="swipeGraph('right')" ng-swipe-right="swipeGraph('left')" ng-swipe-disable-mouse></highchart>
 		</div>
 
 		
 		<div class = "lyfvalinn" >
+
+			<p class="text-center" ng-show="loading">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+					</p>
 
 			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false}">
 					<div class = "checkbox">
 						<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
 					</div>
 					<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-						<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}}</p>
+						<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}}</p>
 					</div>
 					<div class = "remove" id = "id_{{drug.name}}">
 						<button type = "button" ng-click="removeDrug(drug.id)"> X </button>
 					</div>
+
+					
 			</div>
 
 			<div class = "lyf">
@@ -178,16 +191,23 @@ $( "#MainSlider" ).slider({ min: 10 });
 		</div>
 
 
-		<div class = "timepicker"  >
+		<div class = "timepicker" id="timepicker" >
+			<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
+
+
+			<!-- 
 			<input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
 			<div id = "MainSlider">
 			</div>
+			<div id="MainSlider" ui-slider="slider.options" ng-model="clock_display"></div> -->
+			
 		</div>
 
 
 		<div class = "buttons">
+			
 			<div class = "buttonprufa">
-				<button type="button" class = "plusbutton" ng-click="createTodo()">+</button>
+				<button type="button" class = "plusbutton" ng-click="clicky()">+</button>
 			</div>	
 		</div>
 	</div>

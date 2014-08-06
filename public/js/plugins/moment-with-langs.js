@@ -5377,8 +5377,8 @@
     return moment.lang('is', {
         months : "janúar_febrúar_mars_apríl_maí_júní_júlí_ágúst_september_október_nóvember_desember".split("_"),
         monthsShort : "jan_feb_mar_apr_maí_jún_júl_ágú_sep_okt_nóv_des".split("_"),
-        weekdays : "sunnudagur_mánudagur_þriðjudagur_miðvikudagur_fimmtudagur_föstudagur_laugardagur".split("_"),
-        weekdaysShort : "sun_mán_þri_mið_fim_fös_lau".split("_"),
+        weekdays : "Sunnudagur_Mánudagur_Þriðjudagur_Miðvikudagur_Fimmtudagur_Föstudagur_Laugardagur".split("_"),
+        weekdaysShort : "Sun_Mán_Þri_Mið_Fim_Fös_Lau".split("_"),
         weekdaysMin : "Su_Má_Þr_Mi_Fi_Fö_La".split("_"),
         longDateFormat : {
             LT : "H:mm",
