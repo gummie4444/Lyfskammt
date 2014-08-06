@@ -76,12 +76,14 @@
 		<div class = "graf" id="drug-chart" resize>
 			<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
 			<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
-			<highchart id="chart1" config="chartConfig" ng-swipe-left-disable-mouse="swipeGraph('left')" ng-swipe-right-disable-mouse="swipeGraph('right')" ></highchart>
+			<highchart id="chart1" config="chartConfig" ng-swipe-left="swipeGraph('right')" ng-swipe-right="swipeGraph('left')" ng-swipe-disable-mouse ></highchart>
 		</div>
 
 		
 		<div class = "lyfvalinn" >
-
+			<p class="text-center" ng-show="loading">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+					</p>
 			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false}">
 					<div class = "checkbox">
 						<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
