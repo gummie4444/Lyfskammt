@@ -24,6 +24,28 @@ html,body{
 
 
 }
+
+.container2 {
+    margin-left: auto;
+	margin-right: auto;
+	max-width: 1026px;
+	width: 100%;
+	overflow: hidden;
+	
+	
+	position: relative;
+	display: block;
+	/*padding: 0.2em;*/
+	
+	
+
+
+}
+
+.hiddendiv {
+	display:none;
+}
+
 .header{
 	/*background:#d35400;*/
 	background: rgb(212,228,239); /* Old browsers */
@@ -429,12 +451,10 @@ html,body{
 
 }
 
-.Logoheader img{
-	left:35%;
-	position: fixed;
-	width:30%;
-	height:30%;
-	top:10%;
+
+
+.hiddendiv img{
+	display:none;
 }
 
 .contentContain{

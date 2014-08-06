@@ -6,20 +6,53 @@
 
 <!-- SET THE CONTROLLER -->
 <body >
+	{{loginActive}}
 
-	
+
+	<div class = "loginForm" ng-class = "{hide: loginActive === false}">
 
 		<div class = "Logoheader">
-		<h1> Skráðu upplýsingar</h1>
-		<form name "userSignup" ng-submit = "submitSignupForm()" >
-			Nafn: <input type = "text" ng-model = "signup.name" required/><br/>
-			Email: <input type = "email" ng-model = "signup.email" required/> <br/>
-			Notanda nafn: <input type = "text" ng-model = "signup.username" required/> <br/>
-			Lykilorð: <input type = "password" ng-model = "signup.password" required/> <br/>
 
-			<button type = "submitSignup"> Skrá Notanda</button>
+		<button ng-click = "logOutFunc()">logout</button>
+		<button ng-click = "signUpChange(false)">signup</button>
+
+		
+		<h1> Skráðu þig inn</h1>
+			<form name "userLogin" ng-submit = "logInFunc()" >
+				Notandi: <input type = "text" ng-model = "login.username" required/><br/>
+				Lykilorð: <input type = "password" ng-model = "login.password" required/> <br/>
+
+				<button type = "submit"> Áfram </button>
+				</form>
+
+				
+
 
 		</div>
+
+	</div>
+
+
+
+		<div class = "registerForm" ng-class = "{hide: loginActive === true}">
+			<div class = "Logoheader">
+				<h1> Skráðu upplýsingar</h1>
+
+				<button ng-click = "signUpChange(true)">signup</button>
+
+				<form name "userSignup" ng-submit = "signUpFunc()" >
+					Nafn: <input type = "text" ng-model = "signup.name" required/><br/>
+					Email: <input type = "email" ng-model = "signup.email" required/> <br/>
+					Kt: <input type = "text" ng-model = "signup.kt" required/> <br/>
+					Notanda nafn: <input type = "text" ng-model = "signup.username" required/> <br/>
+					Lykilorð: <input type = "password" ng-model = "signup.password" required/> <br/>
+
+					<button type = "submit"> Skrá Notanda</button>
+
+				</div>
+	</div>
+
+	
 
 	
 </body>

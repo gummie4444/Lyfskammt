@@ -58,7 +58,10 @@
 	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
 	<script src="js/controllers/charts.js"></script> <!-- load our charts application -->
 
-	<script src="js/controllers/login.js"></script> <!-- load our charts application -->
+	<script src="js/controllers/login.js"></script> <!-- load our login application -->
+
+		<script src="js/controllers/view.js"></script> <!-- load our login application -->
+
 
 	<script src="js/directives/chart-resize.js"></script>
 	
@@ -66,6 +69,11 @@
 	<script src="js/services/todos.js"></script> <!-- load our todo service -->
 
 	<script src="js/services/user.js"></script> <!-- load our todo service -->
+
+	<script src="js/services/authService.js"></script> <!-- load our todo service -->
+
+	<script src="js/services/tokenFactory.js"></script> <!-- load our todo service -->
+
 
 
 
@@ -79,28 +87,15 @@
 
 </head>
 <!-- SET THE CONTROLLER -->
-<body >
+<body ng-controller = "viewCtr"   >
 
-<div  class ="container" ng-view = "">
-	
-	<div class = "Logoheader">
+<div  ng-view = "" class ="container"  >
 
-		<img src= "img/Logoprufa.jpg"></img>
 
-		</div>
-
-		<div class = "contentContain">
-
-			<a href="/#/login"><button class = "buttons2" id = "login" > Login </button></a>
-
-			<a href="/#/signup"><button class = "buttons2" id = "signup" > Signup </button></a>
-
-		</div>
-
-		<div class = "info2" > 
-
-		</div>
 </div>
+	
+	
+	
 
 
 	
