@@ -2,59 +2,59 @@
 
 
 
-$( document ).ready(function() {
+// $( document ).ready(function() {
 
-	var d = new Date();
+// 	var d = new Date();
 
 	
 
-	 var currentTime = d.getMinutes()+d.getHours()*60;
+// 	 var currentTime = d.getMinutes()+d.getHours()*60;
 
 
 
 
-	function prenta(minutes,hours){
-		if(hours.toString().length == 1){
-			hours = '0' + hours;
-		}
-		if(minutes.toString().length== 1){
-			 minutes = '0' + minutes;
-			}
+// 	function prenta(minutes,hours){
+// 		if(hours.toString().length == 1){
+// 			hours = '0' + hours;
+// 		}
+// 		if(minutes.toString().length== 1){
+// 			 minutes = '0' + minutes;
+// 			}
 
-		return hours + ":" + minutes;
-	};
+// 		return hours + ":" + minutes;
+// 	};
 
 
-$( "#MainSlider" ).slider({ min: 10 });
+// $( "#MainSlider" ).slider({ min: 10 });
 
- $( "#MainSlider" ).slider({
-      range: "max",
-      min: 0,
-      max: 1440,
-      step:5,
+//  $( "#MainSlider" ).slider({
+//       range: "max",
+//       min: 0,
+//       max: 1440,
+//       step:5,
 
-      value: currentTime,
-      slide: function( event, ui ) {
+//       value: currentTime,
+//       slide: function( event, ui ) {
 
-      	var hours = Math.floor(ui.value / 60);
-            var minutes = ui.value - (hours * 60);
+//       	var hours = Math.floor(ui.value / 60);
+//             var minutes = ui.value - (hours * 60);
 
-            if(hours.toString().length == 1) hours = '0' + hours;
-            if(minutes.toString().length == 1) minutes = '0' + minutes;
+//             if(hours.toString().length == 1) hours = '0' + hours;
+//             if(minutes.toString().length == 1) minutes = '0' + minutes;
 
-            var input = $("#prufadot");
+//             var input = $("#prufadot");
     	
     
-        input.val( hours+':'+minutes );
-        input.trigger('input');
+//         input.val( hours+':'+minutes );
+//         input.trigger('input');
 
-      }
-    });
-    $( "#prufadot" ).val( prenta( d.getMinutes(),d.getHours()) );
+//       }
+//     });
+//     $( "#prufadot" ).val( prenta( d.getMinutes(),d.getHours()) );
 
 
 	
-});
+// });
 
 
 
@@ -87,7 +87,7 @@ $( "#MainSlider" ).slider({ min: 10 });
 						<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
 					</div>
 					<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-						<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}} - {{drug.day}}</p>
+						<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}}</p>
 					</div>
 					<div class = "remove" id = "id_{{drug.name}}">
 						<button type = "button" ng-click="removeDrug(drug.id)"> X </button>
@@ -104,10 +104,11 @@ $( "#MainSlider" ).slider({ min: 10 });
 		</div>
 
 
-		<div class = "timepicker"  >
-			<input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
+		<div class = "timepicker" id="timepicker">
+			<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
+			<!-- <input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
 			<div id = "MainSlider">
-			</div>
+			</div> -->
 		</div>
 
 
