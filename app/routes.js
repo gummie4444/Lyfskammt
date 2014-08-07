@@ -35,11 +35,14 @@ module.exports = function(app) {
 
 			if(err){
 				console.log(err + "VIlla1");
+				//eitthver villa
 				return res.send(401);
 			}
 			
 			if(users == undefined){
 				console.log(err + "VIlla2");
+
+				//vitlaust notendanafn
 				return res.send(401);
 			}
 
@@ -47,13 +50,14 @@ module.exports = function(app) {
 
 			users.comparePassword(password, function(isMatch){
 				if (!isMatch){
+					//password vitlaust
 					console.log("Attempt failed to login with: " + users.username);
 					return res.send(401);
 				}
 				
-				console.log("Loggadi mig inn med: " + users.username );
+		
 
-				//Create a token for the current user
+				//TODO SET THE AMOUNT THE USER CAN STAY ON
 
 				var expires = moment().add(1,'days').valueOf();
 
@@ -159,23 +163,61 @@ module.exports = function(app) {
 			});
 	});
 
+	app.post('/api/drug_data',[express.bodyParser(), jwtauth], function(req, res) {
 
+		User.findOne({_id: req.current_user}, function(err,users){
+
+			if(err){
+				console.log(err + "VIlla1");
+				//eitthver villa
+				return res.send(401);
+			}
+			
+			res.send([ 
+			{ 
+				name : users.lyf1, 
+				amount: "2 mg",
+				data: users.lyf1_data,
+				color: "#f1c40f" // yellow
+			},  
+			{ 
+				name : users.lyf2, 
+				amount: "4 mg",
+				data: users.lyf2_data,
+				color: "#27ae60" // green
+			},  
+			{ 
+				name : users.lyf3, 
+				amount: "2 mg",
+				data: users.lyf3_data,
+				color: "#c0392b" // red
+			},
+			{ 
+				name : users.lyf4, 
+				amount: "3 mg",
+				data: users.lyf4_data,
+				color: "#3498db" // blue
+			}]
+			);
+		});
+
+
+	});
 		// api ---------------------------------------------------------------------
 	// get all todos
-	app.post('/api/getdrugs',[express.bodyParser(), jwtauth], function(req, res) {
+	app.post('/api/drugs',[express.bodyParser(), jwtauth], function(req, res) {
 
 
 		//FINNA ÖLL SEM HAFA USERNAME NAFNIÐ Í DÓTINU SÝNU
 
-		console.log(req.current_user + "her");
-		// use mongoose to get all todos in the database
+		
+		// use mongoose to get all the info about this user in the database
 		Todo.find({user:req.current_user},function(err, todos) {
 
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err)
 				res.send(err);
 				
-			console.log(todos);
 			res.json(todos); // return all todos in JSON format
 		});
 	});

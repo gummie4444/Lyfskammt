@@ -2,6 +2,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 
 .controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http) {
 
+	//set the acces_token
+	var access_token = JSON.stringify({'access_token':$window.sessionStorage.token});
+
+	
 	// ========= //
 	// VARIABLES //
 	// ========= //
@@ -14,11 +18,19 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	$scope.$emit('bla',true);
 	$scope.drugs= {};
 
-	var access_token = JSON.stringify({'access_token':$window.sessionStorage.token});
-	console.log(access_token);
+	
+	//LOADOUR DRUG_DATA
+	
+	
+	//SKOÐA FÆRA Í LYF?????
+	Lyf.updateDrugData(access_token)
+		.success(function(data)
+		{
+			$scope.drug_data = data;
 
+		});
 
-	//Load the drugs from database
+	//Load the drugs the user has from the from database
 
 	Lyf.get(access_token)
 			.success(function(data) {
@@ -95,10 +107,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 
 
 	
-
-	
-
-
   
 
 	// ========= //
@@ -131,7 +139,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 
 
 	$scope.fetch = function(lyf_id) {
-		var current_lyf = JSON.parse(JSON.stringify(Lyf.getLyf(lyf_id))); // skítamix til að búa til afrit af hlut án þess að upphaflega breytan breytist líka
+		var current_lyf = $scope.drug_data[lyf_id-1]; 
 		for (i in current_lyf.data) {
 			current_lyf.data[i][0] += $scope.graphTime;
 		}
