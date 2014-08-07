@@ -94,12 +94,14 @@ angular.module('lyfService', [])
 		
 		return {
 
-			get:function(){
-				return $http.get('/api/drugs');
+			get:function(access_token){
+				console.log("herereg");
+				return $http.post('/api/getdrugs',access_token);
 			},
 
 			create:function(nowDrug){
-				return $http.post('/api/drugs',nowDrug );
+				
+				return $http.post('/api/insertdrugs',nowDrug);
 			},
 
 			delete : function(id) {

@@ -1,10 +1,11 @@
 html,body{
 	min-height: 100%;
-	height:100%;
+	height:120%;
 	width:100%;
 	margin:0;
 	padding:0;
-	
+
+	background-color: #ECF0F1 !important;
 }
 
 
@@ -15,10 +16,11 @@ html,body{
 	width: 100%;
 	overflow: hidden;
 	
-	height:100%;
+	height:120%;
 	position: relative;
 	display: block;
 	/*padding: 0.2em;*/
+
 	
 	
 
@@ -68,6 +70,7 @@ html,body{
 	float:left;
 	text-align: center;
 	vertical-align: middle;
+	margin-bottom: 1em;
 
 }
 
@@ -103,6 +106,7 @@ html,body{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
+	margin-bottom: 1em;
 
 }
 
@@ -135,13 +139,14 @@ html,body{
 
 
 
-	width:50%;
+	width:100%;
 	
 	height: 30%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	border: 2px solid black;
+	
+	margin-bottom: 1em;
 }
 
 .lyf{
@@ -294,14 +299,14 @@ html,body{
 	position: relative;
 	
 	
-	width:50%;
-	height: 30%;
+	width:100%;
+	height: 15%;
 	
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	text-align: center;
-	border: 2px solid black;
+	margin-bottom: 1em;
 
 }
 
@@ -449,15 +454,7 @@ div.ui-slider {
 }
 
 
-html,body{
-	min-height: 100%;
-	height:100%;
-	width:100%;
-	margin:0;
-	padding:0;
-	background:blue;
-	
-}
+
 
 
 
