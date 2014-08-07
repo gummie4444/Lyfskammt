@@ -34,7 +34,6 @@ module.exports = function(req, res, next) {
 
 
   		req.current_user = decoded.iss
-  		console.log(decoded.iss);
  
   		next();
 	});

@@ -9,9 +9,7 @@ angular.module('lyfService', [])
 
 	.service('Lyf', function($http) {
 
-
-	
-			var lyf = {};
+			
 
 		return {
 
@@ -32,15 +30,8 @@ angular.module('lyfService', [])
 			updateDrugData : function(access_token){
 				return $http.post('/api/drug_data',access_token);
 				
-
 			},
 
-            getAll: function () {
-                return lyf;
-            },
-			getLyf: function (lyf_id) {
-				return lyf[lyf_id-1];
-			},
 			createEmpty: function () {
                 var array = []
 				for (i=0; i<=36; i++) {
