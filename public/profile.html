@@ -80,23 +80,25 @@
 		</div>
 
 		
-		<div class = "lyfvalinn" >
+		<div class = "lyfvalinn">
 			<p class="text-center" ng-show="loading">
 					<span class="fa fa-spinner fa-spin fa-3x"></span>
 					</p>
-			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false}">
-					<div class = "checkbox">
+			<div class = "lyf2" slide-toggle="#timepicker" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false || drug.id !== isSelected, show: isSelected === null && drug.show === true}">
+					<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
 						<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
 					</div>
+
 					<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-						<p>{{drug.name}} - {{drug.amount}} - {{drug.stringTime}}</p>
+						<p>{{drug.name}} || {{drug.amount}} || {{drug.stringTime}}</p>
 					</div>
+
 					<div class = "remove" id = "id_{{drug.name}}">
-						<button type = "button" ng-click="removeDrug(drug.id)"> X </button>
+						<button type = "button" ng-style="{'background-color' : drug.color}" ng-class = "{unchecked: !drug.checked}" ng-click="removeDrug(drug.id)"> X </button>
 					</div>
 			</div>
 
-			<div class = "lyf">
+			<div class = "lyf" ng-hide = "isSelected !== null" ng-show = "isSelected === null">
 				<div class = "addDrug">
 					<button id="addDrugButton" type = "button" ng-click= clickToOpen()> + </button>
 				</div>
@@ -106,11 +108,14 @@
 		</div>
 
 
-		<div class = "timepicker" id="timepicker">
+		<div class = "timepicker slideable" ng-hide="isSelected === null" id="timepicker">
 			<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
 			<!-- <input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
 			<div id = "MainSlider">
 			</div> -->
+		</div>
+		<div id = "confirm" ng-class = "{hide: isSelected === null}">
+			<button ng-click="save()">VISTA</button>
 		</div>
 
 

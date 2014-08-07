@@ -348,6 +348,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 			if ($scope.chartConfig.series[i].id === id) {
 				if (checked === true) {
 					$scope.chartConfig.series[i].visible = true;
+					if ($scope.isSelected === id) $scope.clock_time = $scope.chartConfig.series[i].stringTime;
 				}
 				else {
 					$scope.chartConfig.series[i].visible = false;
@@ -389,7 +390,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
     $scope.$watch('graphTime', function(newValue) {
 
     	for (i in $scope.chartConfig.series) {
-    		if ($scope.isSelected === $scope.chartConfig.series[i].id) { // find the drug with matching id
+    		if ($scope.isSelected === $scope.chartConfig.series[i].id && $scope.chartConfig.series[i].checked) { // find the drug with matching id
     			for (j in $scope.chartConfig.series[i].data) { // loop through its every data point
     				// TODO: if (timepicker === scroller) update database
     				$scope.chartConfig.series[i].data[j][0] += ($scope.graphTime - $scope.chartConfig.series[i].graphTime);	// update its x component with the offset between its graphTime and desired time
@@ -432,9 +433,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 		return hours + ":" + minutes;
 	};
 
-	$scope.clicky = function() {
-		console.log($scope.mobiscrollConfig.height)
-		$scope.mobiscrollConfig.height -= 5;
+	$scope.save = function() {
+		$scope.isSelected = null;
 	}
 
     $scope.$on('heightChange', function(value) {

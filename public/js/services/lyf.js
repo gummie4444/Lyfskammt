@@ -71,25 +71,25 @@ angular.module('lyfService', [])
 			name : "Lyf 1", 
 			amount: "2 mg",
 			data: create_lyf1_placeholder(),
-			color: "#D4D726" // yellow
+			color: "#f1c40f" // yellow
 		},  
 		{ 
 			name : "Lyf 2", 
 			amount: "4 mg",
 			data: create_lyf2_placeholder(),
-			color: "#67AA46" // green
+			color: "#27ae60" // green
 		},  
 		{ 
 			name : "Lyf 3", 
 			amount: "2 mg",
 			data: create_lyf3_placeholder(),
-			color: "#BE2020" // red
+			color: "#c0392b" // red
 		},
 		{ 
 			name : "Lyf 4", 
 			amount: "3 mg",
 			data: create_lyf4_placeholder(),
-			color: "#5CA2B0" // blue
+			color: "#3498db" // blue
 		}];	
 		
 		return {

@@ -1,5 +1,5 @@
 
-lyfApp = angular.module('lyfskammtapp', [ 'lyfService', 'Chart', 'chart-resize', 'ngTouch','ngRoute','login','userService','authService','TokenInterceptor','viewCtr']);
+lyfApp = angular.module('lyfskammtapp', [ 'lyfService', 'Chart', 'chart-resize', 'ngTouch','ngRoute','login','userService','authService','TokenInterceptor','viewCtr', 'angularSlideables']);
 
 
 lyfApp.config(['$locationProvider', '$routeProvider', 
