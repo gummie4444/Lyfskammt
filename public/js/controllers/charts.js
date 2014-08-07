@@ -14,10 +14,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	$scope.$emit('bla',true);
 	$scope.drugs= {};
 
+	var access_token = JSON.stringify({'access_token':$window.sessionStorage.token});
+	console.log(access_token);
+
 
 	//Load the drugs from database
 
-	Lyf.get()
+	Lyf.get(access_token)
 			.success(function(data) {
 				$scope.loading = false;
 				$scope.chartConfig.loading = false;
@@ -106,6 +109,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API
 	$scope.createTodo = function(drug) {
+
+		
+		
 		Lyf.create(drug)
 				// if successful creation, call our get function to get all the new todos
 				.success(function(data) {
@@ -141,7 +147,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 			$scope.stringTime, graphTime: 
 			$scope.graphTime, 
 			color: current_lyf.color, 
-			day: moment($scope.graphTime).lang("is").format("ddd")
+			day: moment($scope.graphTime).lang("is").format("ddd"),
+			access_token: $window.sessionStorage.token,
+			current_user:""
+
 		}
 		$scope.drugs.push(current_lyf_updated);
 		$scope.chartConfig.series.push(current_lyf_updated);

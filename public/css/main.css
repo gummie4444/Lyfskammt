@@ -9,13 +9,12 @@ src: url('lato-reg-webfont?#iefix') format('embedded-opentype'), /* IE6-IE8 */
 
 html,body{
 	min-height: 100%;
-	height:100%;
+	height:120%;
 	width:100%;
 	margin:0;
 	padding:0;
-	text-rendering: optimizeLegibility;
-	font-family: Lato, sans-serif !important;
-	
+
+	background-color: #ECF0F1 !important;
 }
 
 
@@ -26,11 +25,10 @@ html,body{
 	width: 100%;
 	/*overflow: hidden;*/
 	
-	height:100%;
+	height:120%;
 	position: relative;
 	display: block;
 	/*padding: 0.2em;*/
-	padding: 0 !important;
 
 	
 	
@@ -75,7 +73,7 @@ html,body{
 	text-align: center;
 	vertical-align: middle;
 	margin-bottom: 1em;
-	color: white;
+
 }
 
 
@@ -114,6 +112,7 @@ html,body{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
+	margin-bottom: 1em;
 
 }
 
@@ -152,7 +151,9 @@ html,body{
 	height: 30%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	/*float:left;*/
+	float:left;
+	
+	margin-bottom: 1em;
 }
 
 .lyf{
@@ -331,13 +332,14 @@ input[type='checkbox']:checked {
 	position: relative;
 	
 	
-	width:70%;
-	height: 25%;
+	width:100%;
+	height: 15%;
 	
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	text-align: center;
+	margin-bottom: 1em;
 
 }
 
@@ -503,6 +505,7 @@ div.ui-slider {
 	font-size: 2.5em;
 	height: 100%;
 }
+
 
 
 

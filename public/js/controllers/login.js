@@ -1,6 +1,6 @@
 angular.module('login',[])
 
-.controller ('loginCtr', function ($scope,$log,userService,$location,authService,$window){
+.controller ('loginCtr', function ($q,$scope,$log,userService,$location,authService,$window){
 
 
 	$scope.login = {};
@@ -32,6 +32,7 @@ angular.module('login',[])
 					authService.isAuthenticated = true;
 
 					 $window.sessionStorage.token = returnMsg.token;
+					  
 
 					$scope.isValidate = returnMsg + " " + $scope.login.username;
 					

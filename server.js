@@ -6,7 +6,6 @@ var port  	 = process.env.PORT || 8080; 				// set the port
 var database = require('./config/database'); 			// load the database config
 
 var jwt = require('express-jwt');
-var tokenManager = require('./config/token_manager');
 var secret = require('./config/secret');
 
 
@@ -19,6 +18,8 @@ app.configure(function() {
 	app.use(express.bodyParser()); 							// pull information from html in POST
 	app.use(express.methodOverride()); 						// simulate DELETE and PUT
 });
+
+app.set('title', 'LyfSkammt');
 
 // routes ======================================================================
 require('./app/routes.js')(app);
