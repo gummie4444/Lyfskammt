@@ -9,12 +9,13 @@ src: url('lato-reg-webfont?#iefix') format('embedded-opentype'), /* IE6-IE8 */
 
 html,body{
 	min-height: 100%;
-	height:120%;
+	height:100%;
 	width:100%;
 	margin:0;
 	padding:0;
-
-	background-color: #ECF0F1 !important;
+	text-rendering: optimizeLegibility;
+	font-family: Lato, sans-serif !important;
+	
 }
 
 
@@ -25,10 +26,11 @@ html,body{
 	width: 100%;
 	/*overflow: hidden;*/
 	
-	height:120%;
+	height:100%;
 	position: relative;
 	display: block;
 	/*padding: 0.2em;*/
+	padding: 0 !important;
 
 	
 	
@@ -37,21 +39,9 @@ html,body{
 }
 
 .container2 {
-    margin-left: auto;
-	margin-right: auto;
-	max-width: 1026px;
-	width: 100%;
-	overflow: hidden;
-
-	
-	
-	position: relative;
-	display: block;
-	/*padding: 0.2em;*/
-	
-	
-
-
+    height: 100%;
+    width: 100%;
+    font-variant: small-caps;
 }
 
 .hiddendiv {
@@ -73,7 +63,7 @@ html,body{
 	text-align: center;
 	vertical-align: middle;
 	margin-bottom: 1em;
-
+	color: white;
 }
 
 
@@ -112,7 +102,6 @@ html,body{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	margin-bottom: 1em;
 
 }
 
@@ -151,9 +140,7 @@ html,body{
 	height: 30%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	float:left;
-	
-	margin-bottom: 1em;
+	/*float:left;*/
 }
 
 .lyf{
@@ -162,10 +149,11 @@ html,body{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	width:100%;
 	height:20%;
 	/*border:1px solid #2ecc71;*/
 	font-weight: bold;
+	width: 100.5%;
+	margin-top: 0.3em;
 	
 }
 .lyf2{
@@ -224,7 +212,7 @@ html,body{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	width:65%;
+	width:66%;
 	height:100%;
 	text-align: center;
 	font-size: 1em;
@@ -332,14 +320,13 @@ input[type='checkbox']:checked {
 	position: relative;
 	
 	
-	width:100%;
-	height: 15%;
+	width:70%;
+	height: 25%;
 	
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	text-align: center;
-	margin-bottom: 1em;
 
 }
 
@@ -421,7 +408,7 @@ div.ui-slider {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 
-	width:100%;
+	width: 99.5%;
 	height: 15%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -505,7 +492,6 @@ div.ui-slider {
 	font-size: 2.5em;
 	height: 100%;
 }
-
 
 
 

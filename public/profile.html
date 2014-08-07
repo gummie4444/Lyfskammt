@@ -61,7 +61,7 @@
 
 </script>
 
-
+	<div class = "container2">
 		<div class = "header">
 
 			<div class = "header-text">
@@ -84,7 +84,7 @@
 			<p class="text-center" ng-show="loading">
 					<span class="fa fa-spinner fa-spin fa-3x"></span>
 					</p>
-			<div class = "lyf2" slide-toggle="#timepicker" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false || drug.id !== isSelected, show: isSelected === null && drug.show === true}">
+			<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false || drug.id !== isSelected, show: isSelected === null && drug.show === true}">
 					<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
 						<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
 					</div>
@@ -108,7 +108,7 @@
 		</div>
 
 
-		<div class = "timepicker slideable" ng-hide="isSelected === null" id="timepicker">
+		<div class = "timepicker" ng-hide="isSelected === null" id="timepicker">
 			<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
 			<!-- <input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
 			<div id = "MainSlider">
@@ -119,7 +119,12 @@
 		</div>
 
 
-		
+		<div class = "buttons">
+			<div class = "buttonprufa">
+				<button type="button" class = "plusbutton" ng-click="createTodo()">+</button>
+			</div>	
+		</div>
+	</div>
 	
 
 	
