@@ -126,7 +126,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	$scope.fetch = function(lyf_id) {
 		var current_lyf = $scope.drug_data[lyf_id-1]; 
 		for (i in current_lyf.data) {
-			current_lyf.data[i][0] += $scope.graphTime;
+			current_lyf.data[i][0] += (current_lyf.data[i][0]*1800000 + $scope.graphTime);
 		}
 		var current_lyf_updated = {
 			name: current_lyf.name, 

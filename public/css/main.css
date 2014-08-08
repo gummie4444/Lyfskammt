@@ -15,6 +15,7 @@ html,body{
 	padding:0;
 	text-rendering: optimizeLegibility;
 	font-family: Lato, sans-serif !important;
+	background-color: #ECECEC !important;
 	
 }
 
@@ -42,6 +43,7 @@ html,body{
     height: 100%;
     width: 100%;
     font-variant: small-caps;
+    background: white !important;
 }
 
 .hiddendiv {
@@ -152,7 +154,7 @@ html,body{
 	height:20%;
 	/*border:1px solid #2ecc71;*/
 	font-weight: bold;
-	width: 100.5%;
+	width: 100%;
 	margin-top: 0.3em;
 	
 }
@@ -168,23 +170,6 @@ html,body{
 	margin-top: 0.3em;
 	
 }
-
-
-
-
-/* css for timepicker */
-.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
-.ui-timepicker-div dl { text-align: left; }
-.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
-.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
-.ui-timepicker-div td { font-size: 90%; }
-.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
-
-.ui-timepicker-rtl{ direction: rtl; }
-.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
-.ui-timepicker-rtl dl dt{ float: right; clear: right; }
-.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
-
 
 .selected{
 	/*background:#e74c3c;*/
@@ -212,7 +197,7 @@ html,body{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	width:66%;
+	width:65%;
 	height:100%;
 	text-align: center;
 	font-size: 1em;
@@ -238,7 +223,7 @@ html,body{
 	height:100%;
 	text-align: center;
 	margin: 0px !important;
-	margin-right: 2px !important;
+	margin-right: 0.3em !important;
 
 }
 
@@ -271,10 +256,10 @@ input[type='checkbox']:checked {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	width:19%;
+	width:20%;
 	height:100%;
 	text-align: center;
-	margin-left: 2px !important;
+	margin-left: 0.3em !important;
 
 }
 
@@ -294,7 +279,7 @@ input[type='checkbox']:checked {
 
 #addDrugButton {
 	height: 100%;
-	width: 99%;
+	width: 100%;
 	font-size: 2.2em;
 	border: none;
 	background: #bdc3c7
@@ -314,7 +299,7 @@ input[type='checkbox']:checked {
 	text-align: center;
 
 }*/
-.timepicker{
+#timepicker{
 	background: rgba(248, 248, 248, 1);
 
 	position: relative;
@@ -346,7 +331,7 @@ input[type='checkbox']:checked {
 	background: #bdc3c7;
 	border: none;
 	height: 20%;
-	width: 45%;
+	width: 55%;
 }
 
 
@@ -396,19 +381,9 @@ div.ui-slider {
 
 
 .buttons{
-	/*background:#d35400;*/
-
-	background: rgb(212,228,239); /* Old browsers */
-	background: -moz-linear-gradient(-45deg,  rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(212,228,239,1)), color-stop(100%,rgba(134,174,204,1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(-45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(-45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(-45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* IE10+ */
-	background: linear-gradient(135deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 
-	width: 99.5%;
+	width: 100%;
 	height: 15%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -610,6 +585,7 @@ div.ui-slider {
 }
 .leftlyf {
 	font-size: 0.9em;
+	width: 63%;
 }
 .graf{
 	height: 50%;
@@ -626,6 +602,7 @@ div.ui-slider {
 .grafbutton {
 	display: none;
 }
+<<<<<<< HEAD
 }
 @media only screen and (max-width: 550px)
 {
@@ -637,4 +614,18 @@ div.ui-slider {
 
 }	
 
+=======
+#timepicker {
+	height: 29%;
+}
+#confirm {
+	height: 29%;
+}
+}
+
+@media only screen and (min-width: 781px) and (max-width: 993px) {
+	.leftlyf {
+		width: 64.5%;
+	}
+>>>>>>> 2d93d235e9d1d0a32e1da9708824d7687af1b0a0
 }
