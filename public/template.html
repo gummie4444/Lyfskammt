@@ -1,29 +1,17 @@
 <div class ="drugSelectContainer ">
 
+	<div class = "drugSelect" ng-repeat ="drug in drug_data" id = "id_{{drug.name}}">
+		<button ng-click="fetch($index + 1); closeThisDialog()">
+			<div class = "leftInnerButton">
+			  <span>{{drug.name}}</span> </br>
+			  <span>{{drug.amount}}</span>
+			</div>
+			<div class = "rightInnerButton"> <img src="http://www.clker.com/cliparts/l/4/N/y/x/g/medicine-pills-bottle-hi.png" alt="Drug photo" >
+			</div>
+		 </button>
 
-<p>Lyf</p>
-<div class = "drugSelect" id = "">
-	<button ng-click="fetch(1); closeThisDialog()"> Lyf 1 - 2 mg </button>
-
-</div>
-<div class = "drugSelect" id = "">
-	<button ng-click="fetch(2); closeThisDialog()"> Lyf 2 - 4 mg </button>
-
-</div>
-<div class = "drugSelect" id = "">
-	<button  ng-click="fetch(3); closeThisDialog()"> Lyf 3 - 2 mg 
-	</button>
-
-
-</div>
-<div class = "drugSelect" id = "">
-	<button ng-click="fetch(4); closeThisDialog()"> Lyf 4 - 3 mg </button>
+		
 	
 
-</div>
-
-
-
-
-
+	</div>
 </div>
