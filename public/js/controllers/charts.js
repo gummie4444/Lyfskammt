@@ -376,22 +376,21 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	// 		$scope.updateSumGraph(newValues)
 	// }, true);
 
-	// Watch the time-slider
-	//SKOÐA HVORT ÞARF ÞETTA
-	// $scope.$watch('clock_time', function (newValue, oldValue) {
- //        //do something
- //        var d = moment();
- //        if(typeof newValue !== 'undefined'){
- //        	var res = newValue.split(":");
+	
+	$scope.$watch('clock_time', function (newValue, oldValue) {
+        //do something
+        var d = moment();
+        if(typeof newValue !== 'undefined'){
+        	var res = newValue.split(":");
 	      	
-	//       	$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: res[0], m: res[1]}).valueOf()
-	//         $scope.stringTime = newValue;
- //   		 }
-	//     else {
-	//     	$scope.graphTime = moment().valueOf();
-	//     	$scope.stringTime = $scope.prenta(d.minutes(), d.hours());
-	//     }
- //    });
+	      	$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: res[0], m: res[1]}).valueOf()
+	        $scope.stringTime = newValue;
+   		 }
+	    else {
+	    	$scope.graphTime = moment().valueOf();
+	    	$scope.stringTime = $scope.prenta(d.minutes(), d.hours());
+	    }
+    });
 
 
     $scope.$watch('graphTime', function(newValue) {

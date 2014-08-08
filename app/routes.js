@@ -1,5 +1,5 @@
 //Mongoose models
-var Todo = require('./models/todo');
+var Drug = require('./models/drug');
 var User = require ('./models/user');
 var Drug_data = require('./models/drug_data');
 
@@ -197,13 +197,13 @@ module.exports = function(app) {
 
 		//FINNA ÖLL SEM HAFA USERNAME NAFNIÐ Í DÓTINU SÝNU
 		// use mongoose to get all the info about this user in the database
-		Todo.find({user:req.current_user},function(err, todos) {
+		Drug.find({user:req.current_user},function(err, drugs) {
 
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err)
 				res.send(err);
 				
-			res.json(todos); // return all todos in JSON format
+			res.json(drugs); // return all todos in JSON format
 		});
 	});
 
@@ -211,7 +211,7 @@ module.exports = function(app) {
 	app.post('/api/insertdrugs',[express.bodyParser(), jwtauth], function(req, res) {
 
 
-		Todo.update({
+		Drug.update({
 			id: req.body.id,
 		}, 
 		{$set: { 	
@@ -230,7 +230,7 @@ module.exports = function(app) {
 			user: req.current_user
 		}
 		}
-		, {upsert: true}, function(err, todo) {
+		, {upsert: true}, function(err, temp) {
 			if (err)
 				res.send(err);
 				
@@ -246,10 +246,10 @@ module.exports = function(app) {
 	});
 
 	// Deleta a drug instance
-	app.delete('/api/drugs/:todo_id', function(req, res) {
-		Todo.remove({
-			id : req.params.todo_id
-		}, function(err, todo) {
+	app.delete('/api/drugs/:drug_id', function(req, res) {
+		Drug.remove({
+			id : req.params.drug_id
+		}, function(err, temp) {
 			if (err)
 				res.send(err);
 
