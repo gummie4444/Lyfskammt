@@ -5,8 +5,8 @@ var mongoose = require('mongoose'); 					// mongoose for mongodb
 var port  	 = process.env.PORT || 8080; 				// set the port
 var database = require('./config/database'); 			// load the database config
 
-var jwt = require('express-jwt');
-var secret = require('./config/secret');
+var jwt = require('express-jwt');						//Load js web token
+var secret = require('./config/secret');				//the secret key for the user login
 
 
 // configuration ===============================================================
@@ -23,7 +23,6 @@ app.set('title', 'LyfSkammt');
 
 // routes ======================================================================
 require('./app/routes.js')(app);
-
 
 
 // listen (start app with node server.js) ======================================

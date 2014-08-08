@@ -1,10 +1,16 @@
 angular.module('authService',[])
 
+//FACTORY:
+	/*
+
+		Factory for handling the authentication of the user for the routes
+
+	*/
 
 .factory('authService', function() {
     var auth = {
-        isAuthenticated: false,
-        isAdmin: false
+        isAuthenticated: false
+    
     }
 
     return auth;

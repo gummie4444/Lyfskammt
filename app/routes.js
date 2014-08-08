@@ -1,14 +1,9 @@
-
-
-//_______ TODO CHANGE THIS FOR OUR DATABASE
-
-
-
+//Mongoose models
 var Todo = require('./models/todo');
 var User = require ('./models/user');
 var Drug_data = require('./models/drug_data');
 
-
+//Dependencies
 var jwt = require('jwt-simple');
 var express  = require('express');
 var secret = require('../config/secret');
@@ -18,18 +13,23 @@ var moment = require('moment');
 
 module.exports = function(app) {
 
+	//ROUTING:
+	/*
 
-	//API FOR USERS
+		Routes for api calls from angular
 
+	*/
 
-	// create todo and send back all todos after creation
+//API FOR USERS
+	//---------------------------------------------------
+
 
 	//HANDLE LOGINS
+	//TODO: USERINTERFACE
 	app.post('/api/users',function(req,res){
 
 		var username = req.body.username ;
    		var password = req.body.password ;
-
 
 		User.findOne({username: username}, function(err,users){
 
@@ -45,8 +45,6 @@ module.exports = function(app) {
 				//vitlaust notendanafn
 				return res.send(401);
 			}
-
-			
 
 			users.comparePassword(password, function(isMatch){
 				if (!isMatch){
@@ -65,7 +63,6 @@ module.exports = function(app) {
 										exp:expires
 										}, secret.secretToken);
 										
-				console.log(token + "token");
 				return res.json({token:token});
 				
 			});
@@ -76,29 +73,10 @@ module.exports = function(app) {
 
 	});
 
-	//HANDLE LOGOUTS skoða
-	/*
-	app.get('/api/users/logOut',function(req,res){
-		console.log(req.headers);
-
-		if (req.user) {
-		tokenManager.expireToken(req.headers);
-
-		delete req.user;	
-		return res.send(200);
-		}
-		else {
-			return res.send(401);
-		}
-
-	});
-	*/
-
 	//HANDLE REGISTER
+	//TODO:USER INTERFACE
 
 	app.post('/api/users/register',function(req,res){
-
-		// create a todo, information comes from AJAX request from Angular
 	
 		var name = req.body.name;
 		var username = req.body.username;
@@ -110,8 +88,7 @@ module.exports = function(app) {
 		//Check if the user is in the database
 		User.findOne({username: username}, function(err,users){
 			
-
-			//if not add him
+			
 			if (err){
 				res.send(err);
 			}
@@ -162,7 +139,13 @@ module.exports = function(app) {
 
 			});
 	});
+//---------------------------------------------------
 
+//API FOR DRUG_DATA
+	//---------------------------------------------------
+		
+	//Get the drugs the user has in his document
+	//TODO: AMOUNT?????
 	app.post('/api/drug_data',[express.bodyParser(), jwtauth], function(req, res) {
 
 		User.findOne({_id: req.current_user}, function(err,users){
@@ -203,14 +186,16 @@ module.exports = function(app) {
 
 
 	});
-		// api ---------------------------------------------------------------------
-	// get all todos
+	//---------------------------------------------------
+
+//API FOR DRUGS
+	//---------------------------------------------------
+
+	// Get the drugs that the user ownes
 	app.post('/api/drugs',[express.bodyParser(), jwtauth], function(req, res) {
 
 
 		//FINNA ÖLL SEM HAFA USERNAME NAFNIÐ Í DÓTINU SÝNU
-
-		
 		// use mongoose to get all the info about this user in the database
 		Todo.find({user:req.current_user},function(err, todos) {
 
@@ -222,7 +207,7 @@ module.exports = function(app) {
 		});
 	});
 
-	// create todo and send back all todos after creation
+	// Update or create a new drug instance
 	app.post('/api/insertdrugs',[express.bodyParser(), jwtauth], function(req, res) {
 
 
@@ -260,7 +245,7 @@ module.exports = function(app) {
 		});
 	});
 
-	// delete a todo
+	// Deleta a drug instance
 	app.delete('/api/drugs/:todo_id', function(req, res) {
 		Todo.remove({
 			id : req.params.todo_id
@@ -277,9 +262,6 @@ module.exports = function(app) {
 		});
 	});
 
-
-
-	
 
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {

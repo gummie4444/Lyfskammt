@@ -1,6 +1,5 @@
-//module for database
+//SCHEMA for the drugs document
 
-//_________ TODO CHANGE FOR OUR DATABASE
 
 var mongoose = require('mongoose');
 

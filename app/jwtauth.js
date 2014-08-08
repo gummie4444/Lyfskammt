@@ -1,10 +1,17 @@
 var User = require('./models/user');
 var jwt = require('jwt-simple');
 var secret = require('../config/secret');
+
+//MIDDLEWARE:
+  /*
+
+    Backend check if the user is allowed for the HTTP request
+
+  */
  
 module.exports = function(req, res, next) {
   
-	//Náum í token
+	//Get the token
   var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
  	
 
@@ -28,13 +35,11 @@ module.exports = function(req, res, next) {
   		res.end('Access token has expired', 400);
 	};
 
-	//let the dude know what user is logged in
+	//let the reqest know what user is logged in
 
 	User.findOne({ _id: decoded.iss }, function(err, user) {
 
-
   		req.current_user = decoded.iss
- 
   		next();
 	});
 	

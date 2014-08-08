@@ -1,11 +1,13 @@
 angular.module('mainService', [])
 
-	// super simple service
-	// each function returns a promise object 
+	//SERVICE:
+	/*
 
+		To handle api calls for the drugs
+		TODO:CHANGE NAME TO DRUGS
 
-	//-------- TODO
-	//Change this to get the data from the database
+	*/
+
 
 	.factory('Todos', function($http) {
 		return {
