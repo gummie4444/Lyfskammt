@@ -1,6 +1,6 @@
 angular.module('TokenInterceptor',[])
 
-
+//FRONTEND VALIDATION
 .factory('TokenInterceptor', function($q, $window, $location, authService) {
     return {
         request: function (config) {

@@ -1,7 +1,7 @@
 
 lyfApp = angular.module('lyfskammtapp', [ 'lyfService', 'Chart', 'chart-resize', 'ngTouch','ngRoute','login','userService','authService','TokenInterceptor','viewCtr', 'ngAnimate']);
 
-
+//routing
 lyfApp.config(['$locationProvider', '$routeProvider', 
   function($location, $routeProvider) {
     $routeProvider.
@@ -28,6 +28,7 @@ lyfApp.config(['$locationProvider', '$routeProvider',
         });
 }]);
 
+//Front end user validation
 lyfApp.config(function ($httpProvider) {
     $httpProvider.interceptors.push('TokenInterceptor');
 });
@@ -42,8 +43,3 @@ lyfApp.run(function($rootScope, $location, $window, authService) {
         }
     });
 });
-
-
-        
-        
-        

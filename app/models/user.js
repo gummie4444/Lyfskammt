@@ -1,6 +1,5 @@
-//module for database
-
-//_________ TODO CHANGE FOR OUR DATABASE
+//SCHEMA for the usern document
+//TODO Salt the passwords
 
 var mongoose = require('mongoose');
 
@@ -26,12 +25,7 @@ var userSchema = new Schema ({
 });
 
 
-//INNRA FALL TIL AÐ ATHUGA PASSWORD SÉU EINS
-
-userSchema.methods.prufa = function(){
-	return this.password;
-};
-
+//inner function for compering passwords
 userSchema.methods.comparePassword = function(password,cb){
 	console.log("password: " + password + " this.password: " + this.password);
 	if(password === this.password){

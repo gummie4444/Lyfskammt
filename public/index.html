@@ -9,7 +9,7 @@
 
 	<title>LyfSkammt</title>
 
-	<!-- CSS-->
+<!-- CSS-->
 
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
@@ -32,7 +32,7 @@
 	<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> -->
 
 
-	<!-- JS -->
+<!-- JS -->
 
 
 	<script src="js/main/jquery-1.11.0.min.js"></script>
@@ -58,7 +58,7 @@
 	<script src="js/plugins/slider/slider.js"></script>
 	<script src="js/plugins/date.format.js"></script>
 	<script src="js/plugins/ui-slider-master/src/slider.js"></script>
-	<script src="js/timepicker_addon.js"></script>
+	<script src="js/plugins/timepicker_addon.js"></script>
 
 	<!-- MOBISCROLL -->
 
@@ -98,38 +98,24 @@
 
     <!-- ===== -->
 
+    <!-- CONTROLLERS -->
+    <script src="js/controllers/view.js"></script> 
+	<script src="js/controllers/charts.js"></script>
+	<script src="js/controllers/login.js"></script>
 
-	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
-	<script src="js/controllers/charts.js"></script> <!-- load our charts application -->
-
-	<script src="js/controllers/login.js"></script> <!-- load our login application -->
-
-		<script src="js/controllers/view.js"></script> <!-- load our login application -->
-
-
+	
+	<!-- DIRECTIVES-->
 	<script src="js/directives/chart-resize.js"></script>
 	<script src="js/directives/mobiscroll-dir.js"></script>
 
-	
-	<script src="js/services/lyf.js"></script> <!-- load our lyf service -->
-	<script src="js/services/todos.js"></script> <!-- load our todo service -->
+	 <!-- SERVICES/FACTORYS -->
+	<script src="js/services/lyf.js"></script> 
+	<script src="js/services/user.js"></script> 
+	<script src="js/services/authService.js"></script> 
+	<script src="js/services/tokenFactory.js"></script> 
 
-	<script src="js/services/user.js"></script> <!-- load our todo service -->
-
-	<script src="js/services/authService.js"></script> <!-- load our todo service -->
-
-	<script src="js/services/tokenFactory.js"></script> <!-- load our todo service -->
-
-
-
-
-	
-	
-	<script src="js/core.js"></script> <!-- load our main application -->
-
-
-
-
+	<!-- load our main application -->
+	<script src="js/core.js"></script> 
 
 </head>
 <!-- SET THE CONTROLLER -->
@@ -139,11 +125,6 @@
 
 
 </div>
-	
-	
-	
-
-
 	
 </body>
 </html>
