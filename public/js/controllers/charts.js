@@ -124,7 +124,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	//Functon thats called when we create a drug
 	//It updates all the variable and calls the functions to send the info to the database
 	$scope.fetch = function(lyf_id) {
-		var current_lyf = $scope.drug_data[lyf_id-1]; 
+		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
 		for (i in current_lyf.data) {
 			current_lyf.data[i][0] += (current_lyf.data[i][0]*1800000 + $scope.graphTime);
 		}
@@ -150,6 +150,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 		$scope.isSelected = null;	
 		$scope.createDrug(current_lyf_updated);
 		$scope.updateSumGraph($scope.chartConfig.series)
+		console.log($scope.drugs)
 	}
   	
   	//Remove the drug locally from the view
@@ -168,6 +169,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 			}
 		}
 		$scope.deleteDrug(drug_id)
+		$scope.isSelected = null;
 	}
 	//Create a empty graph for the init of the graph
 	$scope.createEmptySumGraph = function () {

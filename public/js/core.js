@@ -10,7 +10,7 @@ lyfApp.config(['$locationProvider', '$routeProvider',
             controller: 'loginCtr'
         }).
         when('/login', {
-            templateUrl: 'loginForm.html',
+            templateUrl: 'signupForm.html',
             controller: 'loginCtr'
         }).
         when('/signup', {

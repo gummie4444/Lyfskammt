@@ -57,6 +57,7 @@ angular.module('login',[])
 			console.log(status);
 			console.log(data);
 		});
+		$scope.signUpChange(true);
 	}
 		
 

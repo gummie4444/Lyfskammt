@@ -119,7 +119,7 @@ module.exports = function(app) {
 							lyf3:lyf_data[0].lyf3,
 							lyf3_data:lyf_data[0].lyf3_data,
 							lyf4:lyf_data[0].lyf4,
-							lyf5_data:lyf_data[0].lyf4_data,
+							lyf4_data:lyf_data[0].lyf4_data
 							
 						}, function(err,msg){
 							if(err){
