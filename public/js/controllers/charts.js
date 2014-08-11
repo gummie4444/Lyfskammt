@@ -149,12 +149,15 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 			checked: true, 
 			show: true, 
 			date: $scope.date.format(), 
-			id: $scope.index, stringTime: 
-			$scope.stringTime, graphTime: 
-			$scope.graphTime, 
+			id: $scope.index,
+			stringTime:$scope.stringTime,
+			graphTime: $scope.graphTime,
+			duration : current_lyf.duration,
+			statusStartTime: null,
+			statusEndTime:null,
 			color: current_lyf.color, 
 			day: moment($scope.graphTime).lang("is").format("ddd"),
-			access_token: $window.sessionStorage.token,
+			access_token: access_token,
 			current_user:""
 
 		}
@@ -330,6 +333,36 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
         				scope:$scope
 
         				 });  
+    };
+
+    //Function for updating the status button
+
+    //GET THE STATUS FROM THE DATABASE TODO
+    $scope.tooglePlusMinus = true;
+
+    $scope.updateStatusTime = function (){
+
+    
+
+    	var current_date = moment().valueOf();
+
+    	var dataArray = {access_token:$window.sessionStorage.token,
+    					date:current_date};
+    	
+    	if($scope.tooglePlusMinus){
+	    	//Vista + gildi inn ef það á við
+	    	Lyf.insertCalDataPlus(dataArray);
+
+    	}
+    	else{
+    		//Vista - gildi inn ef það á við
+    		Lyf.insertCalDataMinus(dataArray);
+
+    	}
+    	//TOOGLA + Í MÍNUS
+
+    	$scope.tooglePlusMinus = !$scope.tooglePlusMinus; 	
+
     };
 
     //Function to move between days on the graph

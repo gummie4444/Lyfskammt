@@ -10,9 +10,10 @@ var secret = require('../config/secret');
   */
  
 module.exports = function(req, res, next) {
-  
+
+  console.log(req.body.access_token);  
 	//Get the token
-  var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+  var token = (req.body && req.body.access_token) || req.headers['x-access-token'];
  	
 
   //If the token exists

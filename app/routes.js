@@ -2,6 +2,10 @@
 var Drug = require('./models/drug');
 var User = require ('./models/user');
 var Drug_data = require('./models/drug_data');
+//BÚATIL
+var Caliplus = require('./models/caliplus');
+//BÚATIL
+var Caliminus = require('./models/caliminus');
 
 //Dependencies
 var jwt = require('jwt-simple');
@@ -20,8 +24,46 @@ module.exports = function(app) {
 
 	*/
 
+//API FOR Calibrate
+	//---------------------------------------------------
+
+	app.post('/api/cal_plus',[express.bodyParser(), jwtauth],function(req,res){
+
+		console.log(req.body.date + "bla");
+		Caliplus.create({
+					user:req.current_user,
+					StartTime:req.body.date
+							
+						}, function(err,msg){
+							if(err){
+								res.send(err);
+								}
+							res.send(200);
+						});
+
+	});
+
+	app.post('/api/cal_minus',[express.bodyParser(), jwtauth],function(req,res){
+
+
+		Caliminus.create({
+					user:req.current_user,
+					EndTime:req.body.date
+							
+						}, function(err,msg){
+							if(err){
+
+								res.send(err);
+								}
+							res.send(200);
+						});
+
+	});
+
+
 //API FOR USERS
 	//---------------------------------------------------
+
 
 
 	//HANDLE LOGINS
@@ -161,25 +203,29 @@ module.exports = function(app) {
 				name : users.lyf1, 
 				amount: "2 mg",
 				data: users.lyf1_data,
-				color: "#f1c40f" // yellow
+				color: "#f1c40f", // yellow,
+				duration: 6
 			},  
 			{ 
 				name : users.lyf2, 
 				amount: "4 mg",
 				data: users.lyf2_data,
-				color: "#27ae60" // green
+				color: "#27ae60", // green
+				duration: 6
 			},  
 			{ 
 				name : users.lyf3, 
 				amount: "2 mg",
 				data: users.lyf3_data,
-				color: "#c0392b" // red
+				color: "#c0392b", // red
+				duration: 6
 			},
 			{ 
 				name : users.lyf4, 
 				amount: "3 mg",
 				data: users.lyf4_data,
-				color: "#3498db" // blue
+				color: "#3498db", // blue
+				duration: 6
 			}]
 			);
 		});
@@ -219,6 +265,9 @@ module.exports = function(app) {
 			color: req.body.color,
 			graphTime: req.body.graphTime,
 			stringTime: req.body.stringTime,
+			statusStartTime:req.body.statusStartTime,
+			statusEndTime:req.body.statusEndTime,
+			duration:req.body.duration,
 			checked: req.body.checked,
 			visible: req.body.visible,
 			show: req.body.show,
