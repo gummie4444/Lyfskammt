@@ -1,11 +1,17 @@
-<div class = "container2">
+<div class = "settingsContainer" ng-hide = "toogleMenu === false" ng-show = "toogleMenu === true">
+
+	<h1> textiaoegoaeirghoaeg</h1>
+
+</div>
+
+<div class = "container2"  >
 	<div class = "header">
 
 		<div class = "header-text">
 			<h1>DrugMix</h1>
 		</div>
 		<div class = "header-settings">
-			<a href = "#"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
+			<a ng-click = "toogleClass()"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
 		</div>
 	</div>
 

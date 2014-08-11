@@ -18,6 +18,15 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
     $scope.clock_time = moment().format('HH'+':'+'mm');
     $scope.clock_display;
 
+    $scope.toogleMenu = false;
+
+    $scope.toogleClass = function(){
+
+    	$scope.toogleMenu = !$scope.toogleMenu;
+    	$scope.$emit('toogle',$scope.toogleMenu);
+
+    }
+
 	
 	
 	//Load the drug_data from the database, specificly from the user
