@@ -19,11 +19,57 @@ html,body{
 	
 }
 
+.container {
+	background: #2c3e50;
+    margin-left: auto;
+	margin-right: auto;
+	max-width: 1026px;
+	width: 100%;
+	/*overflow: hidden;*/
+	
+	height:100%;
+	position: relative;
+	display: block;
+	/*padding: 0.2em;*/
+	padding: 0 !important;
+	
+}
+
+.container h1 {
+	color: white;
+}
+
 .container2 {
     height: 100%;
     width: 100%;
     font-variant: small-caps;
     background: white !important;
+}
+
+.menuContainer{
+	background: #2c3e50;
+    margin-left: auto;
+	margin-right: auto;
+	max-width: 1026px;
+	width: 100%;
+	/*overflow: hidden;*/
+	
+	height:100%;
+	position: relative;
+	display: block;
+	/*padding: 0.2em;*/
+	padding: 0 !important;
+    left:-60%;
+
+
+}
+
+.settingsContainer{
+	width:60%;
+	height:100%;
+	left:100%;
+	position: absolute;
+	
 }
 
 .hiddendiv {
