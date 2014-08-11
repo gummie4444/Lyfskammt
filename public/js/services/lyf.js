@@ -27,6 +27,17 @@ angular.module('lyfService', [])
 				return $http.delete('/api/drugs/' + id);
 			},
 
+			
+			insertCalDataPlus:function(dataArray){
+
+				return $http.post('/api/cal_plus', dataArray);
+
+			},
+			insertCalDataMinus:function(dataArray){
+
+				return $http.post('/api/cal_minus', dataArray);
+
+			},
 			updateDrugData : function(access_token){
 				return $http.post('/api/drug_data',access_token);
 				
