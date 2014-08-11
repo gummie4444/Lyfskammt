@@ -14,6 +14,7 @@ module.exports = mongoose.model('Drug', {
 	date: String,
 	id: String,
 	data: Array,
+	access_token: String,
 	amount: String,
 	name: String,
 	user:String

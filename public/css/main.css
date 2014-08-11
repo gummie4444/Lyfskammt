@@ -19,6 +19,14 @@ html,body{
 	
 }
 
+#loadingIcon {
+	color: white;
+	text-align: center;
+	font-size: 2em;
+	position: relative;
+	top: 30%;
+}
+
 .container {
 	background: #2c3e50;
     margin-left: auto;
@@ -108,19 +116,29 @@ html,body{
 	margin-left: 11%;
 	position: relative;
 	top: 30%;
+	-webkit-transform: 	translateY(-50%);
 	transform: 	translateY(-50%);
 	text-align: center;
 }
 
 .header-settings{
-	width:10%;
-	height:100%;
-	float:left;
+	width: 10%;
+	height: 100%;
+	float: left;
+	font-size: 4em;
+}
+
+.header-settings a{
+	color:white;
 
 }
-.header-settings h1{
-	
+
+.header-settings a:hover {
+	text-decoration: none;
+	color: #bdc3c7;
+	cursor: pointer;
 }
+
 
 .graf{
 	background:#ecf0f1;
@@ -135,12 +153,12 @@ html,body{
 
 .grafbutton{
 	position: absolute;
-	top:8%;
+	top: 8%;
 	z-index: 999;
-	height:15%;
-	width:15%;
+	height: 8%;
+	width: 14%;
 	cursor: pointer;
-	margin-top: 1em;
+	margin-top: 2.5em;
 
 }
 .grafbutton:hover{
@@ -230,14 +248,15 @@ html,body{
 	cursor: pointer;
 }
 
-.leftlyf p {
+.leftlyf span {
 	position: relative;
-	top: 50%;
+	top: 25%;
+	-webkit-transform: 	translateY(-50%);
 	transform: 	translateY(-50%);
-	font-size: 1.3em;
+	font-size: 1.7em;
 }
 
-.lyfvalinn p {
+.lyfvalinn span {
 	text-align: center;
 }
 
@@ -269,6 +288,7 @@ input[type='checkbox'] {
     border:2px solid #555;
     position: relative;
 	top: 45%;
+	-webkit-transform: 	translateY(-50%);
 	transform: 	translateY(-50%);
 	text-align: center;
 	float: none !important;
@@ -352,6 +372,7 @@ input[type='checkbox']:checked {
 #confirm button {
 	position: relative;
 	top: 50%;
+	-webkit-transform: 	translateY(-50%);
 	transform: 	translateY(-50%);
 	left: 25%;
 	background: #bdc3c7;
@@ -403,74 +424,36 @@ div.ui-slider {
 }
 
 
-
-
-
-.buttons{
-
-
+.buttons {
 	width: 100%;
-	height: 15%;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float:left;
+	float: left;
+
+	margin-top: 20px;
+}
+
+.calibration {
+	width: 50%;
+	float: left;
+}
+
+
+
+.smiley {
+	width: 100%;
+	color: white;
+	height: 100%;
 	text-align: center;
-	display: table;
-	
-	
-
-}
-.buttonprufa{
-	display: table-cell;
-	vertical-align: middle;
-	background: #ecf0f1
-
+	font-size: 80pt;
+	border: none;
 }
 
-.plusbutton {
-	
-	-moz-box-shadow: 0px 1px 2px 1px #97c4fe;
-	-webkit-box-shadow: 0px 1px 2px 1px #97c4fe;
-	box-shadow: 0px 1px 2px 1px #97c4fe;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0) );
-	background:-moz-linear-gradient( center top, #3d94f6 5%, #1e62d0 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0');
-	background-color:#3d94f6;
-	-webkit-border-top-left-radius:14px;
-	-moz-border-radius-topleft:14px;
-	border-top-left-radius:14px;
-	-webkit-border-top-right-radius:14px;
-	-moz-border-radius-topright:14px;
-	border-top-right-radius:14px;
-	-webkit-border-bottom-right-radius:14px;
-	-moz-border-radius-bottomright:14px;
-	border-bottom-right-radius:14px;
-	-webkit-border-bottom-left-radius:14px;
-	-moz-border-radius-bottomleft:14px;
-	border-bottom-left-radius:14px;
-	text-indent:0px;
-	border:1px solid #337fed;
-	display:inline-block;
-	color:#ffffff;
-	font-family:Comic Sans MS;
-	font-size:52px;
-	font-weight:bold;
-	font-style:normal;
-	height:82px;
-	line-height:82px;
-	width:131px;
-	text-decoration:none;
-	text-align:center;
-	text-shadow:1px 0px 0px #1570cd;
+
+#happy {
+	background-color: #16a085;
 }
-.plusbutton:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6) );
-	background:-moz-linear-gradient( center top, #1e62d0 5%, #3d94f6 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
-	background-color:#1e62d0;
-}.plusbutton:active {
-	position:relative;
-	top:1px;
+
+#sad {
+	background-color: #e74c3c;	
 }
 
 .mainContainer{
@@ -577,8 +560,12 @@ div.ui-slider {
 
 
 
-@media only screen and (max-width: 780px)
-		{
+@media only screen and (max-width: 780px){
+
+.header-settings {
+	font-size: 3em;
+	padding-right: 1em;
+}
 
 .drugSelect{
 	
@@ -587,21 +574,21 @@ div.ui-slider {
 	font-size: 0.5em;
 
 }
+.smiley {
+font-size: 50pt;
+}
+
 .rightInnerButton img{
 	height: 50px;
 	width:auto;
 }
 
-.buttons{
-	height: 15%;
-	
-}
 .lyfvalinn{
 	height:40%;
 
 }
 .leftlyf {
-	font-size: 0.9em;
+	font-size: 0.8em;
 	width: 63%;
 }
 .graf{
@@ -621,8 +608,7 @@ div.ui-slider {
 }
 <<<<<<< HEAD
 }
-@media only screen and (max-width: 550px)
-{
+@media only screen and (max-width: 550px){
 
 .drugSelect{
 	width: 100%;
@@ -645,4 +631,10 @@ div.ui-slider {
 		width: 64.5%;
 	}
 >>>>>>> 2d93d235e9d1d0a32e1da9708824d7687af1b0a0
+}
+
+@media only screen and (max-width: 424px) {
+	.leftlyf {
+		font-size: 0.65em;
+	}
 }

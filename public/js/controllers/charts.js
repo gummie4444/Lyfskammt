@@ -1,6 +1,6 @@
 angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mobiscroll-dir'])
 
-.controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http) {
+.controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http, $timeout) {
 
 	//set the acces_token
 	var access_token = JSON.stringify({'access_token':$window.sessionStorage.token});
@@ -19,6 +19,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
     $scope.clock_display;
 
     $scope.toogleMenu = false;
+
+
 
     $scope.toogleClass = function(){
 
@@ -39,6 +41,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 		});
 
 	//Load the drugs from the database, specificly from the user
+
 	Lyf.get(access_token)
 			.success(function(data) {
 				$scope.loading = false;
@@ -117,6 +120,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 		Lyf.create(drug)
 				.success(function(data) {
 					$scope.drugs.push(data); // assign our new list of todos
+					console.log("success!")
 				});
 	};
 
@@ -211,10 +215,15 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 					            }]
 	}
 
+	// variables to initialize height of chart
+	var container = document.getElementById("drug-chart");
+	var ang_container = angular.element(container);
+
 	$scope.chartConfig = {
 		options: {
 			chart: {
 				animation: false,
+				height: ang_container.height()*1.02796
 			},
 			legend: {
 				enabled: false
@@ -286,7 +295,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
     	if ($scope.isSelected === Selected) {
-    		$scope.isSelected = null;
+    		$scope.save(Selected);
 		}
     	else {
     		$scope.isSelected = Selected;
@@ -306,6 +315,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 				}
 				else {
 					$scope.chartConfig.series[i].dashStyle = false
+
 				}
 			}
     	}
@@ -325,6 +335,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
     //Function to move between days on the graph
 	$scope.moveDay = function (direction) {
 		$scope.isSelected = null;
+		for (i in $scope.chartConfig.series) {
+					$scope.chartConfig.series[i].dashStyle = 'none';
+		}		
 		if (direction === "left") {
 			$scope.date.subtract('d', 1);
 		}
@@ -370,6 +383,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 				else {
 					$scope.chartConfig.series[i].visible = false;
 				}
+				$scope.createDrug($scope.chartConfig.series[i]);
 			}
 		}
 		$scope.updateSumGraph($scope.chartConfig.series);
@@ -450,18 +464,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 		return hours + ":" + minutes;
 	};
 
-	$scope.save = function() {
-		// for (i in $scope.chartConfig.series) {
-  //   				if ($scope.isSelected === $scope.chartConfig.series[i].id) { // find the drug with matching id
-  //   					$scope.createDrug($scope.chartConfig.series[i]);
-  //   				}
-		// }
+	$scope.save = function(id) {
+		for (i in $scope.chartConfig.series) {
+    				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
+    					$scope.createDrug($scope.chartConfig.series[i]);
+    					$scope.chartConfig.series[i].dashStyle = false
+    				}
+		}
 		$scope.isSelected = null;
 	}
-
-    $scope.$on('heightChange', function(value) {
-    	var container = document.getElementById("drug-chart");
-    	var ang_container = angular.element(container);
-    	$scope.chartConfig.options.chart.height = ang_container.height()
-    });
 });

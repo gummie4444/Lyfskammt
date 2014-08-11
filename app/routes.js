@@ -225,6 +225,7 @@ module.exports = function(app) {
 			date: req.body.date,
 			id: req.body.id,
 			data: req.body.data,
+			access_token: req.body.access_token,
 			amount: req.body.amount,
 			name: req.body.name,
 			user: req.current_user

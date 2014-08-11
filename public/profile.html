@@ -4,29 +4,31 @@
 
 </div>
 
-<div class = "container2"  >
+<div id="loadingIcon" ng-show="loading">
+				<span class="fa fa-spinner fa-spin fa-3x"></span></br>
+				<span>Sæki gögn..</span>
+				</div>
+<div class = "container2" ng-hide="loading" >
 	<div class = "header">
 
 		<div class = "header-text">
 			<h1>DrugMix</h1>
 		</div>
 		<div class = "header-settings">
-			<a ng-click = "toogleClass()"><img src="img/menuicon.png" alt="Smiley face" height="90%" width="70%"></a>
+			<a ng-click = "toogleClass()">&#9776;</a>
 		</div>
 	</div>
 
 
 	<div class = "graf" id="drug-chart" resize>
-		<img src="img/Arrowhead-right-01-128.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
-		<img src="img/Arrowhead-left-01-128.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
+		<img src="img/Red_Arrow_Right.svg" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
+		<img src="img/Red_Arrow_Left.svg" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
 		<highchart id="chart1" config="chartConfig" ng-swipe-left="swipeGraph('right')" ng-swipe-right="swipeGraph('left')" ng-swipe-disable-mouse ></highchart>
 	</div>
 
 	
 	<div class = "lyfvalinn">
-		<p class="text-center" ng-show="loading">
-				<span class="fa fa-spinner fa-spin fa-3x"></span>
-				</p>
+		
 		<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-class = "{hide: drug.show === false || drug.id !== isSelected, show: isSelected === null && drug.show === true}">
 			
 				<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
@@ -34,7 +36,7 @@
 				</div>
 
 				<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-					<p>{{drug.name}} || {{drug.amount}} || {{drug.stringTime}}</p>
+					<span>{{drug.name}} || {{drug.amount}} || {{drug.stringTime}}</span>
 				</div>
 
 				<div class = "remove" id = "id_{{drug.name}}">
@@ -59,13 +61,16 @@
 		</div> -->
 	</div>
 	<div id = "confirm" ng-class = "{hide: isSelected === null}">
-		<button ng-click="save()">VISTA</button>
+		<button ng-click="save(isSelected)">VISTA</button>
 	</div>
 
 
 	<div class = "buttons">
-		<div class = "buttonprufa">
-			<button type="button" class = "plusbutton" ng-click="createTodo()">+</button>
+		<div class = "calibration">
+			<button class = "smiley" id="happy" ng-click="">&#x263a;</button>
 		</div>	
+		<div class = "calibration">
+			<button class = "smiley" id="sad" ng-click="">&#x2639;</button>
+		</div>
 	</div>
 </div>
