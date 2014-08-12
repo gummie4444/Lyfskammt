@@ -2,9 +2,8 @@
 var Drug = require('./models/drug');
 var User = require ('./models/user');
 var Drug_data = require('./models/drug_data');
-//BÚATIL
+
 var Caliplus = require('./models/caliplus');
-//BÚATIL
 var Caliminus = require('./models/caliminus');
 
 //Dependencies
@@ -68,6 +67,28 @@ module.exports = function(app) {
 
 	//HANDLE LOGINS
 	//TODO: USERINTERFACE
+
+	//USERREG IS USER AVALABLE
+	app.post('/api/users/check/:name',function(req,res){
+		var username =req.params.name;
+		console.log ("nafn: " + req.params.name);
+		User.findOne({username:username}, function(err,users){
+			if(err){
+				console.log(err);
+				return res.send(401);
+			}
+			if(users == undefined){
+				//there is no user with that name
+				res.send({ "isUnique": true });
+			}
+
+			else{//there is somone with that username
+			res.send({ "isUnique": false });
+		}
+		});
+
+	});
+
 	app.post('/api/users',function(req,res){
 
 		var username = req.body.username ;
@@ -85,14 +106,14 @@ module.exports = function(app) {
 				console.log(err + "VIlla2");
 
 				//vitlaust notendanafn
-				return res.send(401);
+				return res.send({ "answer": 1 });
 			}
 
 			users.comparePassword(password, function(isMatch){
 				if (!isMatch){
 					//password vitlaust
 					console.log("Attempt failed to login with: " + users.username);
-					return res.send(401);
+					return res.send({ "answer": 2 });
 				}
 				
 		
@@ -167,7 +188,7 @@ module.exports = function(app) {
 							if(err){
 								res.send(err);
 								}
-							res.send(200);
+						return	res.send({"answer": 1 });
 						});
 				});		
 			}
@@ -175,7 +196,7 @@ module.exports = function(app) {
 			//else return that the username is already in the database
 			else{
 				console.log("Username er frátekið");
-				res.send(401);
+				return res.send({ "answer": 2 });
 
 			}
 

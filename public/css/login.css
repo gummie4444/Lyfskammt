@@ -22,12 +22,27 @@
 }
 
 .mainLogin {
-	height: 60%;
+	min-height: 60%;
+	height:auto;
 	position: relative;
 	padding-top: 10%;
 	text-align: center;
 	background: #34495e;
 }
+
+
+
+#userSignup input.ng-invalid.ng-dirty {
+    background-color: #FA787E !important;
+  }
+
+ #userSignup input.ng-valid.ng-dirty {
+    background-color: #78FA89 !important;
+  }
+
+ .error{
+ 	width:auto;
+ }
 
 .submitButton {
 	width: 200px;
@@ -40,10 +55,19 @@
 	border: none;
 	border-radius: 5px;
 	width: 100px;
+	margin-top:2em;
+	
 }
 
 #userLogin {
 	height: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+     display: none; 
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 .inputform {
@@ -63,7 +87,7 @@
 @media only screen and (max-width: 780px) {
 
 .mainLogin {
-	padding-top: 15%;
+	padding-top: 5%;
 }
 
 #loginheader h1 {
