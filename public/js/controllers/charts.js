@@ -179,7 +179,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	$scope.createEmptySumGraph = function () {
     	var sumGraph = JSON.parse(JSON.stringify(Lyf.createEmpty())); // cloning an empty drug
     	for (i in sumGraph) {
-			sumGraph[i][0] += ($scope.date.valueOf()+21600000+1);
+			sumGraph[i][0] += ($scope.date.valueOf()+21600000); // offset 6 hours because we only show 06:00-24:00
 		}
 		return sumGraph;	
     }
