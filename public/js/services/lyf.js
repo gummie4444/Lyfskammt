@@ -49,8 +49,8 @@ angular.module('lyfService', [])
 
 			createEmpty: function () {
                 var array = []
-				for (i=0; i<=36; i++) {
-					var x_interval = 1800000*i;
+				for (i=0; i<=72; i++) {
+					var x_interval = 900000*i;
 					array.push([x_interval, null])
 				}
 				return array;

@@ -10,7 +10,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	// VARIABLES //
 	// ========= //
 	$scope.loading = true;
-	$scope.graphTime = moment().valueOf();
+	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:moment().minute()}).valueOf();
 	$scope.drugs= {};
 	$scope.index = 0;
 	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()})
@@ -128,7 +128,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	$scope.fetch = function(lyf_id) {
 		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
 		for (i in current_lyf.data) {
-			current_lyf.data[i][0] += (current_lyf.data[i][0]*1800000 + $scope.graphTime);
+			current_lyf.data[i][0] += (current_lyf.data[i][0]*300000 + $scope.graphTime);
 		}
 		var current_lyf_updated = {
 			name: current_lyf.name, 
@@ -193,18 +193,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 				if (drugs[i].visible === true) {
 					for (j in drugs[i].data) { // iterate through every data point per drug
 						for (k in $scope.chartConfig.series[0].data) // iterate through every data point in the "sum" curve
-							if (Math.abs(drugs[i].data[j][0] - $scope.chartConfig.series[0].data[k][0]) <= 900000) {// round every point on the drug graph to the nearest point on the sum curve (900000ms === 15 minutes)
+							if (Math.abs(drugs[i].data[j][0] - $scope.chartConfig.series[0].data[k][0]) <= 150000) {// round every point on the drug graph to the nearest point on the sum curve (15000ms === 2.5 minutes)
 								$scope.chartConfig.series[0].data[k][1] += drugs[i].data[j][1] // update the sum graph with values from the drug graphs
 							}
 					}
 				}
 			}
 		}
-		$scope.chartConfig.yAxis.plotLines = [{
-									color: '#78C983',
-					                width: 1,
-					                value: $scope.drugs.length*3,
-					            }]
 	}
 
 	// variables to initialize height of chart
@@ -269,9 +264,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		},
 		yAxis: {
 			plotLines: [{
-				color: '#78C983',
-                width: 1,
-                value: 5,
+				color: '#bdc3c7',
+                width: 3,
+                value: 2500,
             }],
 			min : 0,
 			gridLineWidth: 0,
@@ -317,6 +312,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
     //Function for the popupp dialog
     $scope.clickToOpen = function () {
+    	console.log("open")
     	$scope.index = moment().valueOf()*Math.random()
 
         ngDialog.open({ template: 'template.html',
@@ -512,4 +508,146 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	// 	var ang_container = angular.element(container); 
 		if (ang_container.height() > 100) $scope.chartConfig.options.chart.height = ang_container.height();
 	});
+
+	var blabla = []
+
+// CONVERTER VÉLIN
+blabla.push(0.00)
+blabla.push(0.00)
+blabla.push(0.00)
+blabla.push(0.00)
+blabla.push(0.00)
+blabla.push(4.72)
+blabla.push(27.45)
+blabla.push(54.61)
+blabla.push(85.58)
+blabla.push(119.80)
+blabla.push(156.73)
+blabla.push(195.88)
+blabla.push(236.78)
+blabla.push(278.98)
+blabla.push(322.10)
+blabla.push(365.75)
+blabla.push(409.58)
+blabla.push(453.28)
+blabla.push(496.56)
+blabla.push(539.14)
+blabla.push(580.79)
+blabla.push(621.28)
+blabla.push(660.42)
+blabla.push(698.03)
+blabla.push(733.95)
+blabla.push(768.05)
+blabla.push(800.21)
+blabla.push(830.33)
+blabla.push(858.33)
+blabla.push(884.14)
+blabla.push(907.71)
+blabla.push(929.00)
+blabla.push(947.99)
+blabla.push(964.65)
+blabla.push(979.01)
+blabla.push(991.06)
+blabla.push(1000.82)
+blabla.push(1008.34)
+blabla.push(1013.64)
+blabla.push(1016.78)
+blabla.push(1017.82)
+blabla.push(1016.81)
+blabla.push(1013.83)
+blabla.push(1008.96)
+blabla.push(1002.26)
+blabla.push(993.84)
+blabla.push(983.77)
+blabla.push(972.15)
+blabla.push(959.08)
+blabla.push(944.64)
+blabla.push(928.96)
+blabla.push(912.11)
+blabla.push(894.21)
+blabla.push(875.36)
+blabla.push(855.65)
+blabla.push(835.20)
+blabla.push(814.10)
+blabla.push(792.46)
+blabla.push(770.37)
+blabla.push(747.92)
+blabla.push(725.23)
+blabla.push(702.37)
+blabla.push(679.43)
+blabla.push(656.51)
+blabla.push(633.68)
+blabla.push(611.03)
+blabla.push(588.64)
+blabla.push(566.57)
+blabla.push(544.89)
+blabla.push(523.66)
+blabla.push(502.95)
+blabla.push(482.82)
+blabla.push(463.30)
+blabla.push(444.45)
+blabla.push(426.30)
+blabla.push(408.90)
+blabla.push(392.27)
+blabla.push(376.43)
+blabla.push(361.42)
+blabla.push(347.24)
+blabla.push(333.90)
+blabla.push(321.41)
+blabla.push(309.77)
+blabla.push(298.97)
+blabla.push(289.01)
+blabla.push(279.87)
+blabla.push(271.54)
+blabla.push(263.98)
+blabla.push(257.18)
+blabla.push(251.11)
+blabla.push(245.72)
+blabla.push(240.98)
+blabla.push(236.84)
+blabla.push(233.27)
+blabla.push(230.22)
+blabla.push(227.63)
+blabla.push(225.44)
+blabla.push(223.62)
+blabla.push(222.09)
+blabla.push(220.80)
+blabla.push(219.69)
+blabla.push(218.71)
+blabla.push(217.78)
+blabla.push(216.86)
+blabla.push(215.88)
+blabla.push(214.79)
+blabla.push(213.52)
+blabla.push(212.02)
+blabla.push(210.25)
+blabla.push(208.16)
+blabla.push(205.69)
+blabla.push(202.80)
+blabla.push(199.47)
+blabla.push(195.66)
+blabla.push(191.34)
+blabla.push(186.50)
+blabla.push(181.13)
+blabla.push(175.22)
+blabla.push(168.77)
+blabla.push(161.81)
+
+
+
+var yoyo = {}
+
+for (i in blabla) {
+	yoyo[i] = new Array(2);
+	yoyo[i][0] = parseInt(i);
+	yoyo[i][1] = blabla[i];
+
+}
+for (i in yoyo) {
+	console.log("[");
+	console.log(yoyo[i][0] + ',')
+	console.log(yoyo[i][1]);
+	console.log("],")
+}
+console.log(yoyo)
 });
