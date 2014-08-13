@@ -28,7 +28,7 @@ module.exports = function(app) {
 
 	app.post('/api/cal_plus',[express.bodyParser(), jwtauth],function(req,res){
 
-		console.log(req.body.date + "bla");
+		console.log(req.body.current_date + "bla");
 		Caliplus.create({
 					user:req.current_user,
 					StartTime:req.body.date
@@ -47,7 +47,7 @@ module.exports = function(app) {
 
 		Caliminus.create({
 					user:req.current_user,
-					EndTime:req.body.date
+					EndTime:req.body.current_date
 							
 						}, function(err,msg){
 							if(err){
@@ -215,7 +215,7 @@ module.exports = function(app) {
 		
 	//Get the drugs the user has in his document
 	//TODO: AMOUNT?????
-	app.post('/api/drug_data',[express.bodyParser(), jwtauth], function(req, res) {
+	app.get('/api/drug_data',[express.bodyParser(), jwtauth], function(req, res) {
 
 		User.findOne({_id: req.current_user}, function(err,users){
 
@@ -265,7 +265,7 @@ module.exports = function(app) {
 	//---------------------------------------------------
 
 	// Get the drugs that the user ownes
-	app.post('/api/drugs',[express.bodyParser(), jwtauth], function(req, res) {
+	app.get('/api/drugs',[express.bodyParser(), jwtauth], function(req, res) {
 
 
 		//FINNA ÖLL SEM HAFA USERNAME NAFNIÐ Í DÓTINU SÝNU
@@ -301,7 +301,6 @@ module.exports = function(app) {
 			date: req.body.date,
 			id: req.body.id,
 			data: req.body.data,
-			access_token: req.body.access_token,
 			amount: req.body.amount,
 			name: req.body.name,
 			user: req.current_user

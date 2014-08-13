@@ -41,8 +41,7 @@ lyfApp.run(function($rootScope, $location, $window, authService) {
 
             $location.path("/login");
         }
-
-        if ($window.sessionStorage.token != null) {
+        if ($window.sessionStorage.token != null ) {
             $location.path("/profile")
         }
     });

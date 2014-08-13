@@ -11,9 +11,10 @@ var secret = require('../config/secret');
  
 module.exports = function(req, res, next) {
 
-  console.log(req.body.access_token);  
+
 	//Get the token
-  var token = (req.body && req.body.access_token) || req.headers['x-access-token'];
+
+  var token =  req.headers.authorization;
  	
 
   //If the token exists
@@ -25,7 +26,7 @@ module.exports = function(req, res, next) {
     // handle token here
  
   	} catch (err) {
-    	res.end(err,500);
+    	res.end(err,401);
   	}
 	} else {
   		next();
@@ -33,7 +34,7 @@ module.exports = function(req, res, next) {
 
 	//check if the user is still logged in
 	if (decoded.exp <= Date.now()) {
-  		res.end('Access token has expired', 400);
+  		res.end('Access token has expired', 401);
 	};
 
 	//let the reqest know what user is logged in

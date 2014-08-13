@@ -13,9 +13,9 @@ angular.module('lyfService', [])
 
 		return {
 
-			get:function(access_token){
+			get:function(){
 				
-				return $http.post('/api/drugs',access_token);
+				return $http.get('/api/drugs');
 			},
 
 			create:function(nowDrug){
@@ -32,18 +32,18 @@ angular.module('lyfService', [])
 			},
 
 			
-			insertCalDataPlus:function(dataArray){
+			insertCalDataPlus:function(date){
 
-				return $http.post('/api/cal_plus', dataArray);
-
-			},
-			insertCalDataMinus:function(dataArray){
-
-				return $http.post('/api/cal_minus', dataArray);
+				return $http.post('/api/cal_plus', date);
 
 			},
-			updateDrugData : function(access_token){
-				return $http.post('/api/drug_data',access_token);
+			insertCalDataMinus:function(date){
+
+				return $http.post('/api/cal_minus', date);
+
+			},
+			updateDrugData : function(){
+				return $http.get('/api/drug_data');
 				
 			},
 

@@ -4,9 +4,10 @@ angular.module('TokenInterceptor',[])
 .factory('TokenInterceptor', function($q, $window, $location, authService) {
     return {
         request: function (config) {
+            
             config.headers = config.headers || {};
             if ($window.sessionStorage.token) {
-                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+                config.headers.Authorization = $window.sessionStorage.token;
             }
             return config;
         },
@@ -17,9 +18,10 @@ angular.module('TokenInterceptor',[])
 
         /* Set Authentication.isAuthenticated to true if 200 received */
         response: function (response) {
-            if (response != null && response.status == 200 && $window.sessionStorage.token && !authService.isAuthenticated) {
-               authService.isAuthenticated = true;
+            if (response != null && response.status == 200 && $window.sessionStorage.token && !authService.isAuthenticated || authService.isAuthenticated ) {
+               authService.isAuthenticated = true;    
             }
+            
             return response || $q.when(response);
         },
 
