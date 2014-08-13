@@ -27,6 +27,10 @@ angular.module('lyfService', [])
 				return $http.delete('/api/drugs/' + id);
 			},
 
+			getUsers : function(){
+				return $http.get('/api/users/reg');
+			},
+
 			
 			insertCalDataPlus:function(dataArray){
 

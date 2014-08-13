@@ -34,6 +34,18 @@
 				<button class = "submitButton" type = "submit"> Áfram </button>
 				</form>
 
+				<div class = "error" ng-show = "login.error">
+
+					<small class="error"  
+						        ng-show="login.errorValue == 1">
+						        Notendanafn er ekki til í gagnagrunn.
+					</small>
+					<small class="error" 
+					            ng-show="login.errorValue == 2">
+					            Vitlaust lykilorð.
+					</small>
+				</div>
+
 				<button id = "signupButtonLogin" class ="signupButton" ng-click = "signUpChange(false)">Nýskrá</button>
 				
 		</div>
@@ -96,7 +108,7 @@
 					            Kennitalan verður að á þessu formati 1304990143
 					    </small>
 					 </div>
-					<input name = "username" class = "inputform" placeholder = "Notandanafn" type = "text" ng-model = "signup.username" ensure-unique="username" ng-minlength="5" required ng-focus /><br/>
+					<input name = "username" class = "inputform" placeholder = "Notandanafn" type = "text" ng-model = "signup.username"  ng-minlength="5" ensure-unique="signup.username" required ng-focus /><br/>
 
 					<div class="error" 
 					        ng-show="userSignup.username.$dirty && userSignup.username.$invalid && !userSignup.username.$focused">
@@ -110,11 +122,12 @@
 					            ng-show="userSignup.username.$error.minlength" >
 					            Notendanafn verður að vera lengra en 5 stafir.
 					    </small>
-					 	<small class="error" 
-					            ng-show="userSignup.username.$error.unique" >
-					           	Notendanafn er frátekið.
 
+					    <small class="error" 
+					            ng-show="userSignup.username.$error.unique" >
+					            Notendanafn er ekki laust.
 					    </small>
+					 	
 					 </div>
 
 					<input  class = "inputform" placeholder = "Lykilorð" type = "password" ng-model = "signup.password" required/><br/>

@@ -68,25 +68,30 @@ module.exports = function(app) {
 	//HANDLE LOGINS
 	//TODO: USERINTERFACE
 
-	//USERREG IS USER AVALABLE
-	app.post('/api/users/check/:name',function(req,res){
-		var username =req.params.name;
-		console.log ("nafn: " + req.params.name);
-		User.findOne({username:username}, function(err,users){
-			if(err){
-				console.log(err);
-				return res.send(401);
-			}
-			if(users == undefined){
-				//there is no user with that name
-				res.send({ "isUnique": true });
-			}
 
-			else{//there is somone with that username
-			res.send({ "isUnique": false });
-		}
+
+
+	app.get('/api/users/reg', function(req, res) {
+
+		// use mongoose to get all todos in the database
+		User.find(function(err, users) {
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err)
+
+			var userArray = [];
+			for(var i in users){
+				userArray.push(users[i].username);
+				
+			}
+			
+
+			
+			
+
+			res.send(userArray); // return all todos in JSON format
 		});
-
 	});
 
 	app.post('/api/users',function(req,res){

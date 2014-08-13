@@ -32,16 +32,9 @@
 
 
 
-#userSignup input.ng-invalid.ng-dirty {
-    background-color: #FA787E !important;
-  }
-
- #userSignup input.ng-valid.ng-dirty {
-    background-color: #78FA89 !important;
-  }
-
  .error{
  	width:auto;
+ 	color:white;
  }
 
 .submitButton {
@@ -76,7 +69,30 @@ input::-webkit-inner-spin-button {
 	border-radius: 5px;
 	border: none;
 	padding-left: 0.5em;
+
 }
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #999;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #999;
+    opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #999;
+    opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #999;
+}
+
+.inputform.ng-invalid.ng-dirty {
+    background-color: #e74c3c !important;
+  }
+
+ .inputform.ng-valid.ng-dirty {
+    background-color: #27ae60 !important;
+  }
 
 .footer {
 	height: 20%;

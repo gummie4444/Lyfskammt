@@ -1,22 +1,26 @@
-angular.module('login',['password-dir','unique-dir','ngFocus-dir'])
+angular.module('login',['password-dir','ngFocus-dir','unique-dir'])
 
-.controller ('loginCtr', function ($q,$scope,$log,userService,$location,authService,$window){
+.controller ('loginCtr', function ($q,$scope,$log,userService,$location,authService,$window,Lyf){
 
 	// ========= //
 	// VARIABLES //
 	// ========= //
 	$scope.login = {};
 	$scope.signup = {};
+	$scope.users= [];
+	$scope.login.error = false;
+	$scope.login.errorValue = 0;
+
+	Lyf.getUsers()
+		.success(function(data)
+		{
+			$scope.users = data;
+		
+		});
+	
 
 
-	$scope.submitted = false;
-  $scope.submit = function() {
-    if ($scope.user_form.$valid) {
-      // Submit as normal
-    } else {
-      // don't submit ;-)
-    }
-  }
+
 	
 	//FUNCTON for toogling between signup and login
 	$scope.signUpChange = function(value){
@@ -35,11 +39,14 @@ angular.module('login',['password-dir','unique-dir','ngFocus-dir'])
 
 					//RANGT NOTENDANAFN
 					if (returnMsg.answer == 1){
-						console.log("Rangt notandanafn");
+						$scope.login.error = true;
+						$scope.login.errorValue = 1;
 						$window.sessionStorage.removeItem('token');
 					}
 					//RANGT LYKILORÐ FYRIR RÉTT NOTENDANAFN
 					else if(returnMsg.answer == 2){
+						$scope.login.error = true;
+						$scope.login.errorValue = 2;
 						console.log("Rangt lykilorð fyrir" + $scope.login.username);
 						$window.sessionStorage.removeItem('token');
 					}
@@ -47,6 +54,7 @@ angular.module('login',['password-dir','unique-dir','ngFocus-dir'])
 					//komst inn
 					if(returnMsg.answer == undefined ){
 						authService.isAuthenticated = true;
+						$scope.login.error = false;
 						$window.sessionStorage.token = returnMsg.token;
 						$location.path("/profile/" + $scope.login.username);
 					}
