@@ -17,7 +17,7 @@ lyfApp.config(['$locationProvider', '$routeProvider',
             templateUrl: 'signupForm.html',
             controller: 'loginCtr'
         }).
-        when('/profile/:user', {
+        when('/profile', {
             templateUrl: 'profile.html',
             controller: 'myChart',
             access: { requiredAuthentication: true }
@@ -40,6 +40,10 @@ lyfApp.run(function($rootScope, $location, $window, authService) {
             && !authService.isAuthenticated && !$window.sessionStorage.token ) {
 
             $location.path("/login");
+        }
+
+        if ($window.sessionStorage.token != null) {
+            $location.path("/profile")
         }
     });
 });

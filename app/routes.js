@@ -128,7 +128,8 @@ module.exports = function(app) {
 				var expires = moment().add(1,'days').valueOf();
 
 				var token = jwt.encode({iss: users._id,
-										exp:expires
+										exp:expires,
+										user: users.username
 										}, secret.secretToken);
 										
 				return res.json({token:token});

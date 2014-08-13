@@ -1,6 +1,6 @@
 angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'chart-resize', 'mobiscroll-dir'])
 
-.controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http, $timeout) {
+.controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http, $timeout, authService, $location) {
 
 	//set the acces_token
 	var access_token = JSON.stringify({'access_token':$window.sessionStorage.token});
@@ -496,6 +496,16 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		}
 		$scope.isSelected = null;
 	}
+
+	$scope.logOutFunc = function(){
+
+		 if (authService.isAuthenticated) {
+                authService.isAuthenticated = false;
+                delete $window.sessionStorage.token;
+                $location.path("/");
+            }
+	          
+		   }
 
 	$scope.$on('heightChange', function(event, data) { 
 	// 	var container = document.getElementById("drug-chart");

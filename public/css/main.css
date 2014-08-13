@@ -284,7 +284,7 @@ html,body{
 
 .leftlyf span {
 	position: relative;
-	top: 25%;
+	top: 10%;
 	-webkit-transform: 	translateY(-50%);
 	transform: 	translateY(-50%);
 	font-size: 1.7em;

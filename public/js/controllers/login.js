@@ -2,6 +2,8 @@ angular.module('login',['password-dir','ngFocus-dir','unique-dir'])
 
 .controller ('loginCtr', function ($q,$scope,$log,userService,$location,authService,$window,Lyf){
 
+
+
 	// ========= //
 	// VARIABLES //
 	// ========= //
@@ -18,8 +20,6 @@ angular.module('login',['password-dir','ngFocus-dir','unique-dir'])
 		
 		});
 	
-
-
 
 	
 	//FUNCTON for toogling between signup and login
@@ -53,10 +53,11 @@ angular.module('login',['password-dir','ngFocus-dir','unique-dir'])
 					
 					//komst inn
 					if(returnMsg.answer == undefined ){
+						$scope.$emit('loggedIn', false)
 						authService.isAuthenticated = true;
 						$scope.login.error = false;
 						$window.sessionStorage.token = returnMsg.token;
-						$location.path("/profile/" + $scope.login.username);
+						$location.path("/profile");
 					}
 
 				}).error(function(status,data){
