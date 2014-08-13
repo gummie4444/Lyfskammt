@@ -22,7 +22,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	
 	//Load the drug_data from the database, specificly from the user
 	//SKOÐA FÆRA Í LYF?????
-	Lyf.updateDrugData(access_token)
+	Lyf.updateDrugData()
 		.success(function(data)
 		{
 			$scope.drug_data = data;
@@ -31,7 +31,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 	//Load the drugs from the database, specificly from the user
 
-	Lyf.get(access_token)
+	Lyf.get()
 			.success(function(data) {
 				$scope.loading = false;
 				$scope.chartConfig.loading = false;
@@ -146,7 +146,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 			statusEndTime:null,
 			color: current_lyf.color, 
 			day: moment($scope.graphTime).lang("is").format("ddd"),
-			access_token:$window.sessionStorage.token,
 			current_user:""
 
 		}
@@ -330,19 +329,18 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
     
 
-    	var current_date = moment().valueOf();
+    	var current_date = JSON.stringify({'current_date':moment().valueOf()});
 
-    	var dataArray = {access_token:$window.sessionStorage.token,
-    					date:current_date};
+
     	
     	if($scope.tooglePlusMinus){
 	    	//Vista + gildi inn ef það á við
-	    	Lyf.insertCalDataPlus(dataArray);
+	    	Lyf.insertCalDataPlus(current_date);
 
     	}
     	else{
     		//Vista - gildi inn ef það á við
-    		Lyf.insertCalDataMinus(dataArray);
+    		Lyf.insertCalDataMinus(current_date);
 
     	}
     	//TOOGLA + Í MÍNUS

@@ -54,7 +54,7 @@ angular.module('login',['password-dir','ngFocus-dir','unique-dir'])
 					//komst inn
 					if(returnMsg.answer == undefined ){
 						$scope.$emit('loggedIn', false)
-						authService.isAuthenticated = true;
+						
 						$scope.login.error = false;
 						$window.sessionStorage.token = returnMsg.token;
 						$location.path("/profile");
@@ -71,17 +71,7 @@ angular.module('login',['password-dir','ngFocus-dir','unique-dir'])
 
 	};
 
-	//FUNCTION for loging out
-	//put this into charts.js????????
-	$scope.logOutFunc = function(){
 
-		 if (authService.isAuthenticated) {
-                authService.isAuthenticated = false;
-                delete $window.sessionStorage.token;
-                $location.path("/");
-            }
-	          
-		   }
 
 	//FUNCTION: that takes the submition and creates a user into the database
 	//TODO: CREATE A USER INTERFACE
