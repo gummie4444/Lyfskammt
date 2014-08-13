@@ -1,4 +1,4 @@
-angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mobiscroll-dir'])
+angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'chart-resize', 'mobiscroll-dir'])
 
 .controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http, $timeout) {
 
@@ -17,17 +17,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
     $scope.isSelected= null;
     $scope.clock_time = moment().format('HH'+':'+'mm');
     $scope.clock_display;
-
-    $scope.toogleMenu = false;
-
-
-
-    $scope.toogleClass = function(){
-
-    	$scope.toogleMenu = !$scope.toogleMenu;
-    	$scope.$emit('toogle',$scope.toogleMenu);
-
-    }
 
 	
 	
@@ -157,7 +146,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 			statusEndTime:null,
 			color: current_lyf.color, 
 			day: moment($scope.graphTime).lang("is").format("ddd"),
-			access_token: access_token,
+			access_token: $window.sessionStorage.token,
 			current_user:""
 
 		}
@@ -227,6 +216,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 			chart: {
 				animation: false,
 				height: ang_container.height()*1.02796
+
 			},
 			legend: {
 				enabled: false
@@ -420,7 +410,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 			}
 		}
 		$scope.updateSumGraph($scope.chartConfig.series);
-	}
+	};
 
 	// function to call an update for the sumgraph from the timepicker (scroller)
 	$scope.updateFromScroll = function() {
@@ -506,4 +496,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch', 'mob
 		}
 		$scope.isSelected = null;
 	}
+
+	$scope.$on('heightChange', function(event, data) { 
+	// 	var container = document.getElementById("drug-chart");
+	// 	var ang_container = angular.element(container); 
+		if (ang_container.height() > 100) $scope.chartConfig.options.chart.height = ang_container.height();
+	});
 });

@@ -13,17 +13,21 @@ angular.module('viewCtr',[])
     	$scope.loginActive = data;
 	});
 
-    $scope.menuDot = false;
-	//toogle between login and signup
-    $scope.$on('toogle', function(event, data) { 
+	$scope.isSettingsMenu = false;
 
-    	$scope.menuDot = data;
-	});
+	$scope.showSettingsMenu = function() {
+		$scope.isSettingsMenu = !$scope.isSettingsMenu;
+	}
 
+	$scope.isCalibrate = false;
 
+	$scope.showCalibrate = function() {
+		$scope.isCalibrate = !$scope.isCalibrate;
+	}
 
+	$scope.isSettings = false;
 
-
-
-
+	$scope.showSettings = function() {
+		$scope.isSettings = !$scope.isSettings;
+	}
 });

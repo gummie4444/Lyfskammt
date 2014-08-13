@@ -31,7 +31,7 @@ html,body{
 	background: #2c3e50;
     margin-left: auto;
 	margin-right: auto;
-	max-width: 1026px;
+	max-width: 1024px;
 	width: 100%;
 	/*overflow: hidden;*/
 	
@@ -52,15 +52,20 @@ html,body{
     width: 100%;
     font-variant: small-caps;
     background: white !important;
+    position: relative;
+}
+
+.desktop {
+	display:none;
 }
 
 .menuContainer{
 	background: #2c3e50;
     margin-left: auto;
 	margin-right: auto;
-	max-width: 1026px;
+	max-width: 1024px;
 	width: 100%;
-	/*overflow: hidden;*/
+	overflow: hidden;
 	
 	height:100%;
 	position: relative;
@@ -73,11 +78,40 @@ html,body{
 }
 
 .settingsContainer{
-	width:60%;
-	height:100%;
+	width:100%;
+	height:90%;
 	left:100%;
+	float:left;
+	color:white;
+	background: #2c3e50;
+}
+
+.options {
+	cursor:pointer;
+}
+
+#top {
+}
+
+.logout {
+	bottom: 0;
 	position: absolute;
-	
+	padding-bottom: 2em;
+}
+
+.settingsContainer li {
+	font-size: 2em;
+	list-style-type: none;
+	margin-bottom: 12px;
+	margin-top: 12px;
+}
+
+.optionsContent {
+	margin-left: 3em;
+}
+
+.optionsList {
+	width: 92%;
 }
 
 .hiddendiv {
@@ -95,16 +129,15 @@ html,body{
 	overflow:hidden;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	float:left;
 	text-align: center;
 	vertical-align: middle;
-	margin-bottom: 1em;
 	color: white;
+	border-bottom: solid 1px white;
 }
 
 
 .header-text{
-	width:90%;
+	width:86%;
 	height:100%;
 	float:left;
 	margin:auto;
@@ -112,17 +145,17 @@ html,body{
 }
 
 .header-text h1{
-	
 	margin-left: 11%;
 	position: relative;
 	top: 30%;
 	-webkit-transform: 	translateY(-50%);
 	transform: 	translateY(-50%);
 	text-align: center;
+	font-size: 2.5em;
 }
 
 .header-settings{
-	width: 10%;
+	width: 14%;
 	height: 100%;
 	float: left;
 	font-size: 4em;
@@ -138,6 +171,7 @@ html,body{
 	color: #bdc3c7;
 	cursor: pointer;
 }
+
 
 
 .graf{
@@ -156,9 +190,9 @@ html,body{
 	top: 8%;
 	z-index: 999;
 	height: 8%;
-	width: 14%;
 	cursor: pointer;
 	margin-top: 2.5em;
+	margin-left: 3%;
 
 }
 .grafbutton:hover{
@@ -562,9 +596,45 @@ div.ui-slider {
 
 @media only screen and (max-width: 780px){
 
+.disableSettingsScroll {
+	overflow: hidden;
+}
+
 .header-settings {
-	font-size: 3em;
-	padding-right: 1em;
+	width: 7%;
+	font-size: 2.5em;
+	margin-top: 11px;
+}
+
+.header-text h1 {
+	font-size: 2em;
+}
+
+.slideLeft {
+	display:block;
+	right: 82%;
+}
+
+.desktop {
+	display:block;
+}
+
+.settingsContainer{
+	width: 82%;
+	height:100%;
+	position: absolute;
+	color:white;
+}
+
+
+.logout {
+}
+
+.optionsList {
+	width: 84%;
+	padding-top: 0;
+	position: relative;
+	height: 90%;
 }
 
 .drugSelect{
@@ -627,9 +697,17 @@ font-size: 50pt;
 }
 
 @media only screen and (min-width: 781px) and (max-width: 993px) {
-	.leftlyf {
-		width: 64.5%;
-	}
+.leftlyf {
+	width: 64.5%;
+}
+
+.header-settings {
+	font-size: 3em;
+}
+
+.header-text h1 {
+	font-size: 2em;
+}
 >>>>>>> 2d93d235e9d1d0a32e1da9708824d7687af1b0a0
 }
 

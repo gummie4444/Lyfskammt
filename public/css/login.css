@@ -6,6 +6,7 @@
 	width: 100%;
 	overflow: hidden;
 	border-bottom: 2px solid white;
+	background: #2c3e50;
 }
 
 #loginheader h1 {
@@ -64,6 +65,11 @@
 
 .mainLogin {
 	padding-top: 15%;
+	height: 65%;
+}
+
+#loginheader {
+	height: 35%;
 }
 
 #loginheader h1 {

@@ -29,7 +29,7 @@
 
 	<!-- BOOTSTRAP -->
 
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
 
@@ -107,6 +107,7 @@
 	
 	<!-- DIRECTIVES-->
 	<script src="js/directives/mobiscroll-dir.js"></script>
+	<script src="js/directives/chart-resize.js"></script>
 
 	 <!-- SERVICES/FACTORYS -->
 	<script src="js/services/lyf.js"></script> 
@@ -119,9 +120,9 @@
 
 </head>
 <!-- SET THE CONTROLLER -->
-<body ng-controller = "viewCtr"   >
+<body ng-controller = "viewCtr" ng-class ="{disableSettingsScroll: isSettingsMenu}"  >
 
-<div  ng-view = "" class ="container" ng-class = "{container: menuDot === false, menuContainer: menuDot === true}"  >
+<div  ng-view = "" class ="container">
 
 
 </div>
