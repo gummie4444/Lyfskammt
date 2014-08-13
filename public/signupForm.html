@@ -1,63 +1,156 @@
 <!doctype html>
 
-<!-- ASSIGN OUR ANGULAR MODULE -->
+
 <html>
 
-
-<!-- SET THE CONTROLLER -->
 <body >
 	<div id = "loginheader">
 			<h1>DrugMix</h1>
 		</div>
 	<div class = "mainLogin" id = "loginForm" ng-class = "{hide: loginActive === false}">
-		<div class = "Logoheader">
-
-		<!-- <button ng-click = "logOutFunc()">logout</button> -->
 		
 
 		<div id = "userLogin"> 
-			<form name "userLogin" ng-submit = "logInFunc()" >
-				<input class = "inputform" placeholder = "Notandanafn" type = "text" ng-model = "login.username" required/></br>
-				<input class = "inputform" placeholder = "Lykilorð" type = "password" ng-model = "login.password" required/></br>
+			<form novalidate name ="userLogin" ng-submit = "logInFunc()" >
+				<input name = "logusername" class = "inputform" placeholder = "Notandanafn" type = "text" ng-model = "login.username" required ng-focus/></br>
+
+				<div class="error" 
+					        ng-show="userLogin.logusername.$dirty && userLogin.logusername.$invalid && !userLogin.logusername.$focused">
+					    <small class="error" 
+						        ng-show="userLogin.logusername.$error.required">
+						        Gleymdiru að skrifa notendanafnið þitt?
+					    </small>
+				</div>
+				<input name = "logpassword" class = "inputform" placeholder = "Lykilorð" type = "password" ng-model = "login.password" required/></br>
+
+				<div class="error" 
+					        ng-show="userLogin.logpassword.$dirty && userLogin.llogpassword.$invalid">
+					    <small class="error" 
+						        ng-show="userLogin.logpassword.$error.required">
+						        Loggar þig ekki inn án password félagi!
+					    </small>
+				</div>
 
 				<button class = "submitButton" type = "submit"> Áfram </button>
 				</form>
-				
-		</div>
 
-				
+				<div class = "error" ng-show = "login.error">
 
-
-		</div>
-		<div class ="footer">
-					<button id = "signupButtonLogin" class ="signupButton" ng-click = "signUpChange(false)">Nýskrá</button>
+					<small class="error"  
+						        ng-show="login.errorValue == 1">
+						        Notendanafn er ekki til í gagnagrunn.
+					</small>
+					<small class="error" 
+					            ng-show="login.errorValue == 2">
+					            Vitlaust lykilorð.
+					</small>
 				</div>
+
+				<button id = "signupButtonLogin" class ="signupButton" ng-click = "signUpChange(false)">Nýskrá</button>
+				
+		</div>
 
 	</div>
 
 
 
-
 		<div class = "mainLogin" id = "registerForm" ng-class = "{hide: loginActive === true}">
-			<div class = "Logoheader">
+			
 
 				
 				<div id = "userSignup">
-				<form name "userSignup" ng-submit = "signUpFunc()" >
-					<input class = "inputform" placeholder = "Nafn" type = "text" ng-model = "signup.name" required/><br/>
-					<input class = "inputform" placeholder = "Email" type = "email" ng-model = "signup.email" required/><br/>
-					<input class = "inputform" placeholder = "Kennitala" type = "text" ng-model = "signup.kt" required/><br/>
-					<input class = "inputform" placeholder = "Notandanafn" type = "text" ng-model = "signup.username" required/><br/>
-					<input class = "inputform" placeholder = "Lykilorð" type = "password" ng-model = "signup.password" required/><br/>
+				<form novalidate name = "userSignup" ng-submit = "signUpFunc()" >
+					<input class = "inputform" name = "name" placeholder = "Nafn" type = "text" ng-model = "signup.name" required ng-minlength=3 ng-focus /><br/>
+					 <div class="error" 
+					        ng-show="userSignup.name.$dirty && userSignup.name.$invalid && !userSignup.name.$focused">
+					    <small class="error" 
+						        ng-show="userSignup.name.$error.required">
+						        Nafn er nauðsýnlegt.
+					    </small>
+					    <small class="error" 
+					            ng-show="userSignup.name.$error.minlength">
+					            Nafnið þitt þarf að vera minnsta kosti 3 stafir.
+					    </small>
+					 </div>
+					<input class = "inputform" name = "email" placeholder = "Email" type = "email" ng-model = "signup.email" required ng-focus /><br/>
 
-					<button class = "submitButton" type = "submit"> Skrá Notanda</button>
+					 <div class="error" 
+					        ng-show="userSignup.email.$dirty && userSignup.email.$invalid && !userSignup.email.$focused">
+					    <small class="error" 
+						        ng-show="userSignup.email.$error.required">
+						        Email er nauðsýnlegt.
+					    </small>
+					    <small class="error" 
+					            ng-show="userSignup.email.$error.email">
+					            Emailið verður að vera á réttu formi (nafn@slóð.is).
+					    </small>
+					 
+					 </div>
+					
+					<input name = "kt" class = "inputform" placeholder = "Kennitala" type = "number" ng-model = "signup.kt" ng-minlength="10" ng-maxlength = "10"  required ng-focus /><br/>
+
+					<div class="error" 
+					        ng-show="userSignup.kt.$dirty && userSignup.kt.$invalid  && !userSignup.kt.$focused">
+					    <small class="error" 
+						        ng-show="userSignup.kt.$error.required">
+						        Kennitala er nauðsýnleg.
+					    </small>
+					    <small class="error" 
+					            ng-show="userSignup.kt.$error.number">
+					            Kennitalan verður að vera tala
+					    </small>
+					     <small class="error" 
+					            ng-show="userSignup.kt.$error.minlength" >
+					            Kennitalan verður að á þessu formati 1304990143
+					    </small>
+					 	<small class="error" 
+					            ng-show= "userSignup.kt.$error.maxlength" >
+					            Kennitalan verður að á þessu formati 1304990143
+					    </small>
+					 </div>
+					<input name = "username" class = "inputform" placeholder = "Notandanafn" type = "text" ng-model = "signup.username"  ng-minlength="5" ensure-unique="signup.username" required ng-focus /><br/>
+
+					<div class="error" 
+					        ng-show="userSignup.username.$dirty && userSignup.username.$invalid && !userSignup.username.$focused">
+					    <small class="error" 
+						        ng-show="userSignup.username.$error.required">
+						        Notendanafn er nauðsýnleg.
+
+					    </small>
+					    
+					     <small class="error" 
+					            ng-show="userSignup.username.$error.minlength" >
+					            Notendanafn verður að vera lengra en 5 stafir.
+					    </small>
+
+					    <small class="error" 
+					            ng-show="userSignup.username.$error.unique" >
+					            Notendanafn er ekki laust.
+					    </small>
+					 	
+					 </div>
+
+					<input  class = "inputform" placeholder = "Lykilorð" type = "password" ng-model = "signup.password" required/><br/>
+					<input  name ="password" class = "inputform" placeholder = " Endurtaka Lykilorð" type = "password" ng-model = "signup.password2" password-match = "signup.password" required/><br/>
+
+					<div class="error" 
+					        ng-show="userSignup.password.$dirty && userSignup.password.$invalid ">
+					    <small class="error" 
+						        ng-show="userSignup.password.$invalid">
+						        Password ekki eins.
+					    </small>
+					    
+					
+					 </div>
+
+					<button ng-disabled="userSignup.$invalid" class = "submitButton" type = "submit"> Skrá Notanda</button>
 					</form>
 
-				</div>
-				</div>
-				<div class ="footer">
 					<button class = "signupButton" ng-click = "signUpChange(true)">Innskrá</button>
+
+				
 				</div>
+				
 	</div>
 
 	

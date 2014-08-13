@@ -2,9 +2,8 @@
 var Drug = require('./models/drug');
 var User = require ('./models/user');
 var Drug_data = require('./models/drug_data');
-//BÚATIL
+
 var Caliplus = require('./models/caliplus');
-//BÚATIL
 var Caliminus = require('./models/caliminus');
 
 //Dependencies
@@ -68,6 +67,33 @@ module.exports = function(app) {
 
 	//HANDLE LOGINS
 	//TODO: USERINTERFACE
+
+
+
+
+	app.get('/api/users/reg', function(req, res) {
+
+		// use mongoose to get all todos in the database
+		User.find(function(err, users) {
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err)
+
+			var userArray = [];
+			for(var i in users){
+				userArray.push(users[i].username);
+				
+			}
+			
+
+			
+			
+
+			res.send(userArray); // return all todos in JSON format
+		});
+	});
+
 	app.post('/api/users',function(req,res){
 
 		var username = req.body.username ;
@@ -85,14 +111,14 @@ module.exports = function(app) {
 				console.log(err + "VIlla2");
 
 				//vitlaust notendanafn
-				return res.send(401);
+				return res.send({ "answer": 1 });
 			}
 
 			users.comparePassword(password, function(isMatch){
 				if (!isMatch){
 					//password vitlaust
 					console.log("Attempt failed to login with: " + users.username);
-					return res.send(401);
+					return res.send({ "answer": 2 });
 				}
 				
 		
@@ -167,7 +193,7 @@ module.exports = function(app) {
 							if(err){
 								res.send(err);
 								}
-							res.send(200);
+						return	res.send({"answer": 1 });
 						});
 				});		
 			}
@@ -175,7 +201,7 @@ module.exports = function(app) {
 			//else return that the username is already in the database
 			else{
 				console.log("Username er frátekið");
-				res.send(401);
+				return res.send({ "answer": 2 });
 
 			}
 

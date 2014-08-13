@@ -146,7 +146,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 			statusEndTime:null,
 			color: current_lyf.color, 
 			day: moment($scope.graphTime).lang("is").format("ddd"),
-			access_token: $window.sessionStorage.token,
+			access_token:$window.sessionStorage.token,
 			current_user:""
 
 		}
