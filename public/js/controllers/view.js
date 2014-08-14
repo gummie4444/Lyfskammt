@@ -15,24 +15,23 @@ angular.module('viewCtr',[])
 
 	$scope.$on('loggedIn', function (event, data) {
 		$scope.isSettingsMenu = data;
-	})
+	});
 
 	$scope.isSettingsMenu = false;
 
 	$scope.showSettingsMenu = function() {
 		$scope.isSettingsMenu = !$scope.isSettingsMenu;
-		console.log($scope.isSettingsMenu)
-	}
+	};
 
 	$scope.isCalibrate = false;
 
 	$scope.showCalibrate = function() {
 		$scope.isCalibrate = !$scope.isCalibrate;
-	}
+	};
 
 	$scope.isSettings = false;
 
 	$scope.showSettings = function() {
 		$scope.isSettings = !$scope.isSettings;
-	}
+	};
 });

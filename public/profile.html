@@ -8,43 +8,50 @@
 	<div class = "header">
 
 		<div class = "header-text">
+			<span class = "usernameHeader">Hólmgrímur</span>
 			<h1>DrugMix</h1>
 		</div>
 		<div class = "header-settings">
-			<a ng-click = "showSettingsMenu()">&#9776;</a>
+			<a ng-class = "{settingsOn: isSettingsMenu}" ng-click = "showSettingsMenu()">&#9776;</a>
 		</div>
 	</div>
 	<div class ="settingsContainer" ng-show ="isSettingsMenu">
-		<ul class = "optionsList" ng-hide ="isCalibrate || isSettings">
-			<li class = "options" ng-click = "showSettings()" id = "top">Stillingar</li>
-			<hr>
-			<li class = "options" ng-click = "showCalibrate()">Calibrate</li>
-			<hr>
-			<li ng-click = "logOutFunc()" class = "options logout">Útskrá</li>
-		</ul>
-
-		<div id ="settings" ng-show ="isSettings">
-			<ul class ="optionsList">
-				<li class = "options" id ="top" ng-click = "showSettings()">Stillingar</li>
-				<hr>
-			</ul>
-			<div class = "optionsContent" id = "settingsContent">
-				<span>blabla stillingar hér blabla</span>
-			</div>
+		<div class = "header" ng-class ="{desktop: isSettingsMenu}">
+			<span class = "usernameHeader settingsHeader">Hólmgrímur</span>
 		</div>
 
-		<div id ="calibration" ng-show ="isCalibrate">
-			<ul class ="optionsList">
-				<li class = "options" id ="top" ng-click = "showCalibrate()">Calibrate</li>
+		<div class = "settingsContent" style ="height: 90%;">
+			<ul class = "optionsList" ng-hide ="isCalibrate || isSettings">
+				<li class = "options" ng-click = "showSettings()" id = "top">Stillingar</li>
 				<hr>
+				<li class = "options" ng-click = "showCalibrate()">Calibrate</li>
+				<hr>
+				<li ng-click = "logOutFunc()" class = "options logout">Útskrá</li>
 			</ul>
-			<div class = "optionsContent" id = "calibrationContent">
-				<span>blabla calibrate hér blabla</span>
+
+			<div id ="settings" ng-show ="isSettings">
+				<ul class ="optionsList">
+					<li class = "options" id ="top" ng-click = "showSettings()">Stillingar</li>
+					<hr>
+				</ul>
+				<div class = "optionsContent" id = "settingsContent">
+					<span>blabla stillingar hér blabla</span>
+				</div>
+			</div>
+
+			<div id ="calibration" ng-show ="isCalibrate">
+				<ul class ="optionsList">
+					<li class = "options" id ="top" ng-click = "showCalibrate()">Calibrate</li>
+					<hr>
+				</ul>
+				<div class = "optionsContent" id = "calibrationContent">
+					<span>blabla calibrate hér blabla</span>
+				</div>
 			</div>
 		</div>
 
 	</div>
-	<div class = "wrapper" style ="height: 90%;" ng-class ="{desktop: isSettingsMenu}">
+	<div class = "wrapper" style ="height: 90%; position: relative;" ng-class ="{desktop: isSettingsMenu}">
 	<div class = "graf" id="drug-chart" resize>
 		<img src="img/Red_Arrow_Right.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
 		<img src="img/Red_Arrow_Left.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
@@ -61,7 +68,7 @@
 				</div>
 
 				<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-					<span>{{drug.name}} || {{drug.amount}} || {{drug.stringTime}}</span>
+					<span>{{drug.name}} || {{drug.stringTime}}</span>
 				</div>
 
 				<div class = "remove" id = "id_{{drug.name}}">
@@ -81,9 +88,6 @@
 
 	<div ng-hide="isSelected === null" id="timepicker">
 		<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
-		<!-- <input type = "text" class = "sliderInput" id = "prufadot" ng-model= "clock_time" readonly ></input>
-		<div id = "MainSlider">
-		</div> -->
 	</div>
 	<div id = "confirm" ng-hide="isSelected === null">
 		<button ng-click="save(isSelected)">VISTA</button>

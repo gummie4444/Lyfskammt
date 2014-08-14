@@ -16,7 +16,6 @@ html,body{
 	text-rendering: optimizeLegibility;
 	font-family: Lato, sans-serif !important;
 	background-color: #ECECEC !important;
-	
 }
 
 #loadingIcon {
@@ -33,14 +32,10 @@ html,body{
 	margin-right: auto;
 	max-width: 1024px;
 	width: 100%;
-	/*overflow: hidden;*/
-	
 	height:100%;
 	position: relative;
 	display: block;
-	/*padding: 0.2em;*/
 	padding: 0 !important;
-	
 }
 
 .container h1 {
@@ -66,15 +61,11 @@ html,body{
 	max-width: 1024px;
 	width: 100%;
 	overflow: hidden;
-	
 	height:100%;
 	position: relative;
 	display: block;
-	/*padding: 0.2em;*/
 	padding: 0 !important;
     left:-60%;
-
-
 }
 
 .settingsContainer{
@@ -90,13 +81,10 @@ html,body{
 	cursor:pointer;
 }
 
-#top {
-}
 
 .logout {
 	bottom: 0;
 	position: absolute;
-	padding-bottom: 2em;
 }
 
 .settingsContainer li {
@@ -114,18 +102,25 @@ html,body{
 	width: 92%;
 }
 
-.hiddendiv {
-	display:none;
+.usernameHeader {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin-bottom: 2%;
+	margin-left: 2%;
+	font-size: 1.6em;
+}
+
+.settingsHeader {
+	font-size: 1.5em !important;
+	margin-left: 40px;
 }
 
 .header{
 	background: #2c3e50;
-
-
 	width: 100%;
 	height: 10%;
 	position: relative;
-	
 	overflow:hidden;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -141,13 +136,12 @@ html,body{
 	height:100%;
 	float:left;
 	margin:auto;
-
 }
 
 .header-text h1{
 	margin-left: 11%;
 	position: relative;
-	top: 30%;
+	top: 20%;
 	-webkit-transform: 	translateY(-50%);
 	transform: 	translateY(-50%);
 	text-align: center;
@@ -163,7 +157,6 @@ html,body{
 
 .header-settings a{
 	color:white;
-
 }
 
 .header-settings a:hover {
@@ -172,7 +165,9 @@ html,body{
 	cursor: pointer;
 }
 
-
+.settingsOn {
+	color: #bdc3c7 !important;
+}
 
 .graf{
 	background:#ecf0f1;
@@ -182,26 +177,21 @@ html,body{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-
 }
 
 .grafbutton{
 	position: absolute;
-	top: 8%;
 	z-index: 999;
 	height: 8%;
 	cursor: pointer;
 	margin-top: 2.5em;
 	margin-left: 3%;
-
 }
 .grafbutton:hover{
 	-moz-box-shadow: 0 0 5px #ccc;
 	 -webkit-box-shadow: 0 0 5px #ccc;
 	 box-shadow: 0 0 5px #ccc;
-
 }
-
 
 #haegri{
 	left:86%;}
@@ -212,45 +202,33 @@ html,body{
 
 .lyfvalinn{
 	background: rgba(255, 255, 255, 0.9);
-
-
-
 	width:100%;
-	
 	height: 30%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	/*float:left;*/
 }
 
 .lyf{
-	/*background:#27ae60;*/
 	background:#C8C8C8;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	height:20%;
-	/*border:1px solid #2ecc71;*/
 	font-weight: bold;
 	width: 100%;
 	margin-top: 0.3em;
-	
 }
 .lyf2{
-	/*background:#c0392b;*/
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	width:100%;
 	height:20%;
-	/*border:1px solid #e74c3c;*/
 	font-weight: bold;
 	margin-top: 0.3em;
-	
 }
 
 .selected{
-	/*background:#e74c3c;*/
 	opacity: 0.5;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -258,16 +236,11 @@ html,body{
 	width:100%;
 	height:20%;
 	border: 3px solid white;
-
 }
 
 .unchecked {
 	opacity: 0.5;
 	background-color: gray !important;
-}
-
-.hide {
-	display:none;
 }
 
 
@@ -303,21 +276,13 @@ html,body{
 	text-align: center;
 	margin: 0px !important;
 	margin-right: 0.3em !important;
-
 }
 
-.checkbox input {
-}
-
-.checkbox input[type="checkbox"] {
-}
 
 input[type='checkbox'] {
-    /*-webkit-appearance:none;*/
     width:30px;
     height:30px;
     background: #7f8c8d;
-    
     border-radius:5px;
     border:2px solid #555;
     position: relative;
@@ -340,7 +305,6 @@ input[type='checkbox']:checked {
 	height:100%;
 	text-align: center;
 	margin-left: 0.3em !important;
-
 }
 
 .remove button{
@@ -360,39 +324,20 @@ input[type='checkbox']:checked {
 #addDrugButton {
 	height: 100%;
 	width: 100%;
-	font-size: 2.2em;
+	font-size: 2em;
 	border: none;
 	background: #bdc3c7
 }
 
-/*
-.bla{
-		position: relative;
-	
-	
-	width:50%;
-	height: 30%;
-	
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float:left;
-	text-align: center;
-
-}*/
 #timepicker{
 	background: rgba(248, 248, 248, 1);
-
 	position: relative;
-	
-	
 	width:70%;
 	height: 25%;
-	
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	text-align: center;
-
 }
 
 #confirm {
@@ -400,7 +345,6 @@ input[type='checkbox']:checked {
 	height: 25%;
 	float: left;
 	background: rgba(248, 248, 248, 1);
-
 }
 
 #confirm button {
@@ -415,53 +359,17 @@ input[type='checkbox']:checked {
 	width: 55%;
 }
 
-
 .dw-bf {
 	padding-left: 25%;
-}
-
-
-.sliderInput{
-	font-size: 4em;
-	width:100%;
-	height: 80%;
-		-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float:left;
-	text-align: center;
-
 }
 
 #mobiscroller {
 	display: none;
 }
 
-
-
-#MainSlider{
-	cursor: pointer;
-	text-align: center;
-	font-size: 4em;
-	width:100%;
-	overflow: hidden;
-
-		-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float:left;
-	text-align: center;
-	margin-left: 0px;
-}
-
-div.ui-slider {
-	height: 20% !important;
-	margin: 0px !important;
-}
-
-
 .buttons {
 	width: 100%;
 	float: left;
-
 	margin-top: 20px;
 }
 
@@ -469,8 +377,6 @@ div.ui-slider {
 	width: 50%;
 	float: left;
 }
-
-
 
 .smiley {
 	width: 100%;
@@ -505,10 +411,8 @@ div.ui-slider {
 	text-align: center;
 	padding:0.3em;
 	margin:0.3em;
-
 }
 .drugSelect{
-
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
@@ -516,8 +420,6 @@ div.ui-slider {
 	font-size: 0.8em;
 	margin: 0 auto;
 	height: 150px;
-	
-	
 }
 .drugSelect button{
 	width:100%;
@@ -533,7 +435,6 @@ div.ui-slider {
 	box-sizing: border-box;
 	float: left;
 	padding-top: 0.7em;
-	
 }
 
 .rightInnerButton{
@@ -548,49 +449,9 @@ div.ui-slider {
 	width:50%;
 }
 
-
-
-
-.hiddendiv img{
-	display:none;
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+	width: 600px !important;
 }
-
-.contentContain{
-	width:100%;
-	
-	
-	text-align: center;
-}
-
-.info2{
-	width:70%;
-	
-	text-align: center;
-	background: red;
-	margin-left: auto;
-		margin-right: auto;
-}
-
-.buttons2{
-	/*background:#d35400;*/
-
-	background: rgb(212,228,239); /* Old browsers */
-	background: -moz-linear-gradient(-45deg,  rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(212,228,239,1)), color-stop(100%,rgba(134,174,204,1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(-45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(-45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(-45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* IE10+ */
-	background: linear-gradient(135deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
-
-	width:20%;
-	height: 15%;
-	
-	text-align: center;
-	
-	}
-
 
 
 
@@ -598,6 +459,10 @@ div.ui-slider {
 
 .disableSettingsScroll {
 	overflow: hidden;
+}
+
+.usernameHeader {
+	font-size: 1em;
 }
 
 .header-settings {
@@ -615,6 +480,8 @@ div.ui-slider {
 	right: 82%;
 }
 
+
+
 .desktop {
 	display:block;
 }
@@ -624,10 +491,7 @@ div.ui-slider {
 	height:100%;
 	position: absolute;
 	color:white;
-}
-
-
-.logout {
+	top: 0;
 }
 
 .optionsList {
@@ -638,14 +502,13 @@ div.ui-slider {
 }
 
 .drugSelect{
-	
 	width:50%;
 	height: 100px;
 	font-size: 0.5em;
-
 }
+
 .smiley {
-font-size: 50pt;
+	font-size: 50pt;
 }
 
 .rightInnerButton img{
@@ -655,48 +518,57 @@ font-size: 50pt;
 
 .lyfvalinn{
 	height:40%;
-
 }
+
 .leftlyf {
 	font-size: 0.8em;
 	width: 63%;
 }
+
+#timepicker {
+	height: 41%;
+}
+
+#confirm {
+	height: 41%;
+}
+
 .graf{
 	height: 50%;
 }
+
 .header{
 	height: 10%;
 }
-.sliderInput{
-	font-size: 2.5em;
-
-}
-
 
 .grafbutton {
 	display: none;
 }
-<<<<<<< HEAD
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+	width: 65% !important;
+}
+
 }
 @media only screen and (max-width: 550px){
 
 .drugSelect{
 	width: 100%;
 	height:80px;
-	 
-
 }	
 
-=======
 #timepicker {
-	height: 29%;
+	height: 41%;
 }
+
 #confirm {
-	height: 29%;
+	height: 41%;
 }
+
 }
 
 @media only screen and (min-width: 781px) and (max-width: 993px) {
+
 .leftlyf {
 	width: 64.5%;
 }
@@ -708,11 +580,12 @@ font-size: 50pt;
 .header-text h1 {
 	font-size: 2em;
 }
->>>>>>> 2d93d235e9d1d0a32e1da9708824d7687af1b0a0
+
 }
 
 @media only screen and (max-width: 424px) {
-	.leftlyf {
-		font-size: 0.65em;
-	}
+.leftlyf {
+	font-size: 0.65em;
+}
+
 }

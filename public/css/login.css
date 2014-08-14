@@ -1,5 +1,3 @@
-
-
 #loginheader {
 	text-align: center;
 	height: 40%;
@@ -12,7 +10,7 @@
 #loginheader h1 {
 	position: relative;
 	top: 46%;
-	transform: 	translateY(-50%);
+	transform: translateY(-50%);
 	font-variant: small-caps;
 	font-size: 6em;
 }
@@ -31,8 +29,6 @@
 	background: #34495e;
 }
 
-
-
  .error{
  	width:auto;
  	color:white;
@@ -48,9 +44,8 @@
 .signupButton {
 	border: none;
 	border-radius: 5px;
-	width: 100px;
+	width: 120px;
 	margin-top:2em;
-	
 }
 
 #userLogin {
@@ -70,30 +65,33 @@ input::-webkit-inner-spin-button {
 	border-radius: 5px;
 	border: none;
 	padding-left: 0.5em;
-
 }
+
 ::-webkit-input-placeholder { /* WebKit browsers */
     color:    #999;
 }
+
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:    #999;
     opacity:  1;
 }
+
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
     color:    #999;
     opacity:  1;
 }
+
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:    #999;
 }
 
 .inputform.ng-invalid.ng-dirty {
     background-color: #e74c3c !important;
-  }
+}
 
  .inputform.ng-valid.ng-dirty {
     background-color: #27ae60 !important;
-  }
+}
 
 .footer {
 	height: 20%;
@@ -110,4 +108,5 @@ input::-webkit-inner-spin-button {
 #loginheader h1 {
 	font-size: 4em;
 }
+
 }		

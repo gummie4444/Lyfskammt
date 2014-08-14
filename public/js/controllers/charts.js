@@ -13,10 +13,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:moment().minute()}).valueOf();
 	$scope.drugs= {};
 	$scope.index = 0;
-	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()})
+	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()});
     $scope.isSelected= null;
     $scope.clock_time = moment().format('HH'+':'+'mm');
-    $scope.clock_display;
 
 	
 	
@@ -33,8 +32,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 	Lyf.get()
 			.success(function(data) {
+				console.log(data)
 				$scope.loading = false;
-				$scope.chartConfig.loading = false;
 				$scope.drugs = data;
 				for (var i in $scope.drugs) {
 					$scope.chartConfig.series.push($scope.drugs[i]);
@@ -45,7 +44,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 						$scope.drugs[i].show = true;
 					}
 				}
-				$scope.updateSumGraph($scope.chartConfig.series)
+				$scope.updateSumGraph($scope.chartConfig.series);
 			});
 
 
@@ -61,40 +60,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
                 timeWheels:'HHii',
                 layout: 'liquid',
                 headerText: false,
-        }
+    };
 
-
-    // config for timepicker (slider)
-    $scope.slider = {
-		options: {
-			min: 0,
-			max: 1435,
-			step:5,
-			value: moment().minutes()+moment().hours()*60,
-			stop: function (event, ui) {
-				for (i in $scope.chartConfig.series) {
-    				if ($scope.isSelected === $scope.chartConfig.series[i].id) { // find the drug with matching id
-    					$scope.createDrug($scope.chartConfig.series[i]);
-    				}
-    			}
-			},
-			slide: function (event, ui) { 
-				var hours = Math.floor(ui.value / 60);
-				var minutes = ui.value - (hours * 60);
-
-				if(hours.toString().length == 1) hours = '0' + hours;
-				if(minutes.toString().length == 1) minutes = '0' + minutes;
-
-				var input = $("#prufadot");
-
-				$scope.updateSumGraph($scope.chartConfig.series)
-    	
-    
-		        input.val( hours+':'+minutes );
-		        input.trigger('input');
-			}
-		}
-    }
 
 
 	// ========= //
@@ -109,7 +76,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		Lyf.create(drug)
 				.success(function(data) {
 					$scope.drugs.push(data); // assign our new list of todos
-					console.log("success!")
 				});
 	};
 
@@ -120,7 +86,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 					$scope.loading = false;
 					
 				});
-			$scope.updateSumGraph($scope.chartConfig.series)
+			$scope.updateSumGraph($scope.chartConfig.series);
 		};
 
 	//Functon thats called when we create a drug
@@ -153,13 +119,11 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		$scope.chartConfig.series.push(current_lyf_updated);
 		$scope.isSelected = null;	
 		$scope.createDrug(current_lyf_updated);
-		$scope.updateSumGraph($scope.chartConfig.series)
-		console.log($scope.drugs)
+		$scope.updateSumGraph($scope.chartConfig.series);
 	}
   	
   	//Remove the drug locally from the view
 	$scope.removeDrug = function(drug_id) {
-	
 		for (var i in $scope.chartConfig.series) {
 			if ($scope.chartConfig.series[i].id === drug_id) {
 				var series = $scope.chartConfig.series;
@@ -169,10 +133,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 		for (var i in $scope.drugs) {
 			if ($scope.drugs[i].id === drug_id) {
-				$scope.drugs.splice(i,1)
+				$scope.drugs.splice(i,1);
 			}
 		}
-		$scope.deleteDrug(drug_id)
+		$scope.deleteDrug(drug_id);
 		$scope.isSelected = null;
 	}
 	//Create a empty graph for the init of the graph
@@ -193,7 +157,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 					for (j in drugs[i].data) { // iterate through every data point per drug
 						for (k in $scope.chartConfig.series[0].data) // iterate through every data point in the "sum" curve
 							if (Math.abs(drugs[i].data[j][0] - $scope.chartConfig.series[0].data[k][0]) <= 150000) {// round every point on the drug graph to the nearest point on the sum curve (15000ms === 2.5 minutes)
-								$scope.chartConfig.series[0].data[k][1] += drugs[i].data[j][1] // update the sum graph with values from the drug graphs
+								$scope.chartConfig.series[0].data[k][1] += drugs[i].data[j][1]; // update the sum graph with values from the drug graphs
 							}
 					}
 				}
@@ -233,32 +197,26 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 
 		},
-		loading: true,
 		series: [
 		{
 			data: $scope.createEmptySumGraph(),
 			color: "black",
 			zIndex: 1,
 			lineWidth: 7,
-			
 		}
 		],
-		// ENABLE HIGHSTOCK TO USE THIS
-		// scrollbar: {
-		// 		enabled: true
-		// 	},
 		
 		title: {
 			text: moment($scope.date).lang("is").format("dddd Do MMMM")
 		},
 		xAxis: {
 			plotLines: [{
-				color: '#FFB508',
+				color: '#2c3e50',
                 width: 1,
                 value: moment().valueOf(),
             }],
-			min : $scope.date.valueOf()+21600000,
-			max : $scope.date.valueOf()+86400000, 
+			min : $scope.date.valueOf()+21600000, // 06:00
+			max : $scope.date.valueOf()+86400000,  // 24:00
 			type: 'datetime'
 		},
 		yAxis: {
@@ -301,22 +259,18 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 				}
 				else {
-					$scope.chartConfig.series[i].dashStyle = false
-
+					$scope.chartConfig.series[i].dashStyle = false;
 				}
 			}
     	}
     };
 
-
     //Function for the popupp dialog
     $scope.clickToOpen = function () {
-    	console.log("open")
-    	$scope.index = moment().valueOf()*Math.random()
+    	$scope.index = moment().valueOf()*Math.random();
 
         ngDialog.open({ template: 'template.html',
         				scope:$scope
-
         				 });  
     };
 
@@ -369,7 +323,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 		var time_split = $scope.stringTime.split(":");
 
-		$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: time_split[0], m: time_split[1]}).valueOf()
+		$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: time_split[0], m: time_split[1]}).valueOf();
 
 		for (var i in $scope.drugs) {
 			if (!moment($scope.drugs[i].date).isSame($scope.date)) {
@@ -384,9 +338,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	//Swipe for smartphones
 	$scope.swipeGraph = function(desc) {
 		if (desc === 'left') 
-			$scope.moveDay('left')
+			$scope.moveDay('left');
 		else 
-			$scope.moveDay('right')
+			$scope.moveDay('right');
 	};
 
 	//Fonction for so the user can decide witch of the drugs he has selected are gonna be used
@@ -406,17 +360,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		$scope.updateSumGraph($scope.chartConfig.series);
 	};
 
-	// function to call an update for the sumgraph from the timepicker (scroller)
-	$scope.updateFromScroll = function() {
-		// console.log("updatefromscroll")
-		$scope.updateSumGraph($scope.chartConfig.series);
-	}
 
 	// WATCH/UPDATE FUNCTIONS //
-	
-	// $scope.$watch('chartConfig.series', function(newValues) {
-	// 		$scope.updateSumGraph(newValues)
-	// }, true);
 
 	
 	$scope.$watch('clock_time', function (newValue, oldValue) {
@@ -425,7 +370,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
         if(typeof newValue !== 'undefined'){
         	var res = newValue.split(":");
 	      	
-	      	$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: res[0], m: res[1]}).valueOf()
+	      	$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: res[0], m: res[1]}).valueOf();
 	        $scope.stringTime = newValue;
    		 }
 	    else {
@@ -445,31 +390,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     			}
     			var d = moment($scope.graphTime);
     			$scope.chartConfig.series[i].graphTime = $scope.graphTime; // update the graph's graphTime
-    			$scope.chartConfig.series[i].stringTime = $scope.prenta(d.minutes(), d.hours()) // update the graph's stringTime
-    			$scope.drugs[i-1] = $scope.chartConfig.series[i] // copy the graph to the drugs array
+    			$scope.chartConfig.series[i].stringTime = $scope.prenta(d.minutes(), d.hours()); // update the graph's stringTime
+    			$scope.drugs[i-1] = $scope.chartConfig.series[i]; // copy the graph to the drugs array
     		}
     	}
     	$scope.updateSumGraph($scope.chartConfig.series);
     });
 
-    // $scope.$watch('isSelected', function(newValue) {
-  //   	if (newValue === null) {
-  //   		for (i in $scope.chartConfig.series) {
-		// 		$scope.chartConfig.series[i].dashStyle = false;
-		// 	}
-  //   	}
-		// else {
-		// 	for (i in $scope.chartConfig.series) {
-		// 		if ($scope.isSelected === $scope.chartConfig.series[i].id) {
-		// 			$scope.chartConfig.series[i].dashStyle = 'shortdash';
-
-		// 		}
-		// 		else {
-		// 			$scope.chartConfig.series[i].dashStyle = false
-		// 		}
-		// 	}
-  //   	}
-    // });
 
     $scope.prenta = function(minutes,hours){
 		if (hours.toString().length == 1){
@@ -485,21 +412,19 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		for (i in $scope.chartConfig.series) {
     				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
     					$scope.createDrug($scope.chartConfig.series[i]);
-    					$scope.chartConfig.series[i].dashStyle = false
+    					$scope.chartConfig.series[i].dashStyle = false;
     				}
 		}
 		$scope.isSelected = null;
-	}
+	};
 
 	$scope.logOutFunc = function(){
-
 		 if (authService.isAuthenticated) {
                 authService.isAuthenticated = false;
                 delete $window.sessionStorage.token;
                 $location.path("/");
             }
-	          
-		   }
+	};
 
 	$scope.$on('heightChange', function(event, data) { 
 	// 	var container = document.getElementById("drug-chart");
@@ -510,142 +435,142 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	var blabla = []
 
 // CONVERTER VÉLIN
-blabla.push(0.00)
-blabla.push(0.00)
-blabla.push(0.00)
-blabla.push(0.00)
-blabla.push(0.00)
-blabla.push(4.72)
-blabla.push(27.45)
-blabla.push(54.61)
-blabla.push(85.58)
-blabla.push(119.80)
-blabla.push(156.73)
-blabla.push(195.88)
-blabla.push(236.78)
-blabla.push(278.98)
-blabla.push(322.10)
-blabla.push(365.75)
-blabla.push(409.58)
-blabla.push(453.28)
-blabla.push(496.56)
-blabla.push(539.14)
-blabla.push(580.79)
-blabla.push(621.28)
-blabla.push(660.42)
-blabla.push(698.03)
-blabla.push(733.95)
-blabla.push(768.05)
-blabla.push(800.21)
-blabla.push(830.33)
-blabla.push(858.33)
-blabla.push(884.14)
-blabla.push(907.71)
-blabla.push(929.00)
-blabla.push(947.99)
-blabla.push(964.65)
-blabla.push(979.01)
-blabla.push(991.06)
-blabla.push(1000.82)
-blabla.push(1008.34)
-blabla.push(1013.64)
-blabla.push(1016.78)
-blabla.push(1017.82)
-blabla.push(1016.81)
-blabla.push(1013.83)
-blabla.push(1008.96)
-blabla.push(1002.26)
-blabla.push(993.84)
-blabla.push(983.77)
-blabla.push(972.15)
-blabla.push(959.08)
-blabla.push(944.64)
-blabla.push(928.96)
-blabla.push(912.11)
-blabla.push(894.21)
-blabla.push(875.36)
-blabla.push(855.65)
-blabla.push(835.20)
-blabla.push(814.10)
-blabla.push(792.46)
-blabla.push(770.37)
-blabla.push(747.92)
-blabla.push(725.23)
-blabla.push(702.37)
-blabla.push(679.43)
-blabla.push(656.51)
-blabla.push(633.68)
-blabla.push(611.03)
-blabla.push(588.64)
-blabla.push(566.57)
-blabla.push(544.89)
-blabla.push(523.66)
-blabla.push(502.95)
-blabla.push(482.82)
-blabla.push(463.30)
-blabla.push(444.45)
-blabla.push(426.30)
-blabla.push(408.90)
-blabla.push(392.27)
-blabla.push(376.43)
-blabla.push(361.42)
-blabla.push(347.24)
-blabla.push(333.90)
-blabla.push(321.41)
-blabla.push(309.77)
-blabla.push(298.97)
-blabla.push(289.01)
-blabla.push(279.87)
-blabla.push(271.54)
-blabla.push(263.98)
-blabla.push(257.18)
-blabla.push(251.11)
-blabla.push(245.72)
-blabla.push(240.98)
-blabla.push(236.84)
-blabla.push(233.27)
-blabla.push(230.22)
-blabla.push(227.63)
-blabla.push(225.44)
-blabla.push(223.62)
-blabla.push(222.09)
-blabla.push(220.80)
-blabla.push(219.69)
-blabla.push(218.71)
-blabla.push(217.78)
-blabla.push(216.86)
-blabla.push(215.88)
-blabla.push(214.79)
-blabla.push(213.52)
-blabla.push(212.02)
-blabla.push(210.25)
-blabla.push(208.16)
-blabla.push(205.69)
-blabla.push(202.80)
-blabla.push(199.47)
-blabla.push(195.66)
-blabla.push(191.34)
-blabla.push(186.50)
-blabla.push(181.13)
-blabla.push(175.22)
-blabla.push(168.77)
-blabla.push(161.81)
+// blabla.push(0.00)
+// blabla.push(0.00)
+// blabla.push(0.00)
+// blabla.push(0.00)
+// blabla.push(0.00)
+// blabla.push(4.72)
+// blabla.push(27.45)
+// blabla.push(54.61)
+// blabla.push(85.58)
+// blabla.push(119.80)
+// blabla.push(156.73)
+// blabla.push(195.88)
+// blabla.push(236.78)
+// blabla.push(278.98)
+// blabla.push(322.10)
+// blabla.push(365.75)
+// blabla.push(409.58)
+// blabla.push(453.28)
+// blabla.push(496.56)
+// blabla.push(539.14)
+// blabla.push(580.79)
+// blabla.push(621.28)
+// blabla.push(660.42)
+// blabla.push(698.03)
+// blabla.push(733.95)
+// blabla.push(768.05)
+// blabla.push(800.21)
+// blabla.push(830.33)
+// blabla.push(858.33)
+// blabla.push(884.14)
+// blabla.push(907.71)
+// blabla.push(929.00)
+// blabla.push(947.99)
+// blabla.push(964.65)
+// blabla.push(979.01)
+// blabla.push(991.06)
+// blabla.push(1000.82)
+// blabla.push(1008.34)
+// blabla.push(1013.64)
+// blabla.push(1016.78)
+// blabla.push(1017.82)
+// blabla.push(1016.81)
+// blabla.push(1013.83)
+// blabla.push(1008.96)
+// blabla.push(1002.26)
+// blabla.push(993.84)
+// blabla.push(983.77)
+// blabla.push(972.15)
+// blabla.push(959.08)
+// blabla.push(944.64)
+// blabla.push(928.96)
+// blabla.push(912.11)
+// blabla.push(894.21)
+// blabla.push(875.36)
+// blabla.push(855.65)
+// blabla.push(835.20)
+// blabla.push(814.10)
+// blabla.push(792.46)
+// blabla.push(770.37)
+// blabla.push(747.92)
+// blabla.push(725.23)
+// blabla.push(702.37)
+// blabla.push(679.43)
+// blabla.push(656.51)
+// blabla.push(633.68)
+// blabla.push(611.03)
+// blabla.push(588.64)
+// blabla.push(566.57)
+// blabla.push(544.89)
+// blabla.push(523.66)
+// blabla.push(502.95)
+// blabla.push(482.82)
+// blabla.push(463.30)
+// blabla.push(444.45)
+// blabla.push(426.30)
+// blabla.push(408.90)
+// blabla.push(392.27)
+// blabla.push(376.43)
+// blabla.push(361.42)
+// blabla.push(347.24)
+// blabla.push(333.90)
+// blabla.push(321.41)
+// blabla.push(309.77)
+// blabla.push(298.97)
+// blabla.push(289.01)
+// blabla.push(279.87)
+// blabla.push(271.54)
+// blabla.push(263.98)
+// blabla.push(257.18)
+// blabla.push(251.11)
+// blabla.push(245.72)
+// blabla.push(240.98)
+// blabla.push(236.84)
+// blabla.push(233.27)
+// blabla.push(230.22)
+// blabla.push(227.63)
+// blabla.push(225.44)
+// blabla.push(223.62)
+// blabla.push(222.09)
+// blabla.push(220.80)
+// blabla.push(219.69)
+// blabla.push(218.71)
+// blabla.push(217.78)
+// blabla.push(216.86)
+// blabla.push(215.88)
+// blabla.push(214.79)
+// blabla.push(213.52)
+// blabla.push(212.02)
+// blabla.push(210.25)
+// blabla.push(208.16)
+// blabla.push(205.69)
+// blabla.push(202.80)
+// blabla.push(199.47)
+// blabla.push(195.66)
+// blabla.push(191.34)
+// blabla.push(186.50)
+// blabla.push(181.13)
+// blabla.push(175.22)
+// blabla.push(168.77)
+// blabla.push(161.81)
 
 
 
-var yoyo = {}
+// var yoyo = {}
 
-for (i in blabla) {
-	yoyo[i] = new Array(2);
-	yoyo[i][0] = parseInt(i);
-	yoyo[i][1] = blabla[i];
+// for (i in blabla) {
+// 	yoyo[i] = new Array(2);
+// 	yoyo[i][0] = parseInt(i);
+// 	yoyo[i][1] = blabla[i];
 
-}
-for (i in yoyo) {
-	console.log("[");
-	console.log(yoyo[i][0] + ',')
-	console.log(yoyo[i][1]);
-	console.log("],")
-}
-console.log(yoyo)
+// }
+// for (i in yoyo) {
+// 	console.log("[");
+// 	console.log(yoyo[i][0] + ',')
+// 	console.log(yoyo[i][1]);
+// 	console.log("],")
+// }
+// console.log(yoyo)
 });
