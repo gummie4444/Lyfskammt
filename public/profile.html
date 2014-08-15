@@ -4,7 +4,7 @@
 				<span class="fa fa-spinner fa-spin fa-3x"></span></br>
 				<span>Sæki gögn..</span>
 				</div>
-<div class = "container2" ng-hide="loading" ng-class ="{slideLeft: isSettingsMenu}" >
+<div class = "container2 noselect" ng-hide="loading" ng-class ="{slideLeft: isSettingsMenu}" >
 	<div class = "header">
 
 		<div class = "header-text">
@@ -15,7 +15,7 @@
 			<a ng-class = "{settingsOn: isSettingsMenu}" ng-click = "showSettingsMenu()">&#9776;</a>
 		</div>
 	</div>
-	<div class ="settingsContainer" ng-show ="isSettingsMenu">
+	<div class ="settingsContainer" ng-class ="{desktop: !isSettingsMenu}">
 		<div class = "header" ng-class ="{desktop: isSettingsMenu}">
 			<span class = "usernameHeader settingsHeader">Hólmgrímur</span>
 		</div>

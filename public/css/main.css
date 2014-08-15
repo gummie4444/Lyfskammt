@@ -16,6 +16,17 @@ html,body{
 	text-rendering: optimizeLegibility;
 	font-family: Lato, sans-serif !important;
 	background-color: #ECECEC !important;
+	overflow-x:hidden;
+}
+
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
 }
 
 #loadingIcon {
@@ -48,6 +59,13 @@ html,body{
     font-variant: small-caps;
     background: white !important;
     position: relative;
+
+    -webkit-transition: all .25s ease-in-out;
+-khtml-transition: all .25s ease-in-out;
+-moz-transition: all .25s ease-in-out;
+-ms-transition: all .25s ease-in-out;
+-o-transition: all .25s ease-in-out;
+transition: all .25s ease-in-out;
 }
 
 .desktop {
@@ -75,6 +93,13 @@ html,body{
 	float:left;
 	color:white;
 	background: #2c3e50;
+
+	-webkit-transition: all .25s ease-in-out;
+-khtml-transition: all .25s ease-in-out;
+-moz-transition: all .25s ease-in-out;
+-ms-transition: all .25s ease-in-out;
+-o-transition: all .25s ease-in-out;
+transition: all .25s ease-in-out;
 }
 
 .options {
@@ -85,6 +110,7 @@ html,body{
 .logout {
 	bottom: 0;
 	position: absolute;
+	margin-bottom: 10% !important;
 }
 
 .settingsContainer li {
@@ -313,6 +339,7 @@ input[type='checkbox']:checked {
 	font-size: 1.5em;
 	font-weight: bold;
 	border: none;
+	cursor: pointer;
 }
 
 .addDrug {
@@ -326,7 +353,8 @@ input[type='checkbox']:checked {
 	width: 100%;
 	font-size: 2em;
 	border: none;
-	background: #bdc3c7
+	background: #95a5a6;
+	cursor: pointer;
 }
 
 #timepicker{
@@ -385,6 +413,7 @@ input[type='checkbox']:checked {
 	text-align: center;
 	font-size: 80pt;
 	border: none;
+	cursor: pointer;
 }
 
 
@@ -477,10 +506,13 @@ input[type='checkbox']:checked {
 
 .slideLeft {
 	display:block;
-	right: 82%;
+	/*right: 82%;*/
+	transform: translateX(-82%);
+	-webkit-transform: translateX(-82%);
+-moz-transform: translateX(-82%);
+-ms-transform: translateX(-82%);
+-o-transform: translateX(-82%);
 }
-
-
 
 .desktop {
 	display:block;
@@ -499,6 +531,10 @@ input[type='checkbox']:checked {
 	padding-top: 0;
 	position: relative;
 	height: 90%;
+}
+
+.logout {
+	margin-bottom: auto !important;
 }
 
 .drugSelect{
@@ -521,7 +557,7 @@ input[type='checkbox']:checked {
 }
 
 .leftlyf {
-	font-size: 0.8em;
+	font-size: 0.8em !important;
 	width: 63%;
 }
 
@@ -579,6 +615,10 @@ input[type='checkbox']:checked {
 
 .header-text h1 {
 	font-size: 2em;
+}
+
+.leftlyf span {
+	font-size: 1.3em;
 }
 
 }

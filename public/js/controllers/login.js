@@ -1,4 +1,4 @@
-angular.module('login',['password-dir','ngFocus-dir','unique-dir'])
+angular.module('login',['password-dir','ngFocus-dir','unique-dir', 'login-dir'])
 
 .controller ('loginCtr', function ($q,$scope,$log,userService,$location,authService,$window,Lyf){
 

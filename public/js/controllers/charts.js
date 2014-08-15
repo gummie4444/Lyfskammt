@@ -32,7 +32,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 	Lyf.get()
 			.success(function(data) {
-				console.log(data)
 				$scope.loading = false;
 				$scope.drugs = data;
 				for (var i in $scope.drugs) {
