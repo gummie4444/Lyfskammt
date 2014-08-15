@@ -5,6 +5,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	//set the acces_token
 	var access_token = JSON.stringify({'access_token':$window.sessionStorage.token});
 
+	// TODO:
+	// BÆTA PERFORMANCE YFIRHÖFUÐ
+	// TAKA ÚT DRUGS, HAFA BARA CHARTCONFIG
+
 	
 	// ========= //
 	// VARIABLES //
@@ -16,6 +20,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()});
     $scope.isSelected= null;
     $scope.clock_time = moment().format('HH'+':'+'mm');
+    $scope.happy = true;
 
 	
 	
@@ -251,11 +256,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 			}
     	}
 		else {
+			// TODO: PERFORMANCE - HÆGT?
 			for (i in $scope.chartConfig.series) {
 				if ($scope.isSelected === $scope.chartConfig.series[i].id) {
 					$scope.chartConfig.series[i].dashStyle = 'shortdash';
 					$scope.clock_time = $scope.chartConfig.series[i].stringTime;
-
+					break;
 				}
 				else {
 					$scope.chartConfig.series[i].dashStyle = false;
@@ -280,13 +286,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
     $scope.updateStatusTime = function (){
 
-    
 
     	var current_date = JSON.stringify({'current_date':moment().valueOf()});
 
 
     	
-    	if($scope.tooglePlusMinus){
+    	if($scope.happy){
 	    	//Vista + gildi inn ef það á við
 	    	Lyf.insertCalDataPlus(current_date);
 
@@ -298,12 +303,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     	}
     	//TOOGLA + Í MÍNUS
 
-    	$scope.tooglePlusMinus = !$scope.tooglePlusMinus; 	
+    	$scope.happy = !$scope.happy; 	
 
     };
 
     //Function to move between days on the graph
-	$scope.moveDay = function (direction) {
+	$scope.moveDay = function (direction, id) {
 		$scope.isSelected = null;
 		for (i in $scope.chartConfig.series) {
 					$scope.chartConfig.series[i].dashStyle = 'none';
@@ -412,6 +417,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
     					$scope.createDrug($scope.chartConfig.series[i]);
     					$scope.chartConfig.series[i].dashStyle = false;
+    					console.log("saving")
     				}
 		}
 		$scope.isSelected = null;

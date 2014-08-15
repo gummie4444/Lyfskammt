@@ -53,8 +53,8 @@
 	</div>
 	<div class = "wrapper" style ="height: 90%; position: relative;" ng-class ="{desktop: isSettingsMenu}">
 	<div class = "graf" id="drug-chart" resize>
-		<img src="img/Red_Arrow_Right.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right')"></img>
-		<img src="img/Red_Arrow_Left.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left')"></img>
+		<img src="img/Red_Arrow_Right.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right', isSelected)"></img>
+		<img src="img/Red_Arrow_Left.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left', isSelected)"></img>
 		<highchart id="chart1" config="chartConfig" ng-swipe-left="swipeGraph('right')" ng-swipe-right="swipeGraph('left')" ng-swipe-disable-mouse ></highchart>
 	</div>
 
@@ -68,7 +68,7 @@
 				</div>
 
 				<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-					<span>{{drug.name}} || {{drug.stringTime}}</span>
+					<span>{{drug.name}} - {{drug.stringTime}}</span>
 				</div>
 
 				<div class = "remove" id = "id_{{drug.name}}">
@@ -97,10 +97,10 @@
 	<div class = "buttons">
 
 		<div class = "calibration">
-			<button class = "smiley" id="happy" ng-click="updateStatusTime()">&#x263a;</button>
+			<button ng-disabled = "!happy" class = "smiley" id="happy" ng-click="updateStatusTime()">&#x263a;</button>
 		</div>
 		<div class = "calibration">
-			<button class = "smiley" id="sad" ng-click="updateStatusTime()">&#x2639;</button>
+			<button ng-disabled ="happy" class = "smiley" id="sad" ng-click="updateStatusTime()">&#x2639;</button>
 		</div>
 	</div>
 </div>

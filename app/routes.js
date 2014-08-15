@@ -239,7 +239,6 @@ module.exports = function(app) {
 	app.get('/api/drug_data',[express.bodyParser(), jwtauth], function(req, res) {
 
 		User.findOne({_id: req.current_user}, function(err,users){
-
 			if(err){
 				console.log(err + "VIlla1");
 				//eitthver villa

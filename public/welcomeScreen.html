@@ -11,7 +11,7 @@
 		
 
 		<div id = "userLogin"> 
-			<form novalidate name ="userLogin" ng-submit = "logInFunc()" >
+			<form class = "welcomeForm" novalidate name ="userLogin" ng-submit = "logInFunc()" >
 				<input name = "logusername" class = "inputform" placeholder = "Notandanafn" type = "text" ng-model = "login.username" required login ng-focus/></br>
 
 				<div class="error" 
@@ -54,7 +54,7 @@
 		<div class = "mainLogin" id = "registerForm" ng-hide ="loginActive">
 			
 				<div id = "userSignup">
-				<form novalidate name = "userSignup" ng-submit = "signUpFunc()" >
+				<form class = "welcomeForm" novalidate name = "userSignup" ng-submit = "signUpFunc()" >
 					<input class = "inputform" name = "name" placeholder = "Nafn" type = "text" ng-model = "signup.name" login required ng-minlength=3 ng-focus /><br/>
 					 <div class="error" 
 					        ng-show="userSignup.name.$dirty && userSignup.name.$invalid && !userSignup.name.$focused">
