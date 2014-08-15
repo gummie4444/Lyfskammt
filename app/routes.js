@@ -12,6 +12,10 @@ var express  = require('express');
 var secret = require('../config/secret');
 var jwtauth = require('./jwtauth.js');
 var moment = require('moment');
+//Initialize a REST client in a single line:
+var client = require('twilio')('AC24af3292ec93f9276853cd7decb3bcf8', '9b15c0c4955b445482b952e3957eff75');
+ 
+
 
 
 module.exports = function(app) {
@@ -27,6 +31,23 @@ module.exports = function(app) {
 	//---------------------------------------------------
 
 	app.post('/api/cal_plus',[express.bodyParser(), jwtauth],function(req,res){
+
+		// Use this convenient shorthand to send an SMS:
+		client.sendSms({
+		    to:'+3547728426',
+		    from:'+14132415085',
+		    body:'ahoy hoy! Testing Twilio and node.js'
+		}, function(error, message) {
+		    if (!error) {
+		        console.log('Success! The SID for this SMS message is:');
+		        console.log(message.sid);
+		        console.log('Message sent on:');
+		        console.log(message.dateCreated);
+		    } else {
+		        console.log('Oops! There was an error.');
+		        console.log(error);
+		    }
+		});
 
 		console.log(req.body.current_date + "bla");
 		Caliplus.create({
