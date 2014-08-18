@@ -92,13 +92,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 				});
 			$scope.updateSumGraph($scope.chartConfig.series);
 		};
-
 	//Functon thats called when we create a drug
 	//It updates all the variable and calls the functions to send the info to the database
 	$scope.fetch = function(lyf_id) {
 		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
 		for (i in current_lyf.data) {
-			current_lyf.data[i][0] += (current_lyf.data[i][0]*300000 + $scope.graphTime);
+			current_lyf.data[i][0] += (current_lyf.data[i][0]*900000 + $scope.graphTime);
 		}
 		var current_lyf_updated = {
 			name: current_lyf.name, 
@@ -116,7 +115,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 			statusEndTime:null,
 			color: current_lyf.color, 
 			day: moment($scope.graphTime).lang("is").format("ddd"),
-			current_user:""
+			current_user:"",
 
 		}
 		$scope.drugs.push(current_lyf_updated);
@@ -160,7 +159,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 				if (drugs[i].visible === true) {
 					for (j in drugs[i].data) { // iterate through every data point per drug
 						for (k in $scope.chartConfig.series[0].data) // iterate through every data point in the "sum" curve
-							if (Math.abs(drugs[i].data[j][0] - $scope.chartConfig.series[0].data[k][0]) <= 150000) {// round every point on the drug graph to the nearest point on the sum curve (15000ms === 2.5 minutes)
+							if (Math.abs(drugs[i].data[j][0] - $scope.chartConfig.series[0].data[k][0]) <= 450000) {// round every point on the drug graph to the nearest point on the sum curve (45000ms === 7.5 minutes)
 								$scope.chartConfig.series[0].data[k][1] += drugs[i].data[j][1]; // update the sum graph with values from the drug graphs
 							}
 					}
@@ -193,6 +192,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	            	marker: {
 	            		enabled: false
 	            	}
+	            },
+	            line: {
+	            	lineWidth: 3
 	            }
         	},
         	scrollbar: {
@@ -226,7 +228,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		yAxis: {
 			plotLines: [{
 				color: '#bdc3c7',
-                width: 3,
+                width: 7,
                 value: 2500,
             }],
 			min : 0,
@@ -241,6 +243,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		}
 	};
 
+		console.log($scope.chartConfig.series)
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
     	if ($scope.isSelected === Selected) {
@@ -560,6 +563,22 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 // blabla.push(175.22)
 // blabla.push(168.77)
 // blabla.push(161.81)
+// blabla.push(154.35)
+// blabla.push(146.43)
+// blabla.push(138.1)
+// blabla.push(129.42)
+// blabla.push(120.46)
+// blabla.push(111.3)
+// blabla.push(102.04)
+// blabla.push(92.8)
+// blabla.push(83.71)
+// blabla.push(74.92)
+// blabla.push(66.59)
+// blabla.push(58.92)
+// blabla.push(52.1)
+// blabla.push(46.36)
+// blabla.push(41.95)
+// blabla.push(39.14)
 
 
 
@@ -572,10 +591,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 // }
 // for (i in yoyo) {
+// 	if (i%3 === 0) {
 // 	console.log("[");
 // 	console.log(yoyo[i][0] + ',')
 // 	console.log(yoyo[i][1]);
 // 	console.log("],")
+// }
 // }
 // console.log(yoyo)
 });
