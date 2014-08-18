@@ -229,7 +229,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 			plotLines: [{
 				color: '#bdc3c7',
                 width: 7,
-                value: 2500,
+                value: 2000,
             }],
 			min : 0,
 			gridLineWidth: 0,
@@ -439,6 +439,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	// 	var ang_container = angular.element(container); 
 		if (ang_container.height() > 100) $scope.chartConfig.options.chart.height = ang_container.height();
 	});
+
+	
 
 	var blabla = []
 

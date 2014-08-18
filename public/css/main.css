@@ -651,6 +651,19 @@ input[type='checkbox']:checked {
 	font-size: 1.3em;
 }
 
-}
 
 }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) { /* IPHONE 5 */
+	.leftlyf {
+		font-size: 1.1em;
+	}
+} 
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) { /* IPHONE 2-4 */
+	.leftlyf {
+		font-size: 1.1em;
+	}
+}
+
+

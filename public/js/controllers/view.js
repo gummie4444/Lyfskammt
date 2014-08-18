@@ -6,6 +6,7 @@ angular.module('viewCtr',[])
 	//to handle the view changes
 
 	$scope.loginActive = true;
+	$scope.username;
 
 	//toogle between login and signup
     $scope.$on('change', function(event, data) { 
@@ -15,6 +16,11 @@ angular.module('viewCtr',[])
 
 	$scope.$on('loggedIn', function (event, data) {
 		$scope.isSettingsMenu = data;
+	});
+
+	$scope.$on('username', function (event, data) {
+		console.log("hey")
+		$scope.username = data;
 	});
 
 	$scope.isSettingsMenu = false;

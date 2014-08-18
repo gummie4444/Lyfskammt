@@ -54,10 +54,10 @@ angular.module('login',['password-dir','ngFocus-dir','unique-dir', 'login-dir'])
 					//komst inn
 					if(returnMsg.answer == undefined ){
 						$scope.$emit('loggedIn', false)
-						
 						$scope.login.error = false;
 						$window.sessionStorage.token = returnMsg.token;
 						$location.path("/profile");
+						$scope.$emit('username',$scope.login.username);
 					}
 
 				}).error(function(status,data){
@@ -105,6 +105,8 @@ angular.module('login',['password-dir','ngFocus-dir','unique-dir', 'login-dir'])
 		console.log("eitthvad for urskeydis")
     }
 };
+
+
   	
 
 });
