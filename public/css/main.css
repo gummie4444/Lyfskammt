@@ -9,13 +9,36 @@ src: url('lato-reg-webfont?#iefix') format('embedded-opentype'), /* IE6-IE8 */
 
 html,body{
 	min-height: 100%;
-	height:100%;
+	height: 100%;
 	width:100%;
 	margin:0;
-	padding:0;
-	font-family: Lato, sans-serif !important;
-	background-color: #ECECEC !important;
-	overflow-x:hidden;
+	/*padding:0;*/
+	text-rendering: optimizeLegibility;
+	font-family: Lato, sans-serif ;
+	background-color: #ECECEC;
+	/*overflow-x:hidden;*/
+}
+
+.container {
+	background: #2c3e50;
+    margin-left: auto;
+	margin-right: auto;
+	max-width: 1024px;
+	width: 100%;
+	height:100%;
+	/*position: relative;*/
+	/*display: block;*/
+	/*padding: 0;*/
+}
+
+.container2 {
+	min-height: 100%;
+	height: auto;
+    width: 100%;
+    font-variant: small-caps;
+    background: white;
+    position: relative;
+	overflow: hidden;
 }
 
 .noselect {
@@ -28,6 +51,10 @@ html,body{
 	cursor: default;
 }
 
+.settingsColor {
+	background-color: #2c3e50;
+}
+
 #loadingIcon {
 	color: white;
 	text-align: center;
@@ -36,58 +63,72 @@ html,body{
 	top: 30%;
 }
 
-.container {
+/*=========HEADER=========*/
+
+.header {
 	background: #2c3e50;
-    margin-left: auto;
-	margin-right: auto;
-	max-width: 1024px;
 	width: 100%;
-	height:100%;
+	height: 85px;
 	position: relative;
-	display: block;
-	padding: 0 !important;
-}
-
-.container h1 {
+	overflow:hidden;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	text-align: center;
+	/*vertical-align: middle;*/
 	color: white;
+	border-bottom: solid 1px white;
 }
 
-.container2 {
-    height: 100%;
-    width: 100%;
-    font-variant: small-caps;
-    background: white !important;
-    position: relative;
+.header-text {
+	width:86%;
+	height:100%;
+	float:left;
+	margin:auto;
+}
 
-    -webkit-transition: all .25s ease-in-out;
--khtml-transition: all .25s ease-in-out;
--moz-transition: all .25s ease-in-out;
--ms-transition: all .25s ease-in-out;
--o-transition: all .25s ease-in-out;
-transition: all .25s ease-in-out;
+.header-text h1{
+	margin-left: 12%;
+}
+
+.header-settings{
+	width: 14%;
+	height: 100%;
+	float: left;
+	font-size: 4em;
+}
+
+.header-settings a{
+	color:white;
+}
+
+.header-settings a:hover {
+	/*text-decoration: none;*/
+	color: #bdc3c7;
+	cursor: pointer;
+}
+
+.settingsOn {
+	color: #bdc3c7 !important;
+}
+
+.usernameHeader {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	font-size: 1.6em;
 }
 
 .desktop {
 	display:none;
 }
 
-.menuContainer{
-	background: #2c3e50;
-    margin-left: auto;
-	margin-right: auto;
-	max-width: 1024px;
-	width: 100%;
-	overflow: hidden;
-	height:100%;
-	position: relative;
-	display: block;
-	padding: 0 !important;
-    left:-60%;
-}
+/*=========SETTINGS=========*/
 
 .settingsContainer{
 	width:100%;
-	height:90%;
+	/*height:100%;*/
 	left:100%;
 	float:left;
 	color:white;
@@ -108,13 +149,6 @@ transition: all .25s ease-in-out;
 .options:active {
 	opacity: 0.5;
 }
-
-.logout {
-	bottom: 0;
-	position: absolute;
-	margin-bottom: 10% !important;
-}
-
 .settingsContainer li {
 	font-size: 2em;
 	list-style-type: none;
@@ -130,227 +164,103 @@ transition: all .25s ease-in-out;
 	width: 92%;
 }
 
-.usernameHeader {
-	position: absolute;
+.logout {
 	bottom: 0;
-	left: 0;
-	margin-bottom: 2%;
-	margin-left: 2%;
-	font-size: 1.6em;
-}
-
-.settingsHeader {
-	font-size: 1.5em !important;
-	margin-left: 40px;
-}
-
-.header{
-	background: #2c3e50;
-	width: 100%;
-	height: 10%;
-	position: relative;
-	overflow:hidden;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	text-align: center;
-	vertical-align: middle;
-	color: white;
-	border-bottom: solid 1px white;
-}
-
-
-.header-text{
-	width:86%;
-	height:100%;
-	float:left;
-	margin:auto;
-}
-
-.header-text h1{
-	margin-left: 12%;
-	position: relative;
-	top: 20%;
-	-webkit-transform: 	translateY(-50%);
-	transform: 	translateY(-50%);
-	-moz-transform: translateY(-50%);
--ms-transform: translateY(-50%);
--o-transform: translateY(-50%);
-	text-align: center;
-	font-size: 2.5em;
-}
-
-.header-settings{
-	width: 14%;
-	height: 100%;
-	float: left;
-	font-size: 4em;
-}
-
-.header-settings a{
-	color:white;
-}
-
-.header-settings a:hover {
-	text-decoration: none;
-	color: #bdc3c7;
-	cursor: pointer;
-}
-
-.settingsOn {
-	color: #bdc3c7 !important;
-}
-
-.graf{
-	background:#ecf0f1;
-	width: 100%;
-	height: 45%;
-	overflow:hidden;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float:left;
-}
-
-.grafbutton{
 	position: absolute;
-	z-index: 999;
-	height: 8%;
-	cursor: pointer;
-	margin-top: 2.5em;
-	margin-left: 3%;
+	margin-bottom: 10% !important;
 }
-.grafbutton:hover{
+
+
+
+/*=========CHART=========*/
+
+.chart {
+	/*background:#ecf0f1;*/
+	width: 100%;
+	height: 500px;
+	/*overflow:hidden;*/
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	/*float:left;*/
+	position: relative;
+}
+
+.chartButton {
+	position: absolute;
+	z-index: 1;
+	height: 15%;
+	cursor: pointer;
+	margin-top: 2%;
+	/*margin-left: 3%;*/
+}
+
+.chartButton:hover{
 	-moz-box-shadow: 0 0 5px #ccc;
 	 -webkit-box-shadow: 0 0 5px #ccc;
 	 box-shadow: 0 0 5px #ccc;
 }
 
-#haegri{
-	left:86%;}
-
-#vinstri{
-	left:0%;
+#right {
+	left:89%;
 }
 
-.lyfvalinn{
-	background: rgba(255, 255, 255, 0.9);
+#left {
+	left:4%;
+}
+
+/*=========DRUGS=========*/
+
+.drugContainer {
+	/*background: rgba(255, 255, 255, 0.9);*/
 	width:100%;
-	height: 30%;
+	height: auto;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	float: left;
 	font-variant: normal;
+	/*margin-top: 20px;*/
 }
 
-.lyf{
-	background:#C8C8C8;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float:left;
-	height:20%;
-	font-weight: bold;
-	width: 100%;
-	margin-top: 0.3em;
-}
-.lyf2{
+.singleDrug {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	width:100%;
-	height:20%;
+	height:45px;
 	font-weight: bold;
-	margin-top: 0.3em;
+	margin-top: 5px;
 }
 
-.selected{
-	
-}
-
-.leftlyf:active {
-	opacity: 0.5;
-}
-
-#addDrugButton:active {
-	opacity: 0.5;
-}
-
-.remove:active {
-	opacity: 0.5;
-}
-
-
-
-.unchecked {
-	opacity: 0.5;
-	background-color: gray !important;
-}
-
-
-.leftlyf{
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float:left;
-	width:65%;
-	height:100%;
-	text-align: center;
-	font-size: 1em;
-	cursor: pointer;
-}
-
-.leftlyf span {
-	position: relative;
-	top: 10%;
-	-webkit-transform: 	translateY(-50%);
-	transform: 	translateY(-50%);
-	-moz-transform: translateY(-50%);
--ms-transform: translateY(-50%);
--o-transform: translateY(-50%);
-	font-size: 1.7em;
-}
-
-.lyfvalinn span {
-	text-align: center;
-}
-
-.checkbox{
+.checkbox {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	width:14%;
 	height:100%;
 	text-align: center;
-	margin: 0px !important;
-	margin-right: 0.3em !important;
+	/*margin: 0px;*/
+	margin-right: 5px;
 }
 
-
-input[type='checkbox'] {
-    width:30px;
-    height:30px;
-    background: #7f8c8d;
-    border-radius:5px;
-    border:2px solid #555;
-    position: relative;
-	top: 45%;
-	-webkit-transform: 	translateY(-50%);
-	transform: 	translateY(-50%);
-	-moz-transform: translateY(-50%);
--ms-transform: translateY(-50%);
--o-transform: translateY(-50%);
+.drugContent {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float:left;
+	width:65%;
+	height:100%;
 	text-align: center;
-	float: none !important;
+	font-size: 30px;
+	cursor: pointer;
 }
 
-input[type='checkbox']:checked {
-    background:white;
-}
-
-.remove{
+.remove {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
 	width:20%;
 	height:100%;
 	text-align: center;
-	margin-left: 0.3em !important;
+	margin-left: 5px;
 }
 
 .remove button{
@@ -363,9 +273,11 @@ input[type='checkbox']:checked {
 }
 
 .addDrug {
-	height: 100%;
+	margin-top: 5px;
+	height: 45px;
 	width: 100%;
-	background: white;
+	float: left;
+	/*background: white;*/
 }
 
 #addDrugButton {
@@ -377,20 +289,32 @@ input[type='checkbox']:checked {
 	cursor: pointer;
 }
 
+.drugContent:active {
+	opacity: 0.5;
+}
+
+#addDrugButton:active {
+	opacity: 0.5;
+}
+
+.remove:active {
+	opacity: 0.5;
+}
+
 #timepicker{
 	background: rgba(248, 248, 248, 1);
-	position: relative;
+	/*position: relative;*/
 	width:70%;
-	height: 25%;
+	height: 230px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	text-align: center;
+	/*text-align: center;*/
 }
 
 #confirm {
 	width: 30%;
-	height: 25%;
+	height: 230px;
 	float: left;
 	background: rgba(248, 248, 248, 1);
 }
@@ -418,61 +342,26 @@ input[type='checkbox']:checked {
 	display: none;
 }
 
-.buttons {
-	width: 100%;
-	float: left;
-	margin-top: 20px;
-}
-
-.calibration {
-	width: 50%;
-	float: left;
-}
-
-.smiley {
-	width: 100%;
-	color: white;
-	height: 100%;
-	text-align: center;
-	font-size: 80pt;
-	border: none;
-	cursor: pointer;
-}
-
-
-#happy {
-	background-color: #16a085;
-}
-
-#sad {
-	background-color: #e74c3c;	
-}
-
-.mainContainer{
-	display: none;
-}
-
-.drugSelectContainer p{
-	
-	text-align: center;
-}
+/*=========POP-UP=========*/
 
 .drugSelectContainer{
-	height:auto;
+	/*height:auto;*/
 	overflow:auto;
-	text-align: center;
+	/*text-align: center;*/
 	padding:0.3em;
 	margin:0.3em;
 }
+
 .drugSelect{
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
 	width:50%;
 	font-size: 0.8em;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 	height: 150px;
 }
+
 .drugSelect button{
 	width:100%;
 	font-size: 2.5em;
@@ -486,7 +375,7 @@ input[type='checkbox']:checked {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
-	padding-top: 0.7em;
+	/*padding-top: 0.7em;*/
 }
 
 .rightInnerButton{
@@ -505,33 +394,57 @@ input[type='checkbox']:checked {
 	width: 600px !important;
 }
 
+/*=========BUTTONS=========*/
 
-
-@media only screen and (max-width: 780px){
-
-.disableSettingsScroll {
-	overflow: hidden;
+.buttons {
+	width: 100%;
+	height: 15%;
+	float: left;
+	margin-top: 5px;
 }
 
-.usernameHeader {
-	font-size: 1em;
+.calibration {
+	width: 50%;
+	float: left;
 }
 
-.header-settings:active {
-	opacity: 0.5;
+.smiley {
+	width: 100%;
+	color: white;
+	height: 100%;
+	/*text-align: center;*/
+	font-size: 80pt;
+	border: none;
+	cursor: pointer;
 }
 
-.header-settings {
-	width: 7%;
-	font-size: 2.5em;
-	margin-top: 11px;
+#happy {
+	background-color: #16a085;
 }
 
-.header-text h1 {
-	font-size: 2em;
+#sad {
+	background-color: #e74c3c;	
 }
 
-.slideLeft {
+@media only screen and (max-width: 1015px){
+	.drugContent {
+		width: 64%;
+	}
+
+@media only screen and (max-width: 520px){
+	.drugContent {
+		width: 63%;
+	}
+}
+
+@media only screen and (max-width: 350px){
+	.drugContent {
+		width: 62%;
+	}
+}
+
+@media only screen and (max-width: 768px){
+	.slideLeft {
 	display:block;
 	/*right: 82%;*/
 	transform: translateX(-82%);
@@ -539,131 +452,53 @@ input[type='checkbox']:checked {
 -moz-transform: translateX(-82%);
 -ms-transform: translateX(-82%);
 -o-transform: translateX(-82%);
+overflow: inherit;
 }
 
-.desktop {
-	display:block;
+.container2 {
+    -webkit-transition: all .25s ease-in-out;
+	-khtml-transition: all .25s ease-in-out;
+	-moz-transition: all .25s ease-in-out;
+	-ms-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out;
 }
 
 .settingsContainer{
 	width: 82%;
+	z-index:10000;
 	height:90%;
 	position: absolute;
 	color:white;
 	top: 0;
 }
 
-.optionsList {
-	width: 84%;
-	padding-top: 0;
-	position: relative;
-	height: 90%;
+.settingsColor {
+	background-color: white;
 }
 
-.logout {
-	margin-bottom: auto !important;
+.disableSettingsScroll {
+	overflow: hidden;
 }
 
-.drugSelect{
-	width:50%;
-	height: 100px;
-	font-size: 0.5em;
-}
-
-.smiley {
-	font-size: 50pt;
-}
-
-.rightInnerButton img{
-	height: 50px;
-	width:auto;
-}
-
-.lyfvalinn{
-	height:40%;
-}
-
-.leftlyf {
-	width: 63%;
-}
-
-.leftlyf span {
-	font-size: 1.1em;
-}
-
-#timepicker {
-	height: 41%;
-}
-
-#confirm {
-	height: 41%;
-}
-
-.graf{
-	height: 50%;
-}
-
-.header{
-	height: 10%;
-}
-
-.grafbutton {
-	display: none;
-}
-
-.ngdialog.ngdialog-theme-default .ngdialog-content {
-	width: 65% !important;
-}
-
-}
-@media only screen and (max-width: 550px){
-
-.drugSelect{
-	width: 100%;
-	height:80px;
-}	
-
-#timepicker {
-	height: 41%;
-}
-
-#confirm {
-	height: 41%;
-}
-
-}
-
-@media only screen and (min-width: 781px) and (max-width: 993px) {
-
-.leftlyf {
-	width: 64.5%;
-}
-
-.header-settings {
-	font-size: 3em;
-}
-
-.header-text h1 {
-	font-size: 2em;
-}
-
-.leftlyf span {
-	font-size: 1.3em;
-}
-
-
-}
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 568px) { /* IPHONE 5 */
-	.leftlyf {
-		font-size: 1.1em;
+	.desktop {
+		display:block;
 	}
-} 
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) { /* IPHONE 2-4 */
-	.leftlyf {
-		font-size: 1.1em;
+	.header-settings {
+		font-size: 3em;
+		margin-top: 10px;
+	}
+
+	.chart {
+		height: 350px;
+	}
+
+	.chartButton {
+		display: none;
+	}
+
+	.drugContent {
+		font-size: 23px;
 	}
 }
-
-

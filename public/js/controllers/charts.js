@@ -176,7 +176,8 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		options: {
 			chart: {
 				animation: false,
-				height: ang_container.height()*1.02796
+				height: ang_container.height()*1.02796,
+				width: ang_container.width()
 
 			},
 			legend: {
@@ -438,6 +439,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	// 	var container = document.getElementById("drug-chart");
 	// 	var ang_container = angular.element(container); 
 		if (ang_container.height() > 100) $scope.chartConfig.options.chart.height = ang_container.height();
+		if (ang_container.width() > 100) $scope.chartConfig.options.chart.width = ang_container.width();
 	});
 
 	

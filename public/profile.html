@@ -4,11 +4,11 @@
 				<span class="fa fa-spinner fa-spin fa-3x"></span></br>
 				<span>Sæki gögn..</span>
 				</div>
-<div class = "container2 noselect" ng-hide="loading" ng-class ="{slideLeft: isSettingsMenu}" >
+<div class = "container2 noselect" ng-hide="loading" ng-class ="{slideLeft: isSettingsMenu, settingsColor: isSettingsMenu}" >
 	<div class = "header">
 
 		<div class = "header-text">
-			<span class = "usernameHeader">{{username}}</span>
+			<span class = "usernameHeader">halli</span>
 			<h1>DrugMix</h1>
 		</div>
 		<div class = "header-settings">
@@ -16,11 +16,11 @@
 		</div>
 	</div>
 	<div class ="settingsContainer" ng-class ="{desktop: !isSettingsMenu}">
-		<div class = "header" style="height: 11%;" ng-class ="{desktop: isSettingsMenu}">
-			<span class = "usernameHeader settingsHeader">{{username}}</span>
+		<div class = "header" ng-class ="{desktop: isSettingsMenu}">
+			<span class = "usernameHeader settingsHeader">halli</span>
 		</div>
 
-		<div class = "settingsContent" style ="height: 90%;">
+		<div class = "settingsContent">
 			<ul class = "optionsList" ng-hide ="isCalibrate || isSettings">
 				<li class = "options" ng-click = "showSettings()" id = "top">Stillingar</li>
 				<hr>
@@ -51,23 +51,23 @@
 		</div>
 
 	</div>
-	<div class = "wrapper" style ="height: 90%; position: relative;" ng-class ="{desktop: isSettingsMenu}">
-	<div class = "graf" id="drug-chart" resize>
-		<img src="img/Red_Arrow_Right.png" id = "haegri" class = "grafbutton" ng-click="moveDay('right', isSelected)"></img>
-		<img src="img/Red_Arrow_Left.png" id = "vinstri" class = "grafbutton" ng-click="moveDay('left', isSelected)"></img>
+	<!-- <div class = "wrapper" style ="height: 90%; position: relative;" ng-class ="{desktop: isSettingsMenu}"> -->
+	<div class = "chart" id="drug-chart" ng-class ="{desktop: isSettingsMenu}" resize>
+		<img src="img/Red_Arrow_Right.png" id = "right" class = "chartButton" ng-click="moveDay('right', isSelected)"></img>
+		<img src="img/Red_Arrow_Left.png" id = "left" class = "chartButton" ng-click="moveDay('left', isSelected)"></img>
 		<highchart id="chart1" config="chartConfig" ng-swipe-left="swipeGraph('right')" ng-swipe-right="swipeGraph('left')" ng-swipe-disable-mouse ></highchart>
 	</div>
 
 	
-	<div class = "lyfvalinn">
+	<div class = "drugContainer" ng-class ="{desktop: isSettingsMenu}">
 		
-		<div class = "lyf2" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-hide ="drug.show === false || (isSelected !== null && drug.id !== isSelected)">
+		<div class = "singleDrug" ng-repeat ="drug in drugs" id = "id_{{drug.name}}" ng-hide ="drug.show === false || (isSelected !== null && drug.id !== isSelected)">
 
 				<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
 					<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
 				</div>
 
-				<div class = "leftlyf" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
+				<div class = "drugContent" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
 					<span>{{drug.name}} - {{drug.stringTime}}</span>
 				</div>
 
@@ -76,10 +76,10 @@
 				</div>
 		</div>
 
-		<div class = "lyf" ng-hide = "isSelected !== null" ng-show = "isSelected === null">
-			<div class = "addDrug">
+		<div class = "addDrug" ng-hide = "isSelected !== null" ng-show = "isSelected === null">
+			<!-- <div class = "addDrug"> -->
 				<button id="addDrugButton" type = "button" ng-click= clickToOpen()> + </button>
-			</div>
+			<!-- </div> -->
 
 		</div>
 
@@ -94,7 +94,7 @@
 	</div>
 
 
-	<div class = "buttons">
+	<div class = "buttons" ng-class ="{desktop: isSettingsMenu}">
 
 		<div class = "calibration">
 			<button ng-disabled = "!happy" class = "smiley" id="happy" ng-click="updateStatusTime()">&#x263a;</button>
@@ -103,7 +103,7 @@
 			<button ng-disabled ="happy" class = "smiley" id="sad" ng-click="updateStatusTime()">&#x2639;</button>
 		</div>
 	</div>
-</div>
+<!-- </div> -->
 
 </div>
 

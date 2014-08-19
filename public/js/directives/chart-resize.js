@@ -7,7 +7,7 @@ angular.module('chart-resize', [])
 			return w.height();
 		};
 		$scope.$watch($scope.getWindowDimensions, function (newValue) {
-			$scope.windowHeight = newValue
+			// $scope.windowHeight = newValue
 			$timeout(function() {
 			    $scope.$emit('heightChange');
 			}, 10);
