@@ -25,7 +25,9 @@
     "nodemon": "~1.0.15",
     "express-jwt": "~0.2.1",
     "jwt-simple": "x",
-    "twilio": "x"
+    "twilio": "x",
+    "cron"    : "1.0.3",
+    "time" : "0.8.0"
    
   },
   "devDependencies": {

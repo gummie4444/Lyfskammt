@@ -15,6 +15,117 @@ var moment = require('moment');
 //Initialize a REST client in a single line:
 var client = require('twilio')('AC24af3292ec93f9276853cd7decb3bcf8', '9b15c0c4955b445482b952e3957eff75');
  
+var sortable = [];
+
+//ATH HVORT AD SHIT EIGI AD VERA
+getDrugs(Mesort);
+
+//Find all the drugs from now untill the next hour
+function getDrugs(callback){
+		console.log("Er ad tjekka");
+		date = moment().valueOf();
+
+		Drug.find({"graphTime": {"$gte": date, "$lt": date+3600000}},
+			function(err,drugs){
+				console.log(drugs);
+				
+  				if (err){
+  					return callback("error");
+  				}
+
+  				else if (drugs[0] !== undefined){
+  					return callback(drugs);
+  				}
+  				else{
+  					return callback("Enginn");
+  				}
+
+  		});		
+};
+
+function Mesort(array){
+
+	if (array == "Enginn")
+	{
+		sortable = [];
+	}
+	else if (array == "error"){
+		sortable = [];
+		console.log("villa a server");
+	}
+	else{
+		//TODO BÆTA VIÐ USERNAME
+		sortable = [];
+		for (var i in array){
+	      sortable.push([array[i].graphTime, array[i].amount,array[i].name])
+		  sortable.sort(function(a, b) {return a[0] - b[0]})
+
+		 }
+		 console.log("sortable:" + sortable)
+	}
+}
+
+
+function sendSms(time,user,drug){
+	console.log("kominn i sms")
+		var msg = "TAKTU LYFIÐ ÞITT";
+		console.log(msg);
+		client.sendSms({
+		    to:'+3546917114',
+		    from:'+14132415085',
+		    body: msg
+		}, function(error, message) {
+		    if (!error) {
+		        console.log('Success! The SID for this SMS message is:');
+		        console.log(message.sid);
+		        console.log('Message sent on:');
+		        console.log(message.dateCreated);
+		        //tökum fyrsta stakið út
+				sortable.shift();
+				check(sendSms);
+		    } else {
+		        console.log('Oops! There was an error.');
+		        console.log(error);
+		    }
+		});
+}
+
+function check(callback){
+
+	//ef fyrsta tímastakkið í fylkinu er
+	//á eftir núverandi tíma sendu sms
+	//og athugaðu næsta stak
+	current_time = moment().valueOf();
+
+		if(typeof sortable !== 'undefined' && sortable.length > 0){
+			console.log("tímamismunur er : " + (current_time-sortable[0][0]));
+
+			 if(sortable[0][0]<current_time){
+
+				console.log("sendi sms Með upplýsingum");
+				callback(sortable[0][0],sortable[0][1],sortable[0][2]);
+			
+			}
+			else{
+				console.log("enginn gæji á þessum tíma")
+				
+			}
+		}
+	console.log("dotid er undefined")
+	
+};
+
+
+
+//athugum á mínotu fresti
+var CronJob = require('cron').CronJob;
+new CronJob('*/1 * * * *', function(){
+
+	if(typeof sortable !== 'undefined' && sortable.length > 0){
+		 check(sendSms);
+	}
+	 	console.log('min fresti');	  	
+}, null, true, "Atlantic/Reykjavik ");
 
 
 
@@ -52,7 +163,8 @@ module.exports = function(app) {
 		console.log(req.body.current_date + "bla");
 		Caliplus.create({
 					user:req.current_user,
-					StartTime:req.body.date
+					StartTime:req.body.current_date,
+
 							
 						}, function(err,msg){
 							if(err){
@@ -68,7 +180,7 @@ module.exports = function(app) {
 
 		Caliminus.create({
 					user:req.current_user,
-					EndTime:req.body.current_date
+					EndTime:req.body.current_date,
 							
 						}, function(err,msg){
 							if(err){
@@ -303,6 +415,7 @@ module.exports = function(app) {
 	// Update or create a new drug instance
 	app.post('/api/insertdrugs',[express.bodyParser(), jwtauth], function(req, res) {
 
+		getDrugs(Mesort);
 
 		Drug.update({
 			id: req.body.id,
@@ -343,6 +456,8 @@ module.exports = function(app) {
 
 	// Deleta a drug instance
 	app.delete('/api/drugs/:drug_id', function(req, res) {
+		getDrugs(Mesort);
+
 		Drug.remove({
 			id : req.params.drug_id
 		}, function(err, temp) {
