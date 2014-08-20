@@ -421,7 +421,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
     					$scope.createDrug($scope.chartConfig.series[i]);
     					$scope.chartConfig.series[i].dashStyle = false;
-    					console.log("saving")
     				}
 		}
 		$scope.isSelected = null;

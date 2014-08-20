@@ -200,6 +200,10 @@ transition: all .25s ease-in-out;
 	 box-shadow: 0 0 5px #ccc;
 }
 
+.chartButton:active {
+	opacity: 0.2;
+}
+
 #right {
 	left:89%;
 }
@@ -240,6 +244,11 @@ transition: all .25s ease-in-out;
 	text-align: center;
 	/*margin: 0px;*/
 	margin-right: 5px;
+}
+
+.unchecked {
+	opacity: 0.5;
+	background-color: gray !important;
 }
 
 .drugContent {
@@ -418,6 +427,10 @@ transition: all .25s ease-in-out;
 	cursor: pointer;
 }
 
+.smiley:active {
+	opacity: 0.7;
+}
+
 #happy {
 	background-color: #16a085;
 }
@@ -464,6 +477,10 @@ overflow: inherit;
 	transition: all .25s ease-in-out;
 }
 
+.header {
+	height: 70px;
+}
+
 .settingsContainer{
 	width: 82%;
 	z-index:10000;
@@ -479,6 +496,7 @@ overflow: inherit;
 
 .disableSettingsScroll {
 	overflow: hidden;
+	position: fixed;
 }
 
 	.desktop {
@@ -491,7 +509,7 @@ overflow: inherit;
 	}
 
 	.chart {
-		height: 350px;
+		height: 300px;
 	}
 
 	.chartButton {
@@ -500,5 +518,19 @@ overflow: inherit;
 
 	.drugContent {
 		font-size: 23px;
+	}
+
+	.drugSelect{
+	width:100%;
+	height: 100px;
+	font-size: 0.5em;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+	width: 65% !important;
+}
+
+	.smiley {
+		font-size: 50pt;
 	}
 }

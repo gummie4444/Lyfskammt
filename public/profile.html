@@ -86,10 +86,10 @@
 	</div>
 
 
-	<div ng-hide="isSelected === null" id="timepicker">
+	<div ng-hide="isSelected === null" id="timepicker" ng-class ="{desktop: isSettingsMenu}">
 		<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
 	</div>
-	<div id = "confirm" ng-hide="isSelected === null">
+	<div id = "confirm" ng-hide="isSelected === null" ng-class ="{desktop: isSettingsMenu}">
 		<button ng-click="save(isSelected)">VISTA</button>
 	</div>
 
