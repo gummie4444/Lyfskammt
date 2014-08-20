@@ -27,7 +27,7 @@ function getDrugs(callback){
 
 		Drug.find({"graphTime": {"$gte": date, "$lt": date+3600000}},
 			function(err,drugs){
-				console.log(drugs);
+			
 				
   				if (err){
   					return callback("error");
@@ -71,7 +71,7 @@ function sendSms(time,user,drug){
 		var msg = "TAKTU LYFIÐ ÞITT";
 		console.log(msg);
 		client.sendSms({
-		    to:'+3546917114',
+		    to:'+3547728426',
 		    from:'+14132415085',
 		    body: msg
 		}, function(error, message) {
