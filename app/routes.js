@@ -417,6 +417,7 @@ module.exports = function(app) {
 
 		getDrugs(Mesort);
 
+
 		Drug.update({
 			id: req.body.id,
 		}, 
@@ -442,7 +443,7 @@ module.exports = function(app) {
 		, {upsert: true}, function(err, temp) {
 			if (err)
 				res.send(err);
-				
+			res.send(200);
 
 			// get and return all the todos after you create another
 			// Todo.find(function(err, todos) {
@@ -463,7 +464,7 @@ module.exports = function(app) {
 		}, function(err, temp) {
 			if (err)
 				res.send(err);
-
+			res.send(200);
 			// get and return all the todos after you create another
 			// Todo.find(function(err, todos) {
 			// 	if (err)
