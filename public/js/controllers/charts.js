@@ -75,12 +75,12 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 	// CREATE ==================================================================
 	// Function for adding a drug to the database
+	//SKOÐA
+	
 	$scope.createDrug = function(drug) {
 
-		Lyf.create(drug)
-				.success(function(data) {
-					$scope.drugs.push(data); // assign our new list of todos
-				});
+		Lyf.create(drug);
+				
 	};
 
 	//Functon for deleting a drug from the database

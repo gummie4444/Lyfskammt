@@ -43,6 +43,7 @@ function getDrugs(callback){
   		});		
 };
 
+//Sort the drugs in accending order
 function Mesort(array){
 
 	if (array == "Enginn")
@@ -65,7 +66,7 @@ function Mesort(array){
 	}
 }
 
-
+//Send a text msg to the number
 function sendSms(time,user,drug){
 	console.log("kominn i sms")
 		var msg = "TAKTU LYFIÐ ÞITT";
@@ -90,6 +91,7 @@ function sendSms(time,user,drug){
 		});
 }
 
+//Check if the drug is due
 function check(callback){
 
 	//ef fyrsta tímastakkið í fylkinu er
@@ -143,29 +145,11 @@ module.exports = function(app) {
 
 	app.post('/api/cal_plus',[express.bodyParser(), jwtauth],function(req,res){
 
-		// Use this convenient shorthand to send an SMS:
-		// client.sendSms({
-		//     to:'+3547728426',
-		//     from:'+14132415085',
-		//     body:'ahoy hoy! Testing Twilio and node.js'
-		// }, function(error, message) {
-		//     if (!error) {
-		//         console.log('Success! The SID for this SMS message is:');
-		//         console.log(message.sid);
-		//         console.log('Message sent on:');
-		//         console.log(message.dateCreated);
-		//     } else {
-		//         console.log('Oops! There was an error.');
-		//         console.log(error);
-		//     }
-		// });
-
 		console.log(req.body.current_date + "bla");
 		Caliplus.create({
 					user:req.current_user,
 					StartTime:req.body.current_date,
-
-							
+				
 						}, function(err,msg){
 							if(err){
 								res.send(err);
@@ -196,13 +180,8 @@ module.exports = function(app) {
 //API FOR USERS
 	//---------------------------------------------------
 
-
-
 	//HANDLE LOGINS
 	//TODO: USERINTERFACE
-
-
-
 
 	app.get('/api/users/reg', function(req, res) {
 
@@ -218,10 +197,6 @@ module.exports = function(app) {
 				userArray.push(users[i].username);
 				
 			}
-			
-
-			
-			
 
 			res.send(userArray); // return all todos in JSON format
 		});
@@ -415,6 +390,7 @@ module.exports = function(app) {
 	// Update or create a new drug instance
 	app.post('/api/insertdrugs',[express.bodyParser(), jwtauth], function(req, res) {
 
+		//update the thing
 		getDrugs(Mesort);
 
 
@@ -443,20 +419,14 @@ module.exports = function(app) {
 		, {upsert: true}, function(err, temp) {
 			if (err)
 				res.send(err);
+			
 			res.send(200);
-
-			// get and return all the todos after you create another
-			// Todo.find(function(err, todos) {
-			// 	if (err)
-			// 		res.send(err);
-			// 	res.json(todos);
-				
-			// });
 		});
 	});
 
 	// Deleta a drug instance
 	app.delete('/api/drugs/:drug_id', function(req, res) {
+		//update the thing
 		getDrugs(Mesort);
 
 		Drug.remove({
