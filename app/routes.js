@@ -125,7 +125,7 @@ new CronJob('*/1 * * * *', function(){
 		 check(sendSms);
 	}
 	 	console.log('min fresti');	  	
-}, null, true, "Atlantic/Reykjavik ");
+}, null, true, "UTC");
 
 
 
