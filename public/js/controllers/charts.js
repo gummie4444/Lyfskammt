@@ -15,12 +15,13 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	// ========= //
 	$scope.loading = true;
 	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:moment().minute()}).valueOf();
-	$scope.drugs= {};
+	// $scope.drugs= {};
 	$scope.index = 0;
 	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()});
     $scope.isSelected= null;
     $scope.clock_time = moment().format('HH'+':'+'mm');
     $scope.happy = true;
+    $scope.id_array = [];
 
 	
 	
@@ -37,20 +38,24 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 	Lyf.get()
 			.success(function(data) {
+				console.log(data)
 				$scope.loading = false;
-				$scope.drugs = data;
-				for (var i in $scope.drugs) {
-					$scope.chartConfig.series.push($scope.drugs[i]);
-					if (!moment($scope.drugs[i].date).isSame($scope.date)) {
-						$scope.drugs[i].show = false;
+				// $scope.drugs = data;
+				for (var i in data)
+					$scope.chartConfig.series.push(data[i]);
+				for (var i = 1; i < $scope.chartConfig.series.length; i++) {
+					$scope.id_array[$scope.chartConfig.series[i].id] = i;
+					// $scope.chartConfig.series.push($scope.drugs[i]);
+					if (!moment($scope.chartConfig.series[i].date).isSame($scope.date)) {
+						$scope.chartConfig.series[i].show = false;
 					}
 					else {
-						$scope.drugs[i].show = true;
+						$scope.chartConfig.series[i].show = true;
 					}
 				}
 				$scope.updateSumGraph($scope.chartConfig.series);
+				console.log($scope.id_array);
 			});
-
 
     // config for timepicker (scroller)
     $scope.mobiscrollConfig = {
@@ -118,27 +123,35 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 			current_user:"",
 
 		}
-		$scope.drugs.push(current_lyf_updated);
+		// $scope.drugs.push(current_lyf_updated);
 		$scope.chartConfig.series.push(current_lyf_updated);
 		$scope.isSelected = null;	
 		$scope.createDrug(current_lyf_updated);
+		$scope.id_array[current_lyf_updated.id] = $scope.chartConfig.series.length-1;
 		$scope.updateSumGraph($scope.chartConfig.series);
+		
+	console.log($scope.id_array);
 	}
   	
   	//Remove the drug locally from the view
 	$scope.removeDrug = function(drug_id) {
-		for (var i in $scope.chartConfig.series) {
-			if ($scope.chartConfig.series[i].id === drug_id) {
-				var series = $scope.chartConfig.series;
-				series.splice(i,1); // index in series is higher by 1 drug because of the sum graph
-			}
+		// for (var i in $scope.chartConfig.series) {
+		// 	if ($scope.chartConfig.series[i].id === drug_id) {
+		// 		var series = $scope.chartConfig.series;
+		// 		var array_index = series[i].id;
+		// 		console.log(array_index);
+		// 		series.splice(i,1);
+		// 		$scope.id_array[array_index] = null;
+		// 	}
+		// }
+		var index = $scope.chartConfig.series[$scope.id_array[drug_id]].id;
+		$scope.chartConfig.series.splice($scope.id_array[drug_id],1)
+		$scope.id_array = [];
+		for (var i = 1; i < $scope.chartConfig.series.length; i++) {
+					$scope.id_array[$scope.chartConfig.series[i].id] = i;
 		}
-
-		for (var i in $scope.drugs) {
-			if ($scope.drugs[i].id === drug_id) {
-				$scope.drugs.splice(i,1);
-			}
-		}
+		// $scope.id_array[drug_id] = null;
+		console.log($scope.id_array);
 		$scope.deleteDrug(drug_id);
 		$scope.isSelected = null;
 	}
@@ -154,7 +167,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     //Update the view of the graph
     $scope.updateSumGraph = function (drugs) {
     	$scope.chartConfig.series[0].data = $scope.createEmptySumGraph(); // always reset the sum graph to recalculate + draw
-    	if ($scope.drugs.length > 1) { // only draw the sumGraph if there's more than one drug stored
+    	if ($scope.chartConfig.series.length > 2) { // only draw the sumGraph if there's more than one drug stored
 			for (i in drugs) { // iterate through every drug
 				if (drugs[i].visible === true) {
 					for (j in drugs[i].data) { // iterate through every data point per drug
@@ -247,6 +260,9 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		console.log($scope.chartConfig.series)
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
+    	$scope.chartConfig.series[$scope.id_array[Selected]].dashStyle = 'shortdash';
+		$scope.clock_time = $scope.chartConfig.series[$scope.id_array[Selected]].stringTime;
+
     	if ($scope.isSelected === Selected) {
     		$scope.save(Selected);
 		}
@@ -254,30 +270,31 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     		$scope.isSelected = Selected;
     	}
 
-    	if (Selected === null) {
-    		for (i in $scope.chartConfig.series) {
-				$scope.chartConfig.series[i].dashStyle = false;
-			}
-    	}
-		else {
+   //  	if (Selected === null) {
+   //  		for (i in $scope.chartConfig.series) {
+			// 	$scope.chartConfig.series[i].dashStyle = false;
+			// }
+   //  	}
+		// else {
 			// TODO: PERFORMANCE - HÆGT?
-			for (i in $scope.chartConfig.series) {
-				if ($scope.isSelected === $scope.chartConfig.series[i].id) {
-					$scope.chartConfig.series[i].dashStyle = 'shortdash';
-					$scope.clock_time = $scope.chartConfig.series[i].stringTime;
-					break;
-				}
-				else {
-					$scope.chartConfig.series[i].dashStyle = false;
-				}
-			}
-    	}
+			
+			// for (i in $scope.chartConfig.series) {
+			// 	if ($scope.isSelected === $scope.chartConfig.series[i].id) {
+			// 		$scope.chartConfig.series[i].dashStyle = 'shortdash';
+			// 		$scope.clock_time = $scope.chartConfig.series[i].stringTime;
+			// 		break;
+			// 	}
+			// 	else {
+			// 		$scope.chartConfig.series[i].dashStyle = false;
+			// 	}
+			// }
+    	// }
     };
 
     //Function for the popupp dialog
     $scope.clickToOpen = function () {
-    	$scope.index = moment().valueOf()*Math.random();
-
+    	$scope.index = Math.round(moment().valueOf()/Math.random()/10000000000);
+    	console.log($scope.index)
         ngDialog.open({ template: 'template.html',
         				scope:$scope
         				 });  
@@ -314,9 +331,11 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     //Function to move between days on the graph
 	$scope.moveDay = function (direction, id) {
 		$scope.isSelected = null;
-		for (i in $scope.chartConfig.series) {
-					$scope.chartConfig.series[i].dashStyle = 'none';
-		}		
+		if (id !== null)
+			$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
+		// for (i in $scope.chartConfig.series) {
+		// 			$scope.chartConfig.series[i].dashStyle = false;
+		// }		
 		if (direction === "left") {
 			$scope.date.subtract('d', 1);
 		}
@@ -327,18 +346,18 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		$scope.chartConfig.xAxis.min = $scope.date.valueOf()+21600000; // update the leftmost x-value
 		$scope.chartConfig.xAxis.max = $scope.date.valueOf()+86400000; // update the rightmost x-value
 
-		$scope.updateSumGraph($scope.chartConfig.series); // show the updated sum graph
+		// $scope.updateSumGraph($scope.chartConfig.series); // show the updated sum graph
 
 		var time_split = $scope.stringTime.split(":");
 
 		$scope.graphTime = moment({y: $scope.date.year(), M: $scope.date.month(), d: $scope.date.date(), h: time_split[0], m: time_split[1]}).valueOf();
 
-		for (var i in $scope.drugs) {
-			if (!moment($scope.drugs[i].date).isSame($scope.date)) {
-				$scope.drugs[i].show = false;
+		for (var i in $scope.chartConfig.series) {
+			if (!moment($scope.chartConfig.series[i].date).isSame($scope.date)) {
+				$scope.chartConfig.series[i].show = false;
 			}
 			else {
-				$scope.drugs[i].show = true;
+				$scope.chartConfig.series[i].show = true;
 			}
 		}
 	};
@@ -353,18 +372,26 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 	//Fonction for so the user can decide witch of the drugs he has selected are gonna be used
 	$scope.clickCheckbox = function (id, checked) {
-		for (var i in $scope.chartConfig.series) {
-			if ($scope.chartConfig.series[i].id === id) {
-				if (checked === true) {
-					$scope.chartConfig.series[i].visible = true;
-					if ($scope.isSelected === id) $scope.clock_time = $scope.chartConfig.series[i].stringTime;
-				}
-				else {
-					$scope.chartConfig.series[i].visible = false;
-				}
-				$scope.createDrug($scope.chartConfig.series[i]);
-			}
+		if (checked) {
+			$scope.chartConfig.series[$scope.id_array[id]].visible = true;
+			if ($scope.isSelected === id)
+				$scope.clock_time = $scope.chartConfig.series[i].stringTime;
+		} else {
+			$scope.chartConfig.series[$scope.id_array[id]].visible = false;
 		}
+		// for (var i in $scope.chartConfig.series) {
+		// 	if ($scope.chartConfig.series[i].id === id) {
+		// 		if (checked === true) {
+		// 			$scope.chartConfig.series[i].visible = true;
+		// 			if ($scope.isSelected === id) $scope.clock_time = $scope.chartConfig.series[i].stringTime;
+		// 		}
+		// 		else {
+		// 			$scope.chartConfig.series[i].visible = false;
+		// 		}
+		// 		$scope.createDrug($scope.chartConfig.series[i]);
+		// 	}
+		// }
+		$scope.createDrug($scope.chartConfig.series[$scope.id_array[id]]);
 		$scope.updateSumGraph($scope.chartConfig.series);
 	};
 
@@ -389,19 +416,28 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 
     $scope.$watch('graphTime', function(newValue) {
-
-    	for (i in $scope.chartConfig.series) {
-    		if ($scope.isSelected === $scope.chartConfig.series[i].id && $scope.chartConfig.series[i].checked) { // find the drug with matching id
-    			for (j in $scope.chartConfig.series[i].data) { // loop through its every data point
-    				// TODO: if (timepicker === scroller) update database
-    				$scope.chartConfig.series[i].data[j][0] += ($scope.graphTime - $scope.chartConfig.series[i].graphTime);	// update its x component with the offset between its graphTime and desired time
-    			}
-    			var d = moment($scope.graphTime);
-    			$scope.chartConfig.series[i].graphTime = $scope.graphTime; // update the graph's graphTime
-    			$scope.chartConfig.series[i].stringTime = $scope.prenta(d.minutes(), d.hours()); // update the graph's stringTime
-    			$scope.drugs[i-1] = $scope.chartConfig.series[i]; // copy the graph to the drugs array
-    		}
+    	if ($scope.isSelected !== null) {
+    		if ($scope.chartConfig.series[$scope.id_array[$scope.isSelected]].checked) {
+	    		for (j in $scope.chartConfig.series[$scope.id_array[$scope.isSelected]].data) {
+	    			$scope.chartConfig.series[$scope.id_array[$scope.isSelected]].data[j][0] += ($scope.graphTime - $scope.chartConfig.series[$scope.id_array[$scope.isSelected]].graphTime) // update its x component with the offset between its graphTime and desired time
+	    		}
+	    		var d = moment($scope.graphTime);
+				$scope.chartConfig.series[$scope.id_array[$scope.isSelected]].graphTime = $scope.graphTime; // update the graph's graphTime
+				$scope.chartConfig.series[$scope.id_array[$scope.isSelected]].stringTime = $scope.prenta(d.minutes(), d.hours()); // update the graph's stringTime
+			}
     	}
+    	// for (i in $scope.chartConfig.series) {
+    	// 	if ($scope.isSelected === $scope.chartConfig.series[i].id && $scope.chartConfig.series[i].checked) { // find the drug with matching id
+    	// 		for (j in $scope.chartConfig.series[i].data) { // loop through its every data point
+    	// 			// TODO: if (timepicker === scroller) update database
+    	// 			$scope.chartConfig.series[i].data[j][0] += ($scope.graphTime - $scope.chartConfig.series[i].graphTime);	// update its x component with the offset between its graphTime and desired time
+    	// 		}
+    	// 		var d = moment($scope.graphTime);
+    	// 		$scope.chartConfig.series[i].graphTime = $scope.graphTime; // update the graph's graphTime
+    	// 		$scope.chartConfig.series[i].stringTime = $scope.prenta(d.minutes(), d.hours()); // update the graph's stringTime
+    	// 		// $scope.drugs[i-1] = $scope.chartConfig.series[i]; // copy the graph to the drugs array
+    	// 	}
+    	// }
     	$scope.updateSumGraph($scope.chartConfig.series);
     });
 
@@ -417,13 +453,15 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	};
 
 	$scope.save = function(id) {
-		for (i in $scope.chartConfig.series) {
-    				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
-    					$scope.createDrug($scope.chartConfig.series[i]);
-    					$scope.chartConfig.series[i].dashStyle = false;
-    				}
-		}
+		$scope.createDrug($scope.chartConfig.series[$scope.id_array[id]]);
+		$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
 		$scope.isSelected = null;
+		// for (i in $scope.chartConfig.series) {
+  //   				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
+  //   					$scope.createDrug($scope.chartConfig.series[i]);
+  //   					$scope.chartConfig.series[i].dashStyle = false;
+  //   				}
+		// }
 	};
 
 	$scope.logOutFunc = function(){
