@@ -1,5 +1,10 @@
 
+
 lyfApp = angular.module('lyfskammtapp', [ 'lyfService', 'Chart','ngTouch','ngRoute','login','userService','authService','TokenInterceptor','viewCtr', 'ngAnimate']);
+
+// lyfApp.run(function() {
+//     FastClick.attach(document.body);
+//   });
 
 //routing
 lyfApp.config(['$locationProvider', '$routeProvider', 

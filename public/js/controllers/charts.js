@@ -38,7 +38,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 
 	Lyf.get()
 			.success(function(data) {
-				console.log(data)
 				$scope.loading = false;
 				// $scope.drugs = data;
 				for (var i in data)
@@ -54,7 +53,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 					}
 				}
 				$scope.updateSumGraph($scope.chartConfig.series);
-				console.log($scope.id_array);
 			});
 
     // config for timepicker (scroller)
@@ -151,7 +149,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 					$scope.id_array[$scope.chartConfig.series[i].id] = i;
 		}
 		// $scope.id_array[drug_id] = null;
-		console.log($scope.id_array);
 		$scope.deleteDrug(drug_id);
 		$scope.isSelected = null;
 	}
@@ -294,7 +291,6 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     //Function for the popupp dialog
     $scope.clickToOpen = function () {
     	$scope.index = Math.round(moment().valueOf()/Math.random()/10000000000);
-    	console.log($scope.index)
         ngDialog.open({ template: 'template.html',
         				scope:$scope
         				 });  
@@ -341,7 +337,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		}
 		else {
 			$scope.date.add('d', 1);
-		};
+		}
 		$scope.chartConfig.title.text = moment($scope.date).lang("is").format("dddd Do MMMM"); // update the date at top
 		$scope.chartConfig.xAxis.min = $scope.date.valueOf()+21600000; // update the leftmost x-value
 		$scope.chartConfig.xAxis.max = $scope.date.valueOf()+86400000; // update the rightmost x-value
