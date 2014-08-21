@@ -158,7 +158,57 @@ transition: all .25s ease-in-out;
 
 .optionsContent {
 	margin-left: 3em;
+	width:60%;
+	float:left;
 }
+
+.settingsClick{
+	width:100%;
+}
+
+.graph_start{
+      width:4em;
+      float:right;
+      font-size: 1em;
+      
+
+}
+
+.graph_input{
+      width:2em;
+      float:right;
+      font-size: 1em;
+      margin-top:16px;
+      margin-right:1em;
+
+}
+.mainSpan{
+
+    font-size: 1.8em;
+
+}
+
+.underSpan{
+	
+      font-size: 1.5em;
+}
+
+.optionsContent {
+		padding-left: 3em;
+		padding-top: 1em;
+	
+      margin-left: 3em;
+      width:80%;
+      float: left;
+      clear:both;
+}
+
+.optionContent input{
+      width:50%;
+      
+      
+}
+
 
 .optionsList {
 	width: 92%;
