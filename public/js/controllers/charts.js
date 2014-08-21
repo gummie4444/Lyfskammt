@@ -257,7 +257,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		console.log($scope.chartConfig.series)
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
-    	$scope.chartConfig.series[$scope.id_array[Selected]].dashStyle = 'shortdash';
+    	//$scope.chartConfig.series[$scope.id_array[Selected]].dashStyle = 'shortdash';
 		$scope.clock_time = $scope.chartConfig.series[$scope.id_array[Selected]].stringTime;
 
     	if ($scope.isSelected === Selected) {
