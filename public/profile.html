@@ -36,28 +36,25 @@
 				</ul>
 				<div class = "optionsContent" id = "settingsContent">
 					
-					<div class = "settingsCLick">
-					<span class = "mainSpan">Setja á auto-pilot</span>
-					<input class ="graph_input" type="checkbox" ng-model="repeatOn"
-                  	>
+					<div class = "settingsClick" ng-click = "doTh">
+						<span class = "mainSpan">Setja á auto-pilot</span>
+						<input class ="graph_input" type="checkbox" ng-model="repeatOn">
                   	</div>
-                  	 <br/>
 
+                  	<div class = "settingsClickHeader" >
+                  		<span class = "mainSpan"> Stilla tímaása á grafi</span>
+                  	</div>
 
-                  	<span class = "mainSpan"> Stilla tímaása á grafi</span></br>
+                  	 <div class = "settingsClick" ng-click = "doTh">
+	                  	<span class = "underSpan">Upphafstími:</span>
+	                  	<input class = "graph_start" type ="time" ng-model= "graph_StartTime">
+                  	</div>
 
-                  	<span class = "underSpan">Upphafstími:</span>
-                  	<input class = "graph_start" type ="number" ng-model= "graph_StartTime"
-                  	>
-                  	</br>
-                  	</br>
-               
-                  	<span class = "underSpan">Endatími:</span>
-                  	<input class = "graph_start" type ="number" ng-model= "graph_StartTime"
-                  	>
-                    </br>
-			
-					
+               		 <div class = "settingsClick" ng-click = "doTh">
+
+	                  	<span class = "underSpan">Endatími:</span>
+	                  	<input class = "graph_start" type ="time" ng-model= "graph_EndTime">
+	                </div>		
 				</div>
 			</div>
 

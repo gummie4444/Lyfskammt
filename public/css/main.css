@@ -156,23 +156,38 @@ transition: all .25s ease-in-out;
 	margin-top: 12px;
 }
 
-.optionsContent {
-	margin-left: 3em;
-	width:60%;
-	float:left;
+
+
+.settingsClickHeader{
+	width:100%;
+	opacity: 0.8;
+	padding: 0.5em;
+	
+
 }
 
 .settingsClick{
 	width:100%;
+	opacity: 0.8;
+	padding: 0.5em;
+	cursor: pointer;
+
+}
+.settingsClick:active {
+	 background-color: rgba(0, 0, 0, 0.3);
+}
+
+.settingsClick:hover{
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 .graph_start{
       width:4em;
       float:right;
       font-size: 1em;
-      
-
 }
+
+
 
 .graph_input{
       width:2em;
@@ -191,23 +206,17 @@ transition: all .25s ease-in-out;
 .underSpan{
 	
       font-size: 1.5em;
+      padding-left:0.5em;
 }
 
 .optionsContent {
-		padding-left: 3em;
-		padding-top: 1em;
-	
-      margin-left: 3em;
-      width:80%;
-      float: left;
-      clear:both;
+	padding-left: 3em;
+    margin-left: 3em;
+    width:80%;
+    float: left;
+    clear:both;
 }
 
-.optionContent input{
-      width:50%;
-      
-      
-}
 
 
 .optionsList {
@@ -507,6 +516,11 @@ transition: all .25s ease-in-out;
 }
 
 @media only screen and (max-width: 768px){
+
+	.optionsContent{
+		margin-left: 0;
+	}
+
 	.slideLeft {
 	display:block;
 	/*right: 82%;*/
