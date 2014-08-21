@@ -80,7 +80,7 @@
 	
 	<div class = "drugContainer" ng-class ="{desktop: isSettingsMenu}">
 		
-		<div class = "singleDrug" ng-repeat ="drug in chartConfig.series" id = "id_{{drug.name}}" ng-hide ="drug.id === 'series-0' || drug.show === false || (isSelected !== null && drug.id !== isSelected)">
+		<div class = "singleDrug" ng-repeat ="drug in chartConfig.series" id = "id_{{drug.name}}">
 
 				<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
 					<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
@@ -106,7 +106,7 @@
 
 
 	<div ng-hide="isSelected === null" id="timepicker" ng-class ="{desktop: isSettingsMenu}">
-		
+		<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
 	</div>
 	<div id = "confirm" ng-hide="isSelected === null" ng-class ="{desktop: isSettingsMenu}">
 		<button ng-click="save(isSelected)">VISTA</button>
