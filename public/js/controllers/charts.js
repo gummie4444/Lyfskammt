@@ -14,23 +14,21 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	// VARIABLES //
 	// ========= //
 	$scope.loading = true;
-	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:moment().minute()}).valueOf();
+	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)}).valueOf();
 	// $scope.drugs= {};
 	$scope.index = 0;
 	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()});
     $scope.isSelected= null;
-    $scope.clock_time = moment().format('HH'+':'+'mm');
+    $scope.clock_time = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)}).format('HH'+':'+'mm');
     $scope.happy = true;
     $scope.id_array = [];
     $scope.chartConfig ={};
 
-    $scope.items = {};
 
-$scope.items['0'] = {name: "red"};
-$scope.items['1'] = {name: "green"};
-$scope.items['2'] = {name: "blue"};
 
-console.log($scope.items)
+    $scope.tempGraph = []; // every selected graph is temporarily overwritten here so we can easily restore it when the cancel button is pressed
+
+
 	
 
 	
@@ -75,6 +73,7 @@ console.log($scope.items)
                 timeFormat: 'HH:ii',
                 timeWheels:'HHii',
                 layout: 'liquid',
+                stepMinute: 5,
                 headerText: false,
     };
 
@@ -269,7 +268,10 @@ console.log($scope.items)
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
     	//$scope.chartConfig.series[$scope.id_array[Selected]].dashStyle = 'shortdash';
+    	console.log($scope.stringTime);
 		$scope.clock_time = $scope.chartConfig.series[$scope.id_array[Selected]].stringTime;
+
+		$scope.tempGraph = JSON.parse( JSON.stringify($scope.chartConfig.series[$scope.id_array[Selected]])); 
 
     	if ($scope.isSelected === Selected) {
     		$scope.save(Selected);
@@ -277,6 +279,7 @@ console.log($scope.items)
     	else {
     		$scope.isSelected = Selected;
     	}
+
 
    //  	if (Selected === null) {
    //  		for (i in $scope.chartConfig.series) {
@@ -382,7 +385,7 @@ console.log($scope.items)
 		if (checked) {
 			$scope.chartConfig.series[$scope.id_array[id]].visible = true;
 			if ($scope.isSelected === id)
-				$scope.clock_time = $scope.chartConfig.series[i].stringTime;
+				$scope.clock_time = $scope.chartConfig.series[[$scope.id_array[id]]].stringTime;
 		} else {
 			$scope.chartConfig.series[$scope.id_array[id]].visible = false;
 		}
@@ -408,7 +411,7 @@ console.log($scope.items)
 	
 	$scope.$watch('clock_time', function (newValue, oldValue) {
         //do something
-        var d = moment();
+        var d = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)});
         if(typeof newValue !== 'undefined'){
         	var res = newValue.split(":");
 	      	
@@ -416,7 +419,7 @@ console.log($scope.items)
 	        $scope.stringTime = newValue;
    		 }
 	    else {
-	    	$scope.graphTime = moment().valueOf();
+	    	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)}).valueOf();;
 	    	$scope.stringTime = $scope.prenta(d.minutes(), d.hours());
 	    }
     });
@@ -463,6 +466,7 @@ console.log($scope.items)
 		$scope.createDrug($scope.chartConfig.series[$scope.id_array[id]]);
 		$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
 		$scope.isSelected = null;
+
 		// for (i in $scope.chartConfig.series) {
   //   				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
   //   					$scope.createDrug($scope.chartConfig.series[i]);
@@ -470,6 +474,14 @@ console.log($scope.items)
   //   				}
 		// }
 	};
+
+	$scope.cancel = function(id) {
+		console.log($scope.tempGraph);
+		$scope.chartConfig.series[$scope.id_array[id]] = $scope.tempGraph;
+		$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
+		$scope.isSelected = null;
+		$scope.updateSumGraph($scope.chartConfig.series);
+	}
 
 	$scope.logOutFunc = function(){
 		 if (authService.isAuthenticated) {
