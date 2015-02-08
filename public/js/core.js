@@ -32,7 +32,7 @@ lyfApp.config(['$locationProvider', '$routeProvider',
             redirectTo: '/'
         });
 }]);
-
+//Bla
 //Front end user validation
 lyfApp.config(function ($httpProvider) {
     $httpProvider.interceptors.push('TokenInterceptor');
