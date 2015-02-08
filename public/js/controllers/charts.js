@@ -14,14 +14,16 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	// VARIABLES //
 	// ========= //
 	$scope.loading = true;
-	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:moment().minute()}).valueOf();
+	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)}).valueOf();
 	// $scope.drugs= {};
 	$scope.index = 0;
 	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()});
     $scope.isSelected= null;
-    $scope.clock_time = moment().format('HH'+':'+'mm');
+    $scope.clock_time = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)}).format('HH'+':'+'mm');
     $scope.happy = true;
     $scope.id_array = [];
+
+    $scope.tempGraph = []; // every selected graph is temporarily overwritten here so we can easily restore it when the cancel button is pressed
 
 	
 	
@@ -66,6 +68,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
                 timeFormat: 'HH:ii',
                 timeWheels:'HHii',
                 layout: 'liquid',
+                stepMinute: 5,
                 headerText: false,
     };
 
@@ -258,7 +261,10 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
     	//$scope.chartConfig.series[$scope.id_array[Selected]].dashStyle = 'shortdash';
+    	console.log($scope.stringTime);
 		$scope.clock_time = $scope.chartConfig.series[$scope.id_array[Selected]].stringTime;
+
+		$scope.tempGraph = JSON.parse( JSON.stringify($scope.chartConfig.series[$scope.id_array[Selected]])); 
 
     	if ($scope.isSelected === Selected) {
     		$scope.save(Selected);
@@ -266,6 +272,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     	else {
     		$scope.isSelected = Selected;
     	}
+
 
    //  	if (Selected === null) {
    //  		for (i in $scope.chartConfig.series) {
@@ -371,7 +378,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		if (checked) {
 			$scope.chartConfig.series[$scope.id_array[id]].visible = true;
 			if ($scope.isSelected === id)
-				$scope.clock_time = $scope.chartConfig.series[i].stringTime;
+				$scope.clock_time = $scope.chartConfig.series[[$scope.id_array[id]]].stringTime;
 		} else {
 			$scope.chartConfig.series[$scope.id_array[id]].visible = false;
 		}
@@ -397,7 +404,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	
 	$scope.$watch('clock_time', function (newValue, oldValue) {
         //do something
-        var d = moment();
+        var d = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)});
         if(typeof newValue !== 'undefined'){
         	var res = newValue.split(":");
 	      	
@@ -405,7 +412,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 	        $scope.stringTime = newValue;
    		 }
 	    else {
-	    	$scope.graphTime = moment().valueOf();
+	    	$scope.graphTime = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)}).valueOf();;
 	    	$scope.stringTime = $scope.prenta(d.minutes(), d.hours());
 	    }
     });
@@ -452,6 +459,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		$scope.createDrug($scope.chartConfig.series[$scope.id_array[id]]);
 		$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
 		$scope.isSelected = null;
+
 		// for (i in $scope.chartConfig.series) {
   //   				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id
   //   					$scope.createDrug($scope.chartConfig.series[i]);
@@ -459,6 +467,14 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
   //   				}
 		// }
 	};
+
+	$scope.cancel = function(id) {
+		console.log($scope.tempGraph);
+		$scope.chartConfig.series[$scope.id_array[id]] = $scope.tempGraph;
+		$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
+		$scope.isSelected = null;
+		$scope.updateSumGraph($scope.chartConfig.series);
+	}
 
 	$scope.logOutFunc = function(){
 		 if (authService.isAuthenticated) {

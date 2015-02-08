@@ -19,6 +19,7 @@ angular.module('mobiscroll-dir', [])
                 timeFormat: scope.scroller.timeFormat,
                 timeWheels: scope.scroller.timeWheels,
                 layout: scope.scroller.layout,
+                stepMinute: scope.scroller.stepMinute
                 // onChange: function() {
                 //     scope.update();
                 // }
