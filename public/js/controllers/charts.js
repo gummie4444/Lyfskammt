@@ -1,4 +1,4 @@
-angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'chart-resize', 'mobiscroll-dir'])
+angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slider', 'ngTouch',  'chart-resize', 'mobiscroll-dir'])
 
 .controller('myChart', function ($scope, Lyf,ngDialog,$log, $window,$http, $timeout, authService, $location) {
 
@@ -22,8 +22,17 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
     $scope.clock_time = moment().format('HH'+':'+'mm');
     $scope.happy = true;
     $scope.id_array = [];
+    $scope.chartConfig ={};
 
+    $scope.items = {};
+
+$scope.items['0'] = {name: "red"};
+$scope.items['1'] = {name: "green"};
+$scope.items['2'] = {name: "blue"};
+
+console.log($scope.items)
 	
+
 	
 	//Load the drug_data from the database, specificly from the user
 	//SKOÐA FÆRA Í LYF?????
@@ -85,6 +94,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 		Lyf.create(drug);
 				
 	};
+
 
 	//Functon for deleting a drug from the database
 	$scope.deleteDrug = function(id) {
@@ -220,6 +230,7 @@ angular.module('Chart', ['highcharts-ng','ngDialog','ui.slider', 'ngTouch',  'ch
 			color: "black",
 			zIndex: 1,
 			lineWidth: 7,
+			name : "bla",
 		}
 		],
 		
