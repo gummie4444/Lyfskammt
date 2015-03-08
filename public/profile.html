@@ -82,49 +82,57 @@
 	
 	<div class = "drugContainer" ng-class ="{desktop: isSettingsMenu}">
 		
-		<div class = "singleDrug" ng-repeat ="drug in chartConfig.series | orderObjectBy:'graphTime':true" id = "id_{{drug.name}}" ng-hide ="drug.id === 'series-0' || drug.show === false || (isSelected !== null && drug.id !== isSelected) ">
+		<div id = "leftContent">
+			<div id = "allDrugs">
+				<div class = "singleDrug" ng-repeat ="drug in chartConfig.series | orderObjectBy:'graphTime':true" id = "id_{{drug.name}}" ng-hide ="drug.id === 'series-0' || drug.show === false || (isSelected !== null && drug.id !== isSelected) ">
 
-				<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
-					<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
+						<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
+							<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
+						</div>
+
+						<div class = "drugContent" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
+							<span>{{drug.name}} - {{drug.stringTime}}</span>
+						</div>
+
+						<div class = "remove" id = "id_{{drug.name}}">
+							<button type = "button" ng-style="{'background-color' : drug.color}" ng-class = "{unchecked: !drug.checked}" ng-click="removeDrug(drug.id)"> X </button>
+						</div>
 				</div>
+			</div>
 
-				<div class = "drugContent" ng-click ="setSelected(drug.id)"  ng-class = "{selected : drug.id == isSelected && drug.checked, unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}" >
-					<span>{{drug.name}} - {{drug.stringTime}}</span>
+			<div class = "addDrug" ng-hide = "isSelected !== null" ng-show = "isSelected === null">
+				<!-- <div class = "addDrug"> -->
+					<button id="addDrugButton" type = "button" ng-click= clickToOpen()> + </button>
+				<!-- </div> -->
+			</div>
+
+			<div ng-hide="isSelected === null" id="timepicker" ng-class ="{desktop: isSettingsMenu}">
+				<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
+			</div>
+			<div id = "confirm" ng-hide="isSelected === null" ng-class ="{desktop: isSettingsMenu}">
+				<button ng-click="save(isSelected)">VISTA</button>
+				<button id ="cancelButton" ng-click="cancel(isSelected)">TIL BAKA</button>
+			</div>
+
+		</div>
+		<div id = "rightContent">
+			<div class = "buttons" ng-class ="{desktop: isSettingsMenu}">
+
+				<div class = "calibration">
+					<button ng-disabled = "!happy" class = "smiley" id="happy" ng-click="updateStatusTime()">&#x263a;</button>
 				</div>
-
-				<div class = "remove" id = "id_{{drug.name}}">
-					<button type = "button" ng-style="{'background-color' : drug.color}" ng-class = "{unchecked: !drug.checked}" ng-click="removeDrug(drug.id)"> X </button>
+				<div class = "calibration">
+					<button ng-disabled ="happy" class = "smiley" id="sad" ng-click="updateStatusTime()">&#x2639;</button>
 				</div>
-		</div>
-
-		<div class = "addDrug" ng-hide = "isSelected !== null" ng-show = "isSelected === null">
-			<!-- <div class = "addDrug"> -->
-				<button id="addDrugButton" type = "button" ng-click= clickToOpen()> + </button>
-			<!-- </div> -->
-
-		</div>
-
-	</div>
-
-
-	<div ng-hide="isSelected === null" id="timepicker" ng-class ="{desktop: isSettingsMenu}">
-		<input id="mobiscroller" mobiscroll="mobiscrollConfig" ng-model="clock_time" update="updateFromScroll">
-	</div>
-	<div id = "confirm" ng-hide="isSelected === null" ng-class ="{desktop: isSettingsMenu}">
-		<button ng-click="save(isSelected)">VISTA</button>
-		<button id ="cancelButton" ng-click="cancel(isSelected)">TIL BAKA</button>
-	</div>
-
-
-	<div class = "buttons" ng-class ="{desktop: isSettingsMenu}">
-
-		<div class = "calibration">
-			<button ng-disabled = "!happy" class = "smiley" id="happy" ng-click="updateStatusTime()">&#x263a;</button>
-		</div>
-		<div class = "calibration">
-			<button ng-disabled ="happy" class = "smiley" id="sad" ng-click="updateStatusTime()">&#x2639;</button>
+			</div>
 		</div>
 	</div>
+
+
+	
+
+
+	
 <!-- </div> -->
 
 </div>
