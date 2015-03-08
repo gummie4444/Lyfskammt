@@ -42,6 +42,11 @@ angular.module('lyfService', [])
 				return $http.post('/api/cal_minus', date);
 
 			},
+
+			getCalDataPlus:function(){
+
+				return $http.get('/api/get_cal_plus')
+			},
 			updateDrugData : function(){
 				return $http.get('/api/drug_data');
 				

@@ -166,12 +166,11 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	$scope.createEmptySumGraph = function () {
     	var sumGraph = JSON.parse(JSON.stringify(Lyf.createEmpty())); // cloning an empty drug
     	for (i in sumGraph) {
-			sumGraph[i][0] += ($scope.date.valueOf()+21600000); // offset 6 hours because we only show 06:00-24:00
+			sumGraph[i][0] += ($scope.date.valueOf()+21600000); // offset 6 hours because we only show 06:00-24:00 change this for the  Start/endtime
 		}
 		return sumGraph;	
     }
 
-    //Update the view of the graph
     $scope.updateSumGraph = function (drugs) {
     	$scope.chartConfig.series[0].data = $scope.createEmptySumGraph(); // always reset the sum graph to recalculate + draw
     	if ($scope.chartConfig.series.length > 2) { // only draw the sumGraph if there's more than one drug stored
@@ -186,6 +185,46 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 				}
 			}
 		}
+		
+
+		Lyf.getCalDataPlus()
+		.success(function(data2)
+		{
+
+
+			var line_amount = $scope.chartConfig.series.length;
+			var temp;
+
+
+				
+			for (i in data2){
+
+				console.log(data2[i].StartTime)
+				temp[i][0]= data2[i].StartTime;
+				temp[i][1]= 2000;
+
+			}
+
+			var test_plus = {
+					name: "cderp",  
+					data: temp, 
+					visible: true,
+					checked: true, 
+					show: true, 
+					date: $scope.date.format(), 
+					id: $scope.index,
+					stringTime:$scope.stringTime,
+					graphTime: $scope.graphTime,
+					statusStartTime: null,
+					statusEndTime:null, 
+					day: moment($scope.graphTime).lang("is").format("ddd"),
+					current_user:"",
+
+				}
+			$scope.chartConfig.series.push(test_plus);
+
+		});
+		
 	}
 
 	// variables to initialize height of chart
@@ -493,8 +532,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	};
 
 	$scope.$on('heightChange', function(event, data) { 
-	// 	var container = document.getElementById("drug-chart");
-	// 	var ang_container = angular.element(container); 
+		// 	var container = document.getElementById("drug-chart");
+		// 	var ang_container = angular.element(container); 
 		if (ang_container.height() > 100) $scope.chartConfig.options.chart.height = ang_container.height();
 		if (ang_container.width() > 100) $scope.chartConfig.options.chart.width = ang_container.width();
 	});

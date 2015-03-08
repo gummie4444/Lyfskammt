@@ -176,6 +176,20 @@ module.exports = function(app) {
 
 	});
 
+	app.get('/api/get_cal_plus',[express.bodyParser(),jwtauth],function(req,res){
+
+		Caliplus.find({user:req.current_user},function(err, plus_cal) {
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err);
+			
+			//maby only return today
+			res.json(plus_cal); // return all plus_cal in JSON format
+		});
+
+	});
+
 
 //API FOR USERS
 	//---------------------------------------------------

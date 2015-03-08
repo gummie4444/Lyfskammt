@@ -3,7 +3,6 @@ angular.module ('orderObjectBy-fil',[])
 .filter('orderObjectBy', function() {
   return function(items, field, reverse) {
     var filtered = [];
-    console.log("bla")
     angular.forEach(items, function(item) {
       filtered.push(item);
     });
