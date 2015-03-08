@@ -284,6 +284,23 @@ transition: all .25s ease-in-out;
 	/*margin-top: 20px;*/
 }
 
+#leftContent {
+	width: 67%;
+	float: left;
+}
+
+#allDrugs {
+	height: 15.6em;
+	width: 100%;
+	overflow: auto;
+	float: left;
+}
+
+#rightContent {
+	width: 33%;
+	float: left;
+}
+
 .singleDrug {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -314,7 +331,7 @@ transition: all .25s ease-in-out;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
-	width:65%;
+	width:64%;
 	height:100%;
 	text-align: center;
 	font-size: 30px;
@@ -350,7 +367,7 @@ transition: all .25s ease-in-out;
 
 #addDrugButton {
 	height: 100%;
-	width: 100%;
+	width: 99.5%;
 	font-size: 2em;
 	border: none;
 	background: #95a5a6;
@@ -377,6 +394,7 @@ transition: all .25s ease-in-out;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float:left;
+	margin-top: -12em;
 	/*text-align: center;*/
 }
 
@@ -385,6 +403,7 @@ transition: all .25s ease-in-out;
 	height: 230px;
 	float: left;
 	background: rgba(248, 248, 248, 1);
+	margin-top: -12em;
 }
 
 #confirm button {
@@ -472,7 +491,7 @@ transition: all .25s ease-in-out;
 }
 
 .calibration {
-	width: 50%;
+	width: 100%;
 	float: left;
 }
 
@@ -481,7 +500,7 @@ transition: all .25s ease-in-out;
 	color: white;
 	height: 100%;
 	/*text-align: center;*/
-	font-size: 80pt;
+	font-size: 84pt;
 	border: none;
 	cursor: pointer;
 }

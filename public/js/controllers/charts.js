@@ -25,6 +25,9 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
     $scope.id_array = [];
     $scope.chartConfig ={};
 
+    $scope.graph_StartTime = $scope.date.valueOf()+21600000; // 06:00
+    $scope.graph_EndTime = $scope.date.valueOf()+86400000; // 24:00
+
 
 
     $scope.tempGraph = []; // every selected graph is temporarily overwritten here so we can easily restore it when the cancel button is pressed
@@ -243,8 +246,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
                 width: 1,
                 value: moment().valueOf(),
             }],
-			min : $scope.date.valueOf()+21600000, // 06:00
-			max : $scope.date.valueOf()+86400000,  // 24:00
+			min : $scope.graph_StartTime, // 06:00
+			max : $scope.graph_EndTime,  // 24:00
 			type: 'datetime'
 		},
 		yAxis: {
