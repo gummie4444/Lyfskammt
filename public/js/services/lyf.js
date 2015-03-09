@@ -47,9 +47,21 @@ angular.module('lyfService', [])
 
 				return $http.get('/api/get_cal_plus')
 			},
+
+			getCalDataMinus:function(){
+
+				return $http.get('/api/get_cal_minus')
+			},
 			updateDrugData : function(){
 				return $http.get('/api/drug_data');
 				
+			},
+
+			delete_plus : function(id) {
+				return $http.delete('/api/del_cal_plus/' + id);
+			},
+			delete_minus : function(id) {
+				return $http.delete('/api/del_cal_minus/' + id);
 			},
 
 			createEmpty: function () {

@@ -112,9 +112,12 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	//It updates all the variable and calls the functions to send the info to the database
 	$scope.fetch = function(lyf_id) {
 		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
+		console.log(current_lyf);
 		for (i in current_lyf.data) {
 			current_lyf.data[i][0] += (current_lyf.data[i][0]*900000 + $scope.graphTime);
 		}
+
+
 		var current_lyf_updated = {
 			name: current_lyf.name, 
 			amount: current_lyf.amount, 
@@ -134,6 +137,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			current_user:"",
 
 		}
+		console.log(current_lyf_updated)
 		// $scope.drugs.push(current_lyf_updated);
 		$scope.chartConfig.series.push(current_lyf_updated);
 		$scope.isSelected = null;	
@@ -141,7 +145,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.id_array[current_lyf_updated.id] = $scope.chartConfig.series.length-1;
 		$scope.updateSumGraph($scope.chartConfig.series);
 		
-	console.log($scope.id_array);
 	}
   	
   	//Remove the drug locally from the view
@@ -155,15 +158,44 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		// 		$scope.id_array[array_index] = null;
 		// 	}
 		// }
-		var index = $scope.chartConfig.series[$scope.id_array[drug_id]].id;
-		$scope.chartConfig.series.splice($scope.id_array[drug_id],1)
-		$scope.id_array = [];
-		for (var i = 1; i < $scope.chartConfig.series.length; i++) {
-					$scope.id_array[$scope.chartConfig.series[i].id] = i;
+
+		if($scope.chartConfig.series[$scope.id_array[drug_id]].dataType === "plus"){
+
+			//TODO EYÐA ÞESSU ÚR PLÚS DÁLK
+
+
+			Lyf.delete_plus(drug_id);
+
+
 		}
-		// $scope.id_array[drug_id] = null;
-		$scope.deleteDrug(drug_id);
-		$scope.isSelected = null;
+		else if($scope.chartConfig.series[$scope.id_array[drug_id]].dataType === "minus"){
+
+			//TODO EYÐA ÚR MÍNUS DÁLK
+			Lyf.delete_minus(drug_id);
+			$scope.updateSumGraph($scope.chartConfig.series);
+
+		}
+
+		else{
+
+
+			$scope.deleteDrug(drug_id);
+			$scope.isSelected = null;
+		}
+
+				//TODO EYÐA ÞESSU ÚR PLÚS DÁLK
+			var index = $scope.chartConfig.series[$scope.id_array[drug_id]].id;
+			$scope.chartConfig.series.splice($scope.id_array[drug_id],1)
+			$scope.id_array = [];
+			for (var i = 1; i < $scope.chartConfig.series.length; i++) {
+						$scope.id_array[$scope.chartConfig.series[i].id] = i;
+				}
+			// $scope.id_array[drug_id] = null;
+
+
+
+			$scope.isSelected = null;
+			console.log(drug_id)
 	}
 	//Create a empty graph for the init of the graph
 	$scope.createEmptySumGraph = function () {
@@ -173,6 +205,76 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		}
 		return sumGraph;	
     }
+
+    $scope.createMoodObj = function(date,type,index){
+    	var tempColor = "#e74c3c"
+    	if (type === "plus"){
+
+    		var tempColor = "#16a085"
+    	}
+    	else{
+    		var tempColor = "#e74c3c"
+
+    	}
+    	var temp= [];
+
+    	temp[0] = parseInt(date);
+		temp[1] = 100;
+
+    	var temp_plus = {
+					name: type,
+					type:"spline",
+					dataType: type,
+					data: temp, 
+					visible: false,
+					checked: true, 
+					show: true, 
+					date: $scope.date.format(), 
+					id: index,
+					stringTime:$scope.stringTime,
+					graphTime: $scope.graphTime,
+					statusStartTime: null,
+					statusEndTime:null,
+					color: tempColor, 
+					day: moment($scope.graphTime).lang("is").format("ddd"),
+					current_user:"",
+
+				}
+			$scope.chartConfig.series.push(temp_plus);
+			$scope.id_array[temp_plus.id] = $scope.chartConfig.series.length-1;
+
+
+    };
+
+    Lyf.getCalDataPlus()
+		.success(function(CalPlusData)
+		{
+			
+			for (i in CalPlusData){
+			
+				$scope.createMoodObj(CalPlusData[i].StartTime,"plus")
+
+			}
+				
+				$scope.updateSumGraph($scope.chartConfig.series);
+				
+
+		});
+
+	 Lyf.getCalDataMinus()
+		.success(function(CalMinusData)
+		{
+			
+			for (i in CalMinusData){
+			
+				$scope.createMoodObj(CalMinusData[i].StartTime,"minus")
+
+			}
+				
+				$scope.updateSumGraph($scope.chartConfig.series);
+				
+
+		});
 
     $scope.updateSumGraph = function (drugs) {
     	$scope.chartConfig.series[0].data = $scope.createEmptySumGraph(); // always reset the sum graph to recalculate + draw
@@ -189,46 +291,9 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			}
 		}
 		
-
-		Lyf.getCalDataPlus()
-		.success(function(data2)
-		{
-
-
-			var line_amount = $scope.chartConfig.series.length;
-			var temp;
-
-
-				
-			for (i in data2){
-
-				console.log(data2[i].StartTime)
-				temp[i][0]= data2[i].StartTime;
-				temp[i][1]= 2000;
-
-			}
-
-			var test_plus = {
-					name: "cderp",  
-					data: temp, 
-					visible: true,
-					checked: true, 
-					show: true, 
-					date: $scope.date.format(), 
-					id: $scope.index,
-					stringTime:$scope.stringTime,
-					graphTime: $scope.graphTime,
-					statusStartTime: null,
-					statusEndTime:null, 
-					day: moment($scope.graphTime).lang("is").format("ddd"),
-					current_user:"",
-
-				}
-			$scope.chartConfig.series.push(test_plus);
-
-		});
 		
 	}
+
 
 	// variables to initialize height of chart
 	var container = document.getElementById("drug-chart");
@@ -253,7 +318,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 					animation: false,
 	            	enableMouseTracking: false,
 	            	marker: {
-	            		enabled: false
+	            		enabled:false
 	            	}
 	            },
 	            line: {
@@ -304,14 +369,22 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			title: {
 				enabled: false
 			}
+			},
+			func: function(chart) {
+
+      			chart.renderer.image('http://highcharts.com/demo/gfx/sun.png', 100, 100, 30, 30)
+            .add();
+   			
 		}
 	};
 
-		console.log($scope.chartConfig.series)
+
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
+    		console.log($scope.chartConfig.series.length)
     	//$scope.chartConfig.series[$scope.id_array[Selected]].dashStyle = 'shortdash';
     	console.log($scope.stringTime);
+    	console.log(Selected)
 		$scope.clock_time = $scope.chartConfig.series[$scope.id_array[Selected]].stringTime;
 
 		$scope.tempGraph = JSON.parse( JSON.stringify($scope.chartConfig.series[$scope.id_array[Selected]])); 
@@ -361,22 +434,27 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
     $scope.updateStatusTime = function (){
 
 
-    	var current_date = JSON.stringify({'current_date':moment().valueOf()});
 
+    	var tempIndex = Math.round(moment().valueOf()/Math.random()/10000);
+    	var info = JSON.stringify({'current_date':moment().valueOf(),'index': tempIndex});
 
     	
     	if($scope.happy){
 	    	//Vista + gildi inn ef það á við
-	    	Lyf.insertCalDataPlus(current_date);
+
+	    	$scope.createMoodObj(moment().valueOf(),"plus",tempIndex);
+	    	Lyf.insertCalDataPlus(info);
 
     	}
     	else{
     		//Vista - gildi inn ef það á við
-    		Lyf.insertCalDataMinus(current_date);
+
+    		$scope.createMoodObj(moment().valueOf(),"minus",tempIndex);
+    		 Lyf.insertCalDataMinus(info);
 
     	}
     	//TOOGLA + Í MÍNUS
-
+    	$scope.updateSumGraph($scope.chartConfig.series);
     	$scope.happy = !$scope.happy; 	
 
     };
@@ -506,9 +584,34 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	};
 
 	$scope.save = function(id) {
+
+		if($scope.chartConfig.series[$scope.id_array[id]].dataType === "plus"){
+
+			//TODO EYÐA ÞESSU ÚR PLÚS DÁLK
+			$scope.isSelected = null;
+
+
+		//UPDATE	Lyf.delete_plus(drug_id);
+
+
+		}
+		else if($scope.chartConfig.series[$scope.id_array[id]].dataType === "minus"){
+
+			//TODO EYÐA ÚR MÍNUS DÁLK
+			$scope.isSelected = null;
+		
+		//UPDATE todo
+
+		}
+		else{
+
+
 		$scope.createDrug($scope.chartConfig.series[$scope.id_array[id]]);
 		$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
 		$scope.isSelected = null;
+
+		}
+		$scope.updateSumGraph($scope.chartConfig.series);
 
 		// for (i in $scope.chartConfig.series) {
   //   				if (id === $scope.chartConfig.series[i].id) { // find the drug with matching id

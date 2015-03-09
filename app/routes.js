@@ -149,6 +149,7 @@ module.exports = function(app) {
 		Caliplus.create({
 					user:req.current_user,
 					StartTime:req.body.current_date,
+					id:req.body.index,
 				
 						}, function(err,msg){
 							if(err){
@@ -165,6 +166,7 @@ module.exports = function(app) {
 		Caliminus.create({
 					user:req.current_user,
 					EndTime:req.body.current_date,
+					id:req.body.index,
 							
 						}, function(err,msg){
 							if(err){
@@ -188,6 +190,57 @@ module.exports = function(app) {
 			res.json(plus_cal); // return all plus_cal in JSON format
 		});
 
+	});
+
+	app.get('/api/get_cal_minus',[express.bodyParser(),jwtauth],function(req,res){
+
+		Caliminus.find({user:req.current_user},function(err, minus_cal) {
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err);
+			
+			//maby only return today
+			res.json(minus_cal); // return all plus_cal in JSON format
+		});
+
+	});
+
+
+	app.delete('/api/del_cal_plus/:drug_id', function(req, res) {
+
+
+		Caliplus.remove({
+			id : req.params.drug_id
+		}, function(err, temp) {
+			if (err)
+				res.send(err);
+			res.send(200);
+			// get and return all the todos after you create another
+			// Todo.find(function(err, todos) {
+			// 	if (err)
+			// 		res.send(err);
+			// 	res.json(todos);
+			// });
+		});
+	});
+
+	app.delete('/api/del_cal_minus/:drug_id', function(req, res) {
+
+
+		Caliminus.remove({
+			id : req.params.drug_id
+		}, function(err, temp) {
+			if (err)
+				res.send(err);
+			res.send(200);
+			// get and return all the todos after you create another
+			// Todo.find(function(err, todos) {
+			// 	if (err)
+			// 		res.send(err);
+			// 	res.json(todos);
+			// });
+		});
 	});
 
 
