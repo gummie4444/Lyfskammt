@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 
 module.exports = mongoose.model('Caliminus', {
 	user:String,
-	EndTime:String,
+	StartTime:String,
 	id:String
 
 });

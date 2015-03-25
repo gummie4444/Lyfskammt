@@ -1,4 +1,4 @@
-//Mongoose models
+	//Mongoose models
 var Drug = require('./models/drug');
 var User = require ('./models/user');
 var Drug_data = require('./models/drug_data');
@@ -145,37 +145,41 @@ module.exports = function(app) {
 
 	app.post('/api/cal_plus',[express.bodyParser(), jwtauth],function(req,res){
 
-		console.log(req.body.current_date + "bla");
-		Caliplus.create({
-					user:req.current_user,
-					StartTime:req.body.current_date,
-					id:req.body.index,
-				
-						}, function(err,msg){
-							if(err){
-								res.send(err);
-								}
-							res.send(200);
-						});
-
+		Caliplus.update({
+			id: req.body.index,
+		}, 
+		{$set: { 	
+			user:req.current_user,
+			StartTime:req.body.current_date,
+			id:req.body.index,
+		}
+		}
+		, {upsert: true}, function(err, temp) {
+			if (err)
+				res.send(err);
+			
+			res.send(200);
+		});
 	});
+		
 
 	app.post('/api/cal_minus',[express.bodyParser(), jwtauth],function(req,res){
 
-
-		Caliminus.create({
-					user:req.current_user,
-					EndTime:req.body.current_date,
-					id:req.body.index,
-							
-						}, function(err,msg){
-							if(err){
-
-								res.send(err);
-								}
-							res.send(200);
-						});
-
+		Caliminus.update({
+			id: req.body.index,
+		}, 
+		{$set: { 	
+			user:req.current_user,
+			StartTime:req.body.current_date,
+			id:req.body.index,
+		}
+		}
+		, {upsert: true}, function(err, temp) {
+			if (err)
+				res.send(err);
+			
+			res.send(200);
+		});
 	});
 
 	app.get('/api/get_cal_plus',[express.bodyParser(),jwtauth],function(req,res){
@@ -193,6 +197,8 @@ module.exports = function(app) {
 	});
 
 	app.get('/api/get_cal_minus',[express.bodyParser(),jwtauth],function(req,res){
+
+
 
 		Caliminus.find({user:req.current_user},function(err, minus_cal) {
 
