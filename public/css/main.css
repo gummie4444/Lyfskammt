@@ -185,6 +185,7 @@ transition: all .25s ease-in-out;
       width:4em;
       float:right;
       font-size: 1em;
+      margin-right: 1em;
 }
 
 
@@ -217,7 +218,41 @@ transition: all .25s ease-in-out;
     clear:both;
 }
 
+#settingsConfirm {	
+	background: #bdc3c7;
+	border: none;
+	padding: 0.5em;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+	float: right;
+	margin-top: 3em;
+}
 
+.errorMsg {
+	color: rgb(255, 115, 115);
+}
+
+#settingsConfirm:active {
+	opacity: 0.7;
+}
+
+.changeInformation {
+	background: #bdc3c7;
+	border: none;
+	padding: 0.5em;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+	float: right;
+}
+
+.informationInput {
+	width: 5em;
+	margin-left: 1em;
+}
+
+.confirmChange {
+	margin-right: 1em;
+}
 
 .optionsList {
 	width: 92%;

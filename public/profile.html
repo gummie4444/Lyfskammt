@@ -24,7 +24,7 @@
 			<ul class = "optionsList" ng-hide ="isCalibrate || isSettings">
 				<li class = "options" ng-click = "showSettings()" id = "top">Stillingar</li>
 				<hr>
-				<li class = "options" ng-click = "showCalibrate()">Calibrate</li>
+				<li class = "options" ng-click = "showCalibrate()">Upplýsingar fyrir útreikninga</li>
 				<hr>
 				<li ng-click = "logOutFunc()" class = "options logout">Útskrá</li>
 			</ul>
@@ -47,24 +47,95 @@
 
                   	 <div class = "settingsClick" ng-click = "doTh">
 	                  	<span class = "underSpan">Upphafstími:</span>
-	                  	<input class = "graph_start" type ="time" ng-model= "graph_StartTime">
+	                  	<select id = "graphStartTime" class = "graph_start">
+						  <option value="0" selected="selected">00</option>
+						  <option value="1">01</option>
+						  <option value="2">02</option>
+						  <option value="3">03</option>
+						  <option value="4">04</option>
+						  <option value="5">05</option>
+						  <option value="6">06</option>
+						  <option value="7">07</option>
+						  <option value="8">08</option>
+						  <option value="9">09</option>
+						  <option value="10">10</option>
+						  <option value="11">11</option>
+						  <option value="12">12</option>
+						  <option value="13">13</option>
+						  <option value="14">14</option>
+						  <option value="15">15</option>
+						  <option value="16">16</option>
+						  <option value="17">17</option>
+						  <option value="18">18</option>
+						  <option value="19">19</option>
+						  <option value="20">20</option>
+						  <option value="21">21</option>
+						  <option value="22">22</option>
+						  <option value="23">23</option>
+						</select>
                   	</div>
 
                		 <div class = "settingsClick" ng-click = "doTh">
 
-	                  	<span class = "underSpan">Endatími:</span>
-	                  	<input class = "graph_start" type ="time" ng-model= "graph_EndTime">
-	                </div>		
+	                  	<span class = "underSpan">Lokatími:</span>
+	                  	<select id = "graphEndTime" class = "graph_start">
+						  <option value="1">01</option>
+						  <option value="2">02</option>
+						  <option value="3">03</option>
+						  <option value="4">04</option>
+						  <option value="5">05</option>
+						  <option value="6">06</option>
+						  <option value="7">07</option>
+						  <option value="8">08</option>
+						  <option value="9">09</option>
+						  <option value="10">10</option>
+						  <option value="11">11</option>
+						  <option value="12">12</option>
+						  <option value="13">13</option>
+						  <option value="14">14</option>
+						  <option value="15">15</option>
+						  <option value="16">16</option>
+						  <option value="17">17</option>
+						  <option value="18">18</option>
+						  <option value="19">19</option>
+						  <option value="20">20</option>
+						  <option value="21">21</option>
+						  <option value="22">22</option>
+						  <option value="23">23</option>
+						  <option value="24" selected="selected">24</option>
+						</select>
+	                </div>
+	                <button id ="settingsConfirm" ng-click="applySettings()">VISTA</button>
+
+	                <p class="errorMsg" 
+						        ng-show="invalidTimeError">
+						        Upphafstími verður að vera lægri en lokatími.
+					</p>		
 				</div>
 			</div>
 
 			<div id ="calibration" ng-show ="isCalibrate">
 				<ul class ="optionsList">
-					<li class = "options" id ="top" ng-click = "showCalibrate()">Calibrate</li>
+					<li class = "options" id ="top" ng-click = "showCalibrate()">Upplýsingar fyrir útreikninga</li>
 					<hr>
 				</ul>
 				<div class = "optionsContent" id = "calibrationContent">
-					<span>blabla calibrate hér blabla</span>
+					<div class = "settingsClick" ng-click = "doTh">
+						<span class = "mainSpan">Hæð (cm):</span>
+						<span id="heightSpan" class = "underSpan" ng-show="!changingHeight">180</span>
+						<input id ="heightInput" class ="informationInput" type="number" ng-show="changingHeight"></input>
+						<button class ="changeInformation" ng-click = "changeHeight()" ng-show="changingHeight">TIL BAKA</button>
+						<button class="confirmChange changeInformation" ng-click = "updateHeight()" ng-show="changingHeight">STAÐFESTA</button>
+						<button class = "changeInformation" ng-click="changeHeight()" ng-show="!changingHeight">BREYTA</button>
+                  	</div>
+                  	<div class = "settingsClick" ng-click = "doTh">
+						<span class = "mainSpan">Þyngd (kg):</span>
+						<span id="weightSpan" class = "underSpan" ng-show="!changingWeight">75</span>
+						<input id="weightInput" class ="informationInput" type="number" ng-show="changingWeight"></input>
+						<button class ="changeInformation" ng-click = "changeWeight()" ng-show="changingWeight">TIL BAKA</button>
+						<button class="confirmChange changeInformation" ng-click = "updateWeight()" ng-show="changingWeight">STAÐFESTA</button>
+						<button class = "changeInformation" ng-click="changeWeight()" ng-show="!changingWeight">BREYTA</button>
+                  	</div>
 				</div>
 			</div>
 		</div>

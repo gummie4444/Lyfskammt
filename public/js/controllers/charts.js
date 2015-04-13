@@ -25,8 +25,17 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
     $scope.id_array = [];
     $scope.chartConfig ={};
 
-    $scope.graph_StartTime = $scope.date.valueOf()+21600000; // 06:00
-    $scope.graph_EndTime = $scope.date.valueOf()+86400000; // 24:00
+    $scope.invalidTimeError = false;
+    $scope.changingHeight = false;
+    $scope.changingWeight = false;
+
+    $scope.userHeight = 180; // change this to load from the user's profile
+    $scope.userWeight = 75;
+
+
+
+    $scope.graph_StartTime = 21600000; // 06:00
+    $scope.graph_EndTime = 86400000; // 24:00
 
 
 
@@ -302,7 +311,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	$scope.chartConfig = {
 		options: {
 			chart: {
-				animation: false,
+				animation: true,
 				height: ang_container.height()*1.02796,
 				width: ang_container.width()
 
@@ -350,8 +359,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
                 width: 1,
                 value: moment().valueOf(),
             }],
-			min : $scope.graph_StartTime, // 06:00
-			max : $scope.graph_EndTime,  // 24:00
+			min : $scope.date.valueOf()+$scope.graph_StartTime, // 06:00
+			max : $scope.date.valueOf()+$scope.graph_EndTime,  // 24:00
 			type: 'datetime'
 		},
 		yAxis: {
@@ -419,7 +428,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
     };
 
     //Function for the popupp dialog
-    $scope.clickToOpen = function () {
+    $scope.clickToOpen = function () {	
     	$scope.index = Math.round(moment().valueOf()/Math.random()/10000000000);
         ngDialog.open({ template: 'template.html',
         				scope:$scope
@@ -474,8 +483,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			$scope.date.add('d', 1);
 		}
 		$scope.chartConfig.title.text = moment($scope.date).lang("is").format("dddd Do MMMM"); // update the date at top
-		$scope.chartConfig.xAxis.min = $scope.date.valueOf()+21600000; // update the leftmost x-value
-		$scope.chartConfig.xAxis.max = $scope.date.valueOf()+86400000; // update the rightmost x-value
+		$scope.chartConfig.xAxis.min = $scope.date.valueOf()+$scope.graph_StartTime; // update the leftmost x-value
+		$scope.chartConfig.xAxis.max = $scope.date.valueOf()+$scope.graph_EndTime; // update the rightmost x-value
 
 		// $scope.updateSumGraph($scope.chartConfig.series); // show the updated sum graph
 
@@ -525,6 +534,49 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.createDrug($scope.chartConfig.series[$scope.id_array[id]]);
 		$scope.updateSumGraph($scope.chartConfig.series);
 	};
+
+	$scope.applySettings = function() {
+		var startTime = parseInt(angular.element(document.getElementById('graphStartTime')).val())
+		var endTime = parseInt(angular.element(document.getElementById('graphEndTime')).val())
+		console.log(typeof startTime)
+		$scope.graph_StartTime = startTime*1000*60*60; // convert from hours to milliseconds
+		$scope.graph_EndTime = endTime*1000*60*60; // convert from hours to milliseconds
+		if (startTime >= endTime) {
+			console.log(startTime)
+			console.log(endTime)
+			$scope.invalidTimeError = true;
+			return;
+		}
+		$scope.chartConfig.xAxis.min = $scope.date.valueOf() + $scope.graph_StartTime; 
+		$scope.chartConfig.xAxis.max = $scope.date.valueOf() + $scope.graph_EndTime;
+
+		$scope.invalidTimeError = false;
+		$scope.showSettingsMenu();
+		$scope.showSettings();
+	}
+
+	$scope.changeHeight = function() {
+		$scope.changingHeight = !$scope.changingHeight;
+	}
+
+	$scope.changeWeight = function() {
+		$scope.changingWeight = !$scope.changingWeight;
+	}
+
+	$scope.updateHeight = function() {
+		var height = angular.element(document.getElementById('heightInput')).val()
+		angular.element(document.getElementById('heightSpan')).text(height)
+		$scope.changingHeight = !$scope.changingHeight;
+	}
+
+	$scope.updateWeight = function() {
+		var height = angular.element(document.getElementById('weightInput')).val()
+		angular.element(document.getElementById('weightSpan')).text(height)
+		$scope.changingWeight = !$scope.changingWeight;
+	}
+
+
+
 
 
 	// WATCH/UPDATE FUNCTIONS //
