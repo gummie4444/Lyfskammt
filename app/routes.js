@@ -13,12 +13,16 @@ var secret = require('../config/secret');
 var jwtauth = require('./jwtauth.js');
 var moment = require('moment');
 //Initialize a REST client in a single line:
+
+
+//MOVE TO DIFFRIENT SERVER
 var client = require('twilio')('AC24af3292ec93f9276853cd7decb3bcf8', '9b15c0c4955b445482b952e3957eff75');
  
 var sortable = [];
 
 //ATH HVORT AD SHIT EIGI AD VERA
 getDrugs(Mesort);
+
 
 //Find all the drugs from now untill the next hour
 function getDrugs(callback){
@@ -129,6 +133,8 @@ new CronJob('*/1 * * * *', function(){
 	 	console.log('min fresti');	  	
 }, null, true, "UTC");
 
+
+//----------------------------------------------------------------------------------------------
 
 
 module.exports = function(app) {
@@ -255,6 +261,12 @@ module.exports = function(app) {
 
 	//HANDLE LOGINS
 	//TODO: USERINTERFACE
+	app.post('/api/updateUser',[express.bodyParser(),jwtauth], function(req,res){
+
+		console.log(req);
+
+
+	});
 
 	app.get('/api/users/reg', function(req, res) {
 
@@ -275,6 +287,7 @@ module.exports = function(app) {
 		});
 	});
 
+	//LOGIN
 	app.post('/api/users',function(req,res){
 
 		var username = req.body.username ;
@@ -344,40 +357,21 @@ module.exports = function(app) {
 			}
 			//username is avalable
 			else if (users == undefined){
-
-				//Get the drug data from database
-				Drug_data.find(function(err, lyf_data) {
-
-					// if there is an error retrieving, send the error. nothing after res.send(err) will execute
-					if (err)
-						res.send(err);
+				console.log("Notendanafn er laust");
+				User.create({
+					username:username,
+					password:password,
+					name:name,
+					kt:kt,
+					email:email,
+					preferedDrugs:["derp"]
 					
-					//The data has been collected and insert into user database
-					console.log(lyf_data[0].lyf1 + " Data frá lyf");
-
-					console.log("Notendanafn er laust");
-						User.create({
-							username:username,
-							password:password,
-							name:name,
-							kt:kt,
-							email:email,
-							lyf1:lyf_data[0].lyf1,
-							lyf1_data:lyf_data[0].lyf1_data,
-							lyf2:lyf_data[0].lyf2,
-							lyf2_data:lyf_data[0].lyf2_data,
-							lyf3:lyf_data[0].lyf3,
-							lyf3_data:lyf_data[0].lyf3_data,
-							lyf4:lyf_data[0].lyf4,
-							lyf4_data:lyf_data[0].lyf4_data,
-							
-						}, function(err,msg){
-							if(err){
-								res.send(err);
-								}
-						return	res.send({"answer": 1 });
-						});
-				});		
+				}, function(err,msg){
+					if(err){
+						res.send(err);
+						}
+				return	res.send({"answer": 1 });
+				});
 			}
 
 			//else return that the username is already in the database
@@ -396,48 +390,21 @@ module.exports = function(app) {
 		
 	//Get the drugs the user has in his document
 	//TODO: AMOUNT?????
+
+	//SKOÐA!R!R!R"#E"#
 	app.get('/api/drug_data',[express.bodyParser(), jwtauth], function(req, res) {
 
-		User.findOne({_id: req.current_user}, function(err,users){
-			if(err){
-				console.log(err + "VIlla1");
-				//eitthver villa
-				return res.send(401);
+		//Get the drug data from database
+		console.log("hallo")
+		Drug_data.find(function(err, lyf_data) {
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err);
+			else{
+				console.log(lyf_data);
+				res.json(lyf_data[0]);
 			}
-			
-			res.send([ 
-			{ 
-				name : users.lyf1, 
-				amount: "2 mg",
-				data: users.lyf1_data,
-				color: "#f1c40f", // yellow,
-				duration: 6
-			},  
-			{ 
-				name : users.lyf2, 
-				amount: "4 mg",
-				data: users.lyf2_data,
-				color: "#27ae60", // green
-				duration: 6
-			},  
-			{ 
-				name : users.lyf3, 
-				amount: "2 mg",
-				data: users.lyf3_data,
-				color: "#c0392b", // red
-				duration: 6
-			},
-			{ 
-				name : users.lyf4, 
-				amount: "3 mg",
-				data: users.lyf4_data,
-				color: "#3498db", // blue
-				duration: 6
-			}]
-			);
 		});
-
-
 	});
 	//---------------------------------------------------
 
@@ -455,17 +422,19 @@ module.exports = function(app) {
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err)
 				res.send(err);
-				
+			
 			res.json(drugs); // return all todos in JSON format
 		});
 	});
 
 	// Update or create a new drug instance
+
+	//data í drugType 
 	app.post('/api/insertdrugs',[express.bodyParser(), jwtauth], function(req, res) {
 
 		//update the thing
 		getDrugs(Mesort);
-
+		console.log(req.body)
 
 		Drug.update({
 			id: req.body.id,
@@ -483,7 +452,7 @@ module.exports = function(app) {
 			show: req.body.show,
 			date: req.body.date,
 			id: req.body.id,
-			data: req.body.data,
+			drugType: req.body.drugType,
 			amount: req.body.amount,
 			name: req.body.name,
 			user: req.current_user
@@ -492,7 +461,8 @@ module.exports = function(app) {
 		, {upsert: true}, function(err, temp) {
 			if (err)
 				res.send(err);
-			
+			console.log(err);
+			console.log(temp);
 			res.send(200);
 		});
 	});
