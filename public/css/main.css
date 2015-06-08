@@ -535,6 +535,12 @@ transition: all .25s ease-in-out;
 }
 
 @media only screen and (max-width: 768px){
+	
+	.remove {
+
+	width:18%;
+
+	}
 
 	.optionsContent{
 		margin-left: 0;

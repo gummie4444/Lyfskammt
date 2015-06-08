@@ -37,12 +37,11 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
 	
 	//Load the drug_data from the database, specificly from the user
-	//SKOÐA FÆRA Í LYF?????
+	//Here are all the values F,kE,kA and so on inside the drug_data scope
 	Lyf.updateDrugData()
 		.success(function(data)
 		{
-			$scope.drug_data = data;
-
+			$scope.drug_data = data.data;
 		});
 
 
@@ -149,17 +148,19 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	//Functon thats called when we create a drug
 	//It updates all the variable and calls the functions to send the info to the database
 	$scope.fetch = function(lyf_id) {
+		console.log(lyf_id)
 		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
 		console.log(current_lyf);
 		for (i in current_lyf.data) {
 			current_lyf.data[i][0] += (current_lyf.data[i][0]*900000 + $scope.graphTime);
 		}
 
-
+		console.log(lyf_id.toString())
+		//Breyta data í type og lóda á öðrum stað
 		var current_lyf_updated = {
 			name: current_lyf.name, 
-			amount: current_lyf.amount, 
-			data: current_lyf.data, 
+			amount: "current_lyf.amount", 
+			drugType: lyf_id.toString(), 
 			visible: true,
 			checked: true, 
 			show: true, 
@@ -167,7 +168,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			id: $scope.index,
 			stringTime:$scope.stringTime,
 			graphTime: $scope.graphTime,
-			duration : current_lyf.duration,
+			duration : "current_lyf.duration",
 			statusStartTime: null,
 			statusEndTime:null,
 			color: current_lyf.color, 
@@ -178,6 +179,9 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		console.log(current_lyf_updated)
 		// $scope.drugs.push(current_lyf_updated);
 		$scope.chartConfig.series.push(current_lyf_updated);
+
+
+
 		$scope.isSelected = null;	
 		$scope.createDrug(current_lyf_updated);
 		$scope.id_array[current_lyf_updated.id] = $scope.chartConfig.series.length-1;
@@ -390,7 +394,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			},
 			func: function(chart) {
 
-      			chart.renderer.image('http://highcharts.com/demo/gfx/sun.png', 100, 100, 30, 30)
+      			chart.renderer.image('http://highcharts.com/demo/gfx/sun.png', 200, 200, 130, 30)
             .add();
    			
 		}
@@ -438,6 +442,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
     //Function for the popupp dialog
     $scope.clickToOpen = function () {
+    	console.log("hallo")
+    	console.log($scope.drug_data)
     	$scope.index = Math.round(moment().valueOf()/Math.random()/10000000000);
         ngDialog.open({ template: 'template.html',
         				scope:$scope
