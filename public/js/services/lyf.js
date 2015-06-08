@@ -9,8 +9,7 @@ angular.module('lyfService', [])
 
 	.service('Lyf', function($http) {
 
-			
-
+	
 		return {
 
 			get:function(){

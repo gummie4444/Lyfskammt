@@ -87,6 +87,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 				$scope.loading = false;
 				// $scope.drugs = data;
 				for (var i in data){
+					console.log(data);
 					$scope.chartConfig.series.push(data[i]);
 				}
 
@@ -94,8 +95,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			});
 
 
- 	$scope.updateShowDrugs = function(){
-
+ 	$scope.updateShowDrugs = function() {
 		for (var i = 1; i < $scope.chartConfig.series.length; i++) {
 			$scope.id_array[$scope.chartConfig.series[i].id] = i;
 
@@ -138,6 +138,21 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	// Function for adding a drug to the database
 	//SKOÐA
 	
+	$scope.calculateFormula = function(F, D, kA, kE, Vd) {
+		var data = [];
+		for (i = 0; i < 96; i++) {
+			num = (F*D*kA)/(Vd*(kA - kE)); 
+			denum = (Math.pow(Math.E, -kE*i*0.25) - Math.pow(Math.E, -kA*i*0.25));
+			// C = i;
+			var temp = [i, num*denum];
+
+			data.push(temp);
+		}
+		console.log(data);
+		return data; 
+	}
+
+
 	$scope.createDrug = function(drug) {
 
 		Lyf.create(drug);
@@ -160,8 +175,10 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	$scope.fetch = function(lyf_id) {
 		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
 		console.log(current_lyf);
+		current_lyf.data = $scope.calculateFormula(1, 500, 1, 0.06, 6);
+
 		for (i in current_lyf.data) {
-			current_lyf.data[i][0] += (current_lyf.data[i][0]*900000 + $scope.graphTime);
+			current_lyf.data[i][0] += (current_lyf.data[i][0]*1000*60*15 + $scope.graphTime);
 		}
 
 
@@ -191,6 +208,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.createDrug(current_lyf_updated);
 		$scope.id_array[current_lyf_updated.id] = $scope.chartConfig.series.length-1;
 		$scope.updateSumGraph($scope.chartConfig.series);
+
+		console.log($scope.chartConfig.series);
 		
 	}
   	
