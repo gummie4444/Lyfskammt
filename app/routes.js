@@ -259,15 +259,50 @@ module.exports = function(app) {
 //API FOR USERS
 	//---------------------------------------------------
 
-	//HANDLE LOGINS
-	//TODO: USERINTERFACE
-	app.post('/api/updateUser',[express.bodyParser(),jwtauth], function(req,res){
+	app.get('/api/users/getInfo',[express.bodyParser(),jwtauth],function(req,res){
 
-		console.log(req);
+		User.find({_id:req.current_user},function(err, drugs) {
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err);
+			console.log(drugs[0].name);
+
+			var tempObject = {  name:drugs[0].name,
+								startTime:drugs[0].startTime,
+								endTime:drugs[0].endTime,
+								autoPilot:drugs[0].autoPilot,
+								preferedDrugs:drugs[0].preferedDrugs}
+
+			res.json(tempObject); // return all todos in JSON format
+		});
+	});
+
+	//Update the basic info for users
+	app.post('/api/users/updateUser',[express.bodyParser(),jwtauth], function(req,res){
+
+
+		User.update({
+			_id: req.current_user,
+		}, 
+		{$set: { 	
+			startTime:req.body.start,
+			endTime:req.body.end,
+			autoPilot:req.body.autoP
+		}
+		}
+		, {upsert: true}, function(err, temp) {
+			if (err)
+				res.send(err);
+			console.log(err);
+			console.log(temp);
+			res.send(200);
+		});
 
 
 	});
 
+	//return all users
 	app.get('/api/users/reg', function(req, res) {
 
 		// use mongoose to get all todos in the database

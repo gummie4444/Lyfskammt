@@ -8,7 +8,7 @@
 	<div class = "header">
 
 		<div class = "header-text">
-			<span class = "usernameHeader">halli</span>
+			<span class = "usernameHeader">{{userName}}</span>
 			<h1>DrugMix</h1>
 		</div>
 		<div class = "header-settings">
@@ -47,7 +47,7 @@
 
                   	 <div class = "settingsClick" ng-click = "doTh">
 	                  	<span class = "underSpan">Upphafstími:</span>
-	                  	<select id = "graphStartTime" class = "graph_start">
+	                  	<select id = "graphStartTime" class = "graph_start" ng-model = "optionStartTime">
 						  <option value="0" selected="selected">00</option>
 						  <option value="1">01</option>
 						  <option value="2">02</option>
@@ -78,7 +78,7 @@
                		 <div class = "settingsClick" ng-click = "doTh">
 
 	                  	<span class = "underSpan">Lokatími:</span>
-	                  	<select id = "graphEndTime" class = "graph_start">
+	                  	<select id = "graphEndTime" class = "graph_start" ng-model = "optionEndTime">
 						  <option value="1">01</option>
 						  <option value="2">02</option>
 						  <option value="3">03</option>

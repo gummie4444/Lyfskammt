@@ -50,21 +50,45 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	Lyf.updateDrugData()
 		.success(function(data)
 		{
+
 			$scope.drug_data = data.data;
 		});
 
 
-		Lyf.getCalDataPlus()
-		.success(function(CalPlusData)
-		{
-			for (i in CalPlusData){
-				$scope.createMoodObj(CalPlusData[i].StartTime,"plus",CalPlusData[i].id)
+	Lyf.getCalDataPlus()
+	.success(function(CalPlusData)
+	{
+		for (i in CalPlusData){
+			$scope.createMoodObj(CalPlusData[i].StartTime,"plus",CalPlusData[i].id)
 
-			}
-				$scope.updateSumGraph($scope.chartConfig.series);
-				
+		}
+			$scope.updateSumGraph($scope.chartConfig.series);
+			
 
+	});
+
+	Lyf.getUserInfo()
+		.success(function(userInfo){
+
+		var startTime = parseInt(userInfo.startTime)
+		var endTime = parseInt(userInfo.endTime)
+		
+		$scope.optionStartTime = userInfo.startTime;
+		$scope.optionEndTime = userInfo.endTime;
+		$scope.userName = userInfo.name;
+
+		$scope.graph_StartTime = startTime*1000*60*60; // convert from hours to milliseconds
+		$scope.graph_EndTime = endTime*1000*60*60; // convert from hours to milliseconds
+
+		$scope.chartConfig.xAxis.min = $scope.date.valueOf() + $scope.graph_StartTime; 
+		$scope.chartConfig.xAxis.max = $scope.date.valueOf() + $scope.graph_EndTime;
+		$scope.repeatOn= userInfo.autoPilot;
+
+		//TODO Hérna koma lifinn sem birtast alltaf í plúsnum
+		//$scope.preferdDrugs = userInfo.preferedDrugs;
 		});
+
+
 
 	Lyf.getCalDataMinus()
 		.success(function(CalMinusData)
@@ -75,8 +99,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
 			}
 				$scope.updateSumGraph($scope.chartConfig.series);
-				
-
+			
 		});
 
 	//Load the drugs from the database, specificly from the user
@@ -582,7 +605,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	$scope.applySettings = function() {
 		var startTime = parseInt(angular.element(document.getElementById('graphStartTime')).val())
 		var endTime = parseInt(angular.element(document.getElementById('graphEndTime')).val())
-		console.log(typeof startTime)
+	
+
 		$scope.graph_StartTime = startTime*1000*60*60; // convert from hours to milliseconds
 		$scope.graph_EndTime = endTime*1000*60*60; // convert from hours to milliseconds
 		if (startTime >= endTime) {
@@ -594,6 +618,11 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.chartConfig.xAxis.min = $scope.date.valueOf() + $scope.graph_StartTime; 
 		$scope.chartConfig.xAxis.max = $scope.date.valueOf() + $scope.graph_EndTime;
 
+		Lyf.updateUser(startTime,endTime,$scope.repeatOn)
+			.success(function(data)
+			{
+				console.log(data);
+			});
 		$scope.invalidTimeError = false;
 		$scope.showSettingsMenu();
 		$scope.showSettings();

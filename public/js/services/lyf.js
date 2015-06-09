@@ -12,6 +12,16 @@ angular.module('lyfService', [])
 	
 		return {
 
+			updateUser:function(startTime,endTime,autoPilot){
+
+				var tempObj = {start:startTime,end:endTime,autoP:autoPilot};
+				return $http.post('/api/users/updateUser',tempObj);
+			},
+
+			getUserInfo:function(){
+				return $http.get('/api/users/getInfo');
+			},
+
 			get:function(){
 				
 				return $http.get('/api/drugs');
@@ -41,6 +51,7 @@ angular.module('lyfService', [])
 				return $http.post('/api/cal_minus', date);
 
 			},
+
 
 			getCalDataPlus:function(){
 

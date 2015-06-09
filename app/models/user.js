@@ -13,7 +13,10 @@ var userSchema = new Schema ({
 	kt:{type:String,required:true},
 	email:{type:String,required:true},
 	created: { type: Date, default: Date.now },
-	preferedDrugs:{type:Array}
+	preferedDrugs:{type:Array},
+	startTime:{type:String},
+	endTime:{type:String},
+	autoPilot:{type:Boolean}
 
 });
 
