@@ -167,7 +167,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			denum = (Math.pow(Math.E, -kE*i*0.25) - Math.pow(Math.E, -kA*i*0.25));
 			// C = i;
 			var temp = [i, num*denum];
-
 			data.push(temp);
 		}
 		console.log(data);
@@ -198,8 +197,9 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		console.log(lyf_id)
 		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
 		console.log(current_lyf);
-		current_lyf.data = $scope.calculateFormula(1, 500, 1, 0.06, 6);
+		current_lyf.data = $scope.calculateFormula(parseInt(current_lyf.F), parseInt(current_lyf.D), parseInt(current_lyf.kA), parseInt(current_lyf.kE), parseInt(current_lyf.vD));
 
+		
 		for (i in current_lyf.data) {
 			current_lyf.data[i][0] += (current_lyf.data[i][0]*1000*60*15 + $scope.graphTime);
 		}
@@ -209,7 +209,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		var current_lyf_updated = {
 			name: current_lyf.name, 
 			amount: "current_lyf.amount", 
-			drugType: lyf_id.toString(), 
+			drugType: lyf_id.toString(),
+			data: current_lyf.data, 
 			visible: true,
 			checked: true, 
 			show: true, 
@@ -228,8 +229,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		console.log(current_lyf_updated)
 		// $scope.drugs.push(current_lyf_updated);
 		$scope.chartConfig.series.push(current_lyf_updated);
-
-
 
 		$scope.isSelected = null;	
 		$scope.createDrug(current_lyf_updated);
