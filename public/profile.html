@@ -12,7 +12,14 @@
 			<h1>DrugMix</h1>
 		</div>
 		<div class = "header-settings">
-			<a ng-class = "{settingsOn: isSettingsMenu}" ng-click = "showSettingsMenu()">&#9776;</a>
+			<center><div id="nav-icon1"  ng-class="{'open': !isSettingsMenu, 'open': isSettingsMenu}" ng-click = "showSettingsMenu()">
+
+			  <span></span>
+			  <span></span>
+			  <span></span>
+			</div>
+		</center>
+
 		</div>
 	</div>
 	<div class ="settingsContainer" ng-class ="{desktop: !isSettingsMenu}">
