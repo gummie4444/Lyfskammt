@@ -47,46 +47,33 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	
 	//Load the drug_data from the database, specificly from the user
 	//Here are all the values F,kE,kA and so on inside the drug_data scope
-	Lyf.updateDrugData()
-		.success(function(data)
-		{
-
-			$scope.drug_data = data.data;
-		});
 
 
-	Lyf.getCalDataPlus()
-	.success(function(CalPlusData)
-	{
-		for (i in CalPlusData){
-			$scope.createMoodObj(CalPlusData[i].StartTime,"plus",CalPlusData[i].id)
-
-		}
-			$scope.updateSumGraph($scope.chartConfig.series);
-			
-
-	});
 
 	Lyf.getUserInfo()
 		.success(function(userInfo){
 
-		var startTime = parseInt(userInfo.startTime)
-		var endTime = parseInt(userInfo.endTime)
-		
-		$scope.optionStartTime = userInfo.startTime;
-		$scope.optionEndTime = userInfo.endTime;
-		$scope.userName = userInfo.name;
 
-		$scope.graph_StartTime = startTime*1000*60*60; // convert from hours to milliseconds
-		$scope.graph_EndTime = endTime*1000*60*60; // convert from hours to milliseconds
+			$scope.drug_data = userInfo.preferedDrugs;
 
-		$scope.chartConfig.xAxis.min = $scope.date.valueOf() + $scope.graph_StartTime; 
-		$scope.chartConfig.xAxis.max = $scope.date.valueOf() + $scope.graph_EndTime;
-		$scope.repeatOn= userInfo.autoPilot;
+			var startTime = parseInt(userInfo.startTime)
+			var endTime = parseInt(userInfo.endTime)
+			
+			$scope.optionStartTime = userInfo.startTime;
+			$scope.optionEndTime = userInfo.endTime;
+			$scope.userName = userInfo.name;
 
-		//TODO Hérna koma lifinn sem birtast alltaf í plúsnum
-		//$scope.preferdDrugs = userInfo.preferedDrugs;
-		});
+			$scope.graph_StartTime = startTime*1000*60*60; // convert from hours to milliseconds
+			$scope.graph_EndTime = endTime*1000*60*60; // convert from hours to milliseconds
+
+			$scope.chartConfig.xAxis.min = $scope.date.valueOf() + $scope.graph_StartTime; 
+			$scope.chartConfig.xAxis.max = $scope.date.valueOf() + $scope.graph_EndTime;
+			$scope.repeatOn= userInfo.autoPilot;
+
+			//TODO Hérna koma lifinn sem birtast alltaf í plúsnum
+			//$scope.preferdDrugs = userInfo.preferedDrugs;
+	});
+
 
 
 
@@ -101,6 +88,20 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 				$scope.updateSumGraph($scope.chartConfig.series);
 			
 		});
+
+
+	Lyf.getCalDataPlus()
+	.success(function(CalPlusData)
+	{
+		for (i in CalPlusData){
+			$scope.createMoodObj(CalPlusData[i].StartTime,"plus",CalPlusData[i].id)
+
+		}
+			$scope.updateSumGraph($scope.chartConfig.series);
+
+	});
+
+
 
 	//Load the drugs from the database, specificly from the user
 
@@ -155,6 +156,11 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	// FUNCTIONS //
 	// ========= //
 
+	$scope.toogleDrug = function(bla){
+
+
+    	$scope.drug_data[bla].checked = !$scope.drug_data[bla].checked;
+    };
 
 	// CREATE ==================================================================
 	// Function for adding a drug to the database
@@ -500,6 +506,15 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
         				 });  
     };
 
+    $scope.clickToOpen2 = function (){
+    	 console.log("hallo")
+    	console.log($scope.drug_data)
+    	$scope.index = Math.round(moment().valueOf()/Math.random()/10000000000);
+        ngDialog.open({ template: 'template2.html',
+        				scope:$scope
+        				 });  
+    }
+
     //Function for updating the status button
 
     //GET THE STATUS FROM THE DATABASE TODO
@@ -601,6 +616,10 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.updateSumGraph($scope.chartConfig.series);
 	};
 
+	$scope.pickFavDrugs = function(){
+
+
+	};
 	$scope.applySettings = function() {
 		var startTime = parseInt(angular.element(document.getElementById('graphStartTime')).val())
 		var endTime = parseInt(angular.element(document.getElementById('graphEndTime')).val())
@@ -617,7 +636,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.chartConfig.xAxis.min = $scope.date.valueOf() + $scope.graph_StartTime; 
 		$scope.chartConfig.xAxis.max = $scope.date.valueOf() + $scope.graph_EndTime;
 
-		Lyf.updateUser(startTime,endTime,$scope.repeatOn)
+		Lyf.updateUser(startTime,endTime,$scope.repeatOn,$scope.drug_data)
 			.success(function(data)
 			{
 				console.log(data);

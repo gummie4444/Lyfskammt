@@ -1,10 +1,9 @@
 <div class ="drugSelectContainer ">
 
-	<div class = "drugSelect" ng-repeat ="drug in drug_data" id = "id_{{drug.name}}">
+	<div class = "drugSelect" ng-show = "drug.checked" ng-repeat ="drug in drug_data" id = "id_{{drug.name}}">
 		<button ng-click="fetch($index + 1); closeThisDialog()">
 			<div class = "leftInnerButton">
 			  <span>{{drug.name}}</span> </br>
-			  <span>{{drug.amount}}</span>
 			</div>
 			<div class = "rightInnerButton"> <img src="img/pills_photo.png" alt="Drug photo" >
 			</div>

@@ -516,7 +516,64 @@ transition: all .25s ease-in-out;
 	width: 600px !important;
 }
 
+.drugSelect2{
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
+	width:50%;
+	font-size: 0.8em;
+	/*margin: 0 auto;*/
+	height: 150px;
+}
+.drugSelect3{
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
+	width:50%;
+	font-size: 0.8em;
+	/*margin: 0 auto;*/
+	height: 150px;
+}
+
+.drugSelect2 button{
+	width:100%;
+	font-size: 2.5em;
+	height: 100%;
+	background-color: #2c3e50;
+	color:white;
+	border-top: solid 2px #eaeaea;
+    border-left: solid 2px #eaeaea;
+    border-bottom: solid 2px #777;
+    border-right: solid 2px #777;
+    padding: 5px 5px; 
+}
+.drugSelect3 button{
+	width:100%;
+	font-size: 2.5em;
+	height: 100%;
+	background-color:#2c3e50;
+	opacity: 0.2;
+	color:white;
+    border-top: solid 2px #777;
+    border-left: solid 2px #777;
+    border-bottom:solid 2px  #eaeaea;
+    border-right: solid 2px #eaeaea;
+    cursor: pointer;
+	padding: 5px 5px; 
+}
+
 /*=========BUTTONS=========*/
+
+.drugChecked{
+	background: #ccc;
+    cursor: pointer;
+    border-top: solid 2px #eaeaea;
+    border-left: solid 2px #eaeaea;
+    border-bottom: solid 2px #777;
+    border-right: solid 2px #777;
+    padding: 5px 5px;   
+}
+
 
 .buttons {
 	width: 100%;
@@ -528,7 +585,9 @@ transition: all .25s ease-in-out;
 .calibration {
 	width: 100%;
 	float: left;
+	height:147px;
 }
+
 
 .smiley {
 	width: 100%;

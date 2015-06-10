@@ -288,7 +288,8 @@ module.exports = function(app) {
 		{$set: { 	
 			startTime:req.body.start,
 			endTime:req.body.end,
-			autoPilot:req.body.autoP
+			autoPilot:req.body.autoP,
+			preferedDrugs:req.body.drugD
 		}
 		}
 		, {upsert: true}, function(err, temp) {
@@ -391,22 +392,37 @@ module.exports = function(app) {
 				res.send(err);
 			}
 			//username is avalable
+			//change pferedDrugs
 			else if (users == undefined){
 				console.log("Notendanafn er laust");
-				User.create({
-					username:username,
-					password:password,
-					name:name,
-					kt:kt,
-					email:email,
-					preferedDrugs:["derp"]
-					
-				}, function(err,msg){
-					if(err){
+
+				Drug_data.find(function(err, lyf_data) {
+					// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+					if (err)
 						res.send(err);
-						}
-				return	res.send({"answer": 1 });
+					else{
+
+
+						User.create({
+							username:username,
+							password:password,
+							name:name,
+							kt:kt,
+							email:email,
+							preferedDrugs:lyf_data[0].data,
+							startTime:"0",
+							endTime:"24",
+							autoPilot:false
+							
+						}, function(err,msg){
+							if(err){
+								res.send(err);
+								}
+						return	res.send({"answer": 1 });
+						});
+					}
 				});
+
 			}
 
 			//else return that the username is already in the database
