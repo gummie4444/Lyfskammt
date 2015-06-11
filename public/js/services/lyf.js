@@ -76,7 +76,7 @@ angular.module('lyfService', [])
 
 			createEmpty: function () {
                 var array = []
-				for (i=0; i<=72; i++) {
+				for (i=0; i<=96; i++) {
 					var x_interval = 900000*i; // 15 minute interval
 					array.push([x_interval, null])
 				}

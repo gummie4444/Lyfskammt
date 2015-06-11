@@ -108,6 +108,9 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	Lyf.get()
 			.success(function(data) {
 				for (var drug in data){
+					console.log(data)
+					console.log($scope.drug_data)
+					console.log(templateDrug);
 					var drugType = data[drug].drugType;
 					var templateDrug = $scope.drug_data[drugType];
 					var tempData = $scope.calculateFormula(parseInt(templateDrug.F), parseInt(templateDrug.D), parseInt(templateDrug.kA), parseInt(templateDrug.kE), parseInt(templateDrug.vD));
@@ -287,7 +290,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	$scope.createEmptySumGraph = function () {
     	var sumGraph = JSON.parse(JSON.stringify(Lyf.createEmpty())); // cloning an empty drug
     	for (i in sumGraph) {
-			sumGraph[i][0] += ($scope.date.valueOf()+21600000); // offset 6 hours because we only show 06:00-24:00 change this for the  Start/endtime
+			sumGraph[i][0] += ($scope.date.valueOf()); // offset 6 hours because we only show 06:00-24:00 change this for the  Start/endtime
 		}
 		return sumGraph;	
     }
