@@ -20,7 +20,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	$scope.date = moment({y: moment().year(), M: moment().month(), d:moment().date()});
     $scope.isSelected= null;
     $scope.clock_time = moment({y: moment().year(), M: moment().month(), d:moment().date(), h:moment().hour(), m:5*Math.round(moment().minute()/5)}).format('HH'+':'+'mm');
-    $scope.stringTime = $scope.clok_time;
+    $scope.stringTime = $scope.clock_time;
     $scope.happy = true;
     $scope.id_array = [];
     $scope.chartConfig ={};
@@ -106,14 +106,20 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
 	Lyf.get()
 			.success(function(data) {
-				$scope.loading = false;
-				// $scope.drugs = data;
-				for (var i in data){
-					console.log(data);
-					$scope.chartConfig.series.push(data[i]);
+				for (var drug in data){
+					var drugType = data[drug].drugType;
+					var templateDrug = $scope.drug_data[drugType];
+					var tempData = $scope.calculateFormula(parseInt(templateDrug.F), parseInt(templateDrug.D), parseInt(templateDrug.kA), parseInt(templateDrug.kE), parseInt(templateDrug.vD));
+					data[drug].data = tempData;
+					for (i in data[drug].data) {
+						data[drug].data[i][0] += (data[drug].data[i][0]*1000*60*15 + parseInt(data[drug].graphTime));
+					}
+					console.log(data[drug]);
+					$scope.chartConfig.series.push(data[drug]);
+					$scope.updateShowDrugs();
+					$scope.updateSumGraph($scope.chartConfig.series);
 				}
-
-				$scope.updateSumGraph($scope.chartConfig.series);
+				$scope.loading = false;
 			});
 
 
@@ -169,7 +175,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			var temp = [i, num*denum];
 			data.push(temp);
 		}
-		console.log(data);
 		return data; 
 	}
 
@@ -191,25 +196,23 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 				});
 			$scope.updateSumGraph($scope.chartConfig.series);
 		};
+
 	//Functon thats called when we create a drug
 	//It updates all the variable and calls the functions to send the info to the database
 	$scope.fetch = function(lyf_id) {
-		console.log(lyf_id)
 		var current_lyf = JSON.parse( JSON.stringify($scope.drug_data[lyf_id-1])); 
-		console.log(current_lyf);
 		current_lyf.data = $scope.calculateFormula(parseInt(current_lyf.F), parseInt(current_lyf.D), parseInt(current_lyf.kA), parseInt(current_lyf.kE), parseInt(current_lyf.vD));
 
-		
 		for (i in current_lyf.data) {
 			current_lyf.data[i][0] += (current_lyf.data[i][0]*1000*60*15 + $scope.graphTime);
 		}
 
-		console.log(lyf_id.toString())
+
 		//Breyta data í type og lóda á öðrum stað
 		var current_lyf_updated = {
 			name: current_lyf.name, 
 			amount: "current_lyf.amount", 
-			drugType: lyf_id.toString(),
+			drugType: (lyf_id-1).toString(), // -1 here so it's 0-based index like an array
 			data: current_lyf.data, 
 			visible: true,
 			checked: true, 
@@ -226,7 +229,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			current_user:"",
 
 		}
-		console.log(current_lyf_updated)
 		// $scope.drugs.push(current_lyf_updated);
 		$scope.chartConfig.series.push(current_lyf_updated);
 
@@ -234,9 +236,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.createDrug(current_lyf_updated);
 		$scope.id_array[current_lyf_updated.id] = $scope.chartConfig.series.length-1;
 		$scope.updateSumGraph($scope.chartConfig.series);
-
-		console.log($scope.chartConfig.series);
-		
 	}
   	
   	//Remove the drug locally from the view
@@ -251,28 +250,18 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		// 	}
 		// }
 
-		console.log(drug_id);
 
 		if($scope.chartConfig.series[$scope.id_array[drug_id]].dataType === "plus"){
-
 			//TODO EYÐA ÞESSU ÚR PLÚS DÁLK
-
-
 			Lyf.delete_plus(drug_id);
-
-
 		}
-		else if($scope.chartConfig.series[$scope.id_array[drug_id]].dataType === "minus"){
 
+		else if($scope.chartConfig.series[$scope.id_array[drug_id]].dataType === "minus"){
 			//TODO EYÐA ÚR MÍNUS DÁLK
 			Lyf.delete_minus(drug_id);
-			$scope.updateSumGraph($scope.chartConfig.series);
-
 		}
 
 		else{
-
-
 			$scope.deleteDrug(drug_id);
 			$scope.isSelected = null;
 		}
@@ -285,11 +274,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 						$scope.id_array[$scope.chartConfig.series[i].id] = i;
 				}
 			// $scope.id_array[drug_id] = null;
-
-
-
+			$scope.updateSumGraph($scope.chartConfig.series)
 			$scope.isSelected = null;
-			console.log(drug_id)
 	}
 	//Create a empty graph for the init of the graph
 	$scope.createEmptySumGraph = function () {
@@ -409,7 +395,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 			color: "black",
 			zIndex: 1,
 			lineWidth: 7,
-			name : "bla",
+			name : "sumGraph",
 		}
 		],
 		
@@ -453,10 +439,8 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
 	//Function to set what drug the user is using
     $scope.setSelected = function (Selected) { 
-    		console.log($scope.chartConfig.series.length)
     	//$scope.chartConfig.series[$scope.id_array[Selected]].dashStyle = 'shortdash';
-    	console.log($scope.stringTime);
-    	console.log(Selected)
+    	console.log($scope.chartConfig.series[$scope.id_array[Selected]])
 		$scope.clock_time = $scope.chartConfig.series[$scope.id_array[Selected]].stringTime;
 
 		$scope.tempGraph = JSON.parse( JSON.stringify($scope.chartConfig.series[$scope.id_array[Selected]])); 
@@ -492,8 +476,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
     //Function for the popupp dialog
     $scope.clickToOpen = function () {
-    	console.log("hallo")
-    	console.log($scope.drug_data)
     	$scope.index = Math.round(moment().valueOf()/Math.random()/10000000000);
         ngDialog.open({ template: 'template.html',
         				scope:$scope
@@ -609,8 +591,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		$scope.graph_StartTime = startTime*1000*60*60; // convert from hours to milliseconds
 		$scope.graph_EndTime = endTime*1000*60*60; // convert from hours to milliseconds
 		if (startTime >= endTime) {
-			console.log(startTime)
-			console.log(endTime)
 			$scope.invalidTimeError = true;
 			return;
 		}
@@ -751,7 +731,6 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	};
 
 	$scope.cancel = function(id) {
-		console.log($scope.tempGraph);
 		$scope.chartConfig.series[$scope.id_array[id]] = $scope.tempGraph;
 		$scope.chartConfig.series[$scope.id_array[id]].dashStyle = false;
 		$scope.isSelected = null;
@@ -772,166 +751,4 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 		if (ang_container.height() > 100) $scope.chartConfig.options.chart.height = ang_container.height();
 		if (ang_container.width() > 100) $scope.chartConfig.options.chart.width = ang_container.width();
 	});
-
-	
-
-	var blabla = []
-
-// CONVERTER VÉLIN
-// blabla.push(0.00)
-// blabla.push(0.00)
-// blabla.push(0.00)
-// blabla.push(0.00)
-// blabla.push(0.00)
-// blabla.push(4.72)
-// blabla.push(27.45)
-// blabla.push(54.61)
-// blabla.push(85.58)
-// blabla.push(119.80)
-// blabla.push(156.73)
-// blabla.push(195.88)
-// blabla.push(236.78)
-// blabla.push(278.98)
-// blabla.push(322.10)
-// blabla.push(365.75)
-// blabla.push(409.58)
-// blabla.push(453.28)
-// blabla.push(496.56)
-// blabla.push(539.14)
-// blabla.push(580.79)
-// blabla.push(621.28)
-// blabla.push(660.42)
-// blabla.push(698.03)
-// blabla.push(733.95)
-// blabla.push(768.05)
-// blabla.push(800.21)
-// blabla.push(830.33)
-// blabla.push(858.33)
-// blabla.push(884.14)
-// blabla.push(907.71)
-// blabla.push(929.00)
-// blabla.push(947.99)
-// blabla.push(964.65)
-// blabla.push(979.01)
-// blabla.push(991.06)
-// blabla.push(1000.82)
-// blabla.push(1008.34)
-// blabla.push(1013.64)
-// blabla.push(1016.78)
-// blabla.push(1017.82)
-// blabla.push(1016.81)
-// blabla.push(1013.83)
-// blabla.push(1008.96)
-// blabla.push(1002.26)
-// blabla.push(993.84)
-// blabla.push(983.77)
-// blabla.push(972.15)
-// blabla.push(959.08)
-// blabla.push(944.64)
-// blabla.push(928.96)
-// blabla.push(912.11)
-// blabla.push(894.21)
-// blabla.push(875.36)
-// blabla.push(855.65)
-// blabla.push(835.20)
-// blabla.push(814.10)
-// blabla.push(792.46)
-// blabla.push(770.37)
-// blabla.push(747.92)
-// blabla.push(725.23)
-// blabla.push(702.37)
-// blabla.push(679.43)
-// blabla.push(656.51)
-// blabla.push(633.68)
-// blabla.push(611.03)
-// blabla.push(588.64)
-// blabla.push(566.57)
-// blabla.push(544.89)
-// blabla.push(523.66)
-// blabla.push(502.95)
-// blabla.push(482.82)
-// blabla.push(463.30)
-// blabla.push(444.45)
-// blabla.push(426.30)
-// blabla.push(408.90)
-// blabla.push(392.27)
-// blabla.push(376.43)
-// blabla.push(361.42)
-// blabla.push(347.24)
-// blabla.push(333.90)
-// blabla.push(321.41)
-// blabla.push(309.77)
-// blabla.push(298.97)
-// blabla.push(289.01)
-// blabla.push(279.87)
-// blabla.push(271.54)
-// blabla.push(263.98)
-// blabla.push(257.18)
-// blabla.push(251.11)
-// blabla.push(245.72)
-// blabla.push(240.98)
-// blabla.push(236.84)
-// blabla.push(233.27)
-// blabla.push(230.22)
-// blabla.push(227.63)
-// blabla.push(225.44)
-// blabla.push(223.62)
-// blabla.push(222.09)
-// blabla.push(220.80)
-// blabla.push(219.69)
-// blabla.push(218.71)
-// blabla.push(217.78)
-// blabla.push(216.86)
-// blabla.push(215.88)
-// blabla.push(214.79)
-// blabla.push(213.52)
-// blabla.push(212.02)
-// blabla.push(210.25)
-// blabla.push(208.16)
-// blabla.push(205.69)
-// blabla.push(202.80)
-// blabla.push(199.47)
-// blabla.push(195.66)
-// blabla.push(191.34)
-// blabla.push(186.50)
-// blabla.push(181.13)
-// blabla.push(175.22)
-// blabla.push(168.77)
-// blabla.push(161.81)
-// blabla.push(154.35)
-// blabla.push(146.43)
-// blabla.push(138.1)
-// blabla.push(129.42)
-// blabla.push(120.46)
-// blabla.push(111.3)
-// blabla.push(102.04)
-// blabla.push(92.8)
-// blabla.push(83.71)
-// blabla.push(74.92)
-// blabla.push(66.59)
-// blabla.push(58.92)
-// blabla.push(52.1)
-// blabla.push(46.36)
-// blabla.push(41.95)
-// blabla.push(39.14)
-
-
-
-// var yoyo = {}
-
-// for (i in blabla) {
-// 	yoyo[i] = new Array(2);
-// 	yoyo[i][0] = parseInt(i);
-// 	yoyo[i][1] = blabla[i];
-
-// }
-// for (i in yoyo) {
-// 	if (i%3 === 0) {
-// 	console.log("[");
-// 	console.log(yoyo[i][0] + ',')
-// 	console.log(yoyo[i][1]);
-// 	console.log("],")
-// }
-// }
-// console.log(yoyo)
 });

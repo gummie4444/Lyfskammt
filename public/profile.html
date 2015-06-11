@@ -155,7 +155,7 @@
 		
 		<div id = "leftContent">
 			<div id = "allDrugs">
-				<div class = "singleDrug" ng-repeat ="drug in chartConfig.series | orderObjectBy:'graphTime':true" id = "id_{{drug.name}}" ng-hide ="drug.id === 'series-0' || drug.show === false || (isSelected !== null && drug.id !== isSelected) ">
+				<div class = "singleDrug" ng-repeat ="drug in chartConfig.series | orderObjectBy:'graphTime':true" id = "id_{{drug.name}}" ng-hide ="drug.name === 'sumGraph' || drug.show === false || (isSelected !== null && drug.id !== isSelected) ">
 
 						<div class = "checkbox" ng-class = "{unchecked: !drug.checked}" ng-style="{'background-color' : drug.color}">
 							<input type="checkbox" ng-model="drug.checked" ng-change="clickCheckbox(drug.id, drug.checked)" ng-checked="drug.checked"></input>
