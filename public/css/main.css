@@ -694,9 +694,7 @@ transition: all .25s ease-in-out;
 }
 
 @media only screen and (max-width: 1015px){
-	#nav-icon1{
-		margin:2%;
-	}
+
 	.drugContent {
 		width: 64%;
 	}
@@ -714,6 +712,9 @@ transition: all .25s ease-in-out;
 }
 
 @media only screen and (max-width: 768px){
+		#nav-icon1{
+		margin:2%;
+	}
 	
 	.remove {
 
