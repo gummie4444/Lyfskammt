@@ -26,6 +26,7 @@
 				<hr>
 				<li class = "options" ng-click = "showCalibrate()">Upplýsingar fyrir útreikninga</li>
 				<hr>
+
 				<li ng-click = "logOutFunc()" class = "options logout">Útskrá</li>
 			</ul>
 
@@ -105,6 +106,13 @@
 						  <option value="24" selected="selected">24</option>
 						</select>
 	                </div>
+
+	                <div class = "settingsClick" >
+                  		<span class = "mainSpan">Velja uppáhalds lyf:</span>
+                  		<button class = "graph_start" ng-click="clickToOpen2()">Velja</button>
+
+                  	</div>
+
 	                <button id ="settingsConfirm" ng-click="applySettings()">VISTA</button>
 
 	                <p class="errorMsg" 

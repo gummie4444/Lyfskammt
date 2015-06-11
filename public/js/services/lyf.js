@@ -12,9 +12,9 @@ angular.module('lyfService', [])
 	
 		return {
 
-			updateUser:function(startTime,endTime,autoPilot){
+			updateUser:function(startTime,endTime,autoPilot,drugData){
 
-				var tempObj = {start:startTime,end:endTime,autoP:autoPilot};
+				var tempObj = {start:startTime,end:endTime,autoP:autoPilot,drugD:drugData};
 				return $http.post('/api/users/updateUser',tempObj);
 			},
 
