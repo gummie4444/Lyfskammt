@@ -1,7 +1,7 @@
 <div class ="drugSelectContainer ">
 
 	<div class = "drugSelect2" ng-class="{true: 'drugSelect2', false: 'drugSelect3'}[drug.checked]" ng-repeat ="drug in drug_data" id = "data_id_{{drug.id}}">
-		<button ng-class="{true: 'drugChecked', false: 'drugUnChecked'}[!drug.checked]" ng-click="toggleDrug(drug.id)">
+		<button ng-class="{true: 'drugChecked', false: 'drugUnChecked'}[!drug.checked]" ng-click="toogleDrug(drug.id)">
 			<div class = "leftInnerButton">
 			  <span>{{drug.name}}</span> </br>
 			  <span>{{drug.amount}}</span>

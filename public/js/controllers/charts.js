@@ -53,7 +53,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	Lyf.getUserInfo()
 		.success(function(userInfo){
 
-
+			console.log(userInfo)
 			$scope.drug_data = userInfo.preferedDrugs;
 
 			var startTime = parseInt(userInfo.startTime)
@@ -72,6 +72,20 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
 			//TODO Hérna koma lifinn sem birtast alltaf í plúsnum
 			//$scope.preferdDrugs = userInfo.preferedDrugs;
+
+			Lyf.get()
+			.success(function(data) {
+
+				
+				$scope.loading = false;
+				// $scope.drugs = data;
+				for (var i in data){
+					console.log(data);
+					$scope.chartConfig.series.push(data[i]);
+				}
+
+				$scope.updateSumGraph($scope.chartConfig.series);
+			});
 	});
 
 
@@ -105,17 +119,7 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 
 	//Load the drugs from the database, specificly from the user
 
-	Lyf.get()
-			.success(function(data) {
-				$scope.loading = false;
-				// $scope.drugs = data;
-				for (var i in data){
-					console.log(data);
-					$scope.chartConfig.series.push(data[i]);
-				}
 
-				$scope.updateSumGraph($scope.chartConfig.series);
-			});
 
 
  	$scope.updateShowDrugs = function() {
@@ -156,10 +160,9 @@ angular.module('Chart', ['highcharts-ng','orderObjectBy-fil','ngDialog','ui.slid
 	// FUNCTIONS //
 	// ========= //
 
-	$scope.toogleDrug = function(bla){
+	$scope.toogleDrug = function(id){
 
-
-    	$scope.drug_data[bla].checked = !$scope.drug_data[bla].checked;
+    	$scope.drug_data[id].checked = !$scope.drug_data[id].checked;
     };
 
 	// CREATE ==================================================================

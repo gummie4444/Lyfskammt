@@ -547,6 +547,7 @@ transition: all .25s ease-in-out;
     border-bottom: solid 2px #777;
     border-right: solid 2px #777;
     padding: 5px 5px; 
+    cursor: pointer;
 }
 .drugSelect3 button{
 	width:100%;
